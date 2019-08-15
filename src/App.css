@@ -1,3 +1,8 @@
+html{
+  margin: 0;
+  padding: 0;
+}
+
 .App {
   text-align: center;
 }
@@ -29,4 +34,9 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.painting__image {
+  width: 400px;
+  height: auto;
 }

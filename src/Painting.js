@@ -5,15 +5,13 @@ export class Painting extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      //dom: document.getElementById('App'),
       colors: this.props.records[2].colors,
       gradient: this.getCssValuePrefix(),
     }
-    //this.componentDidMount = this.componentDidMount.bind(this);
   }
 
   getCssValuePrefix() {
-      var rtrnVal = '';//default to standard syntax
+      var rtrnVal = '';
       var prefixes = ['-o-', '-ms-', '-moz-', '-webkit-'];
 
       // Create a temporary DOM object for testing
@@ -32,8 +30,7 @@ export class Painting extends Component {
       }
 
       dom = null;
-      console.log('set style func: ' + this.setStyle(rtrnVal));
-      console.dir(this.setStyle(rtrnVal));
+
       return this.setStyle(rtrnVal);
   }
 
@@ -48,17 +45,14 @@ export class Painting extends Component {
     return divStyle;
   };
 
-
-
-
-
-
   render() {
     return (
       <div className = "painting" style={this.state.gradient}>
       <div>
       <h1> Painting < /h1>
-      <img src={this.props.records[2].primaryimageurl}  />
+      <img className="painting__image" src={this.props.records[1].primaryimageurl} alt={"image of " + this.props.records[2].title} />
+      <br/>
+      img src: {this.props.records[1].primaryimageurl}
       <br/>
       {this.props.records[2].people[0].name} | born: {this.props.records[2].people[0].birthplace}
       <br/>
@@ -69,25 +63,7 @@ export class Painting extends Component {
       {this.props.records[2].period}
       <br/>
       {this.props.records[2].medium}
-      <br/>
-      {this.props.records[2].medium}
-      </div> {
-        /*
-              <button id={this.props.minID}
-                className="btn-level" value="-"
-                onClick={this.props.onClick}>
-                <i className="fa fa-arrow-down fa-2x"/>
-              </button>
-              <div id={this.props.lengthID} className="btn-level">
-                {this.props.length}
-              </div>
-              <button id={this.props.addID}
-                className="btn-level" value="+"
-                onClick={this.props.onClick}>
-                <i className="fa fa-arrow-up fa-2x"/>
-              </button>
-              */
-      } </div>
+      </div> {} </div>
     )
   }
 };
