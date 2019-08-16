@@ -4,6 +4,8 @@ import React, {
 import GoogleMapReact from 'google-map-react';
 import './App.css';
 
+const MAP_API_KEY = `${process.env.REACT_APP_MAP_API_KEY}`;
+
 const AnyReactComponent = ({text}) => < div > {text} < /div>;
 
 export class Map extends Component {
@@ -24,9 +26,9 @@ export class Map extends Component {
     return (
       // Important! Always set the container height explicitly
 
-      <div style={{ height: '100vh', width: '100%' }}>
+      <div className="map-container">
         <GoogleMapReact
-          bootstrapURLKeys={{ key: 'AIzaSyDhn6MBYxve_A1a8egl3oMC-0K93tgL7WI' }}
+          bootstrapURLKeys={{ key: MAP_API_KEY }}
           defaultCenter={this.state.center}
           defaultZoom={this.state.zoom}
         >

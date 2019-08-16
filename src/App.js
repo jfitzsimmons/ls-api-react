@@ -6,6 +6,7 @@ import './App.css';
 import {Search} from './Search.js';
 import {Painting} from './Painting.js';
 import {Wiki} from './Wiki.js';
+const ART_API_KEY = `${process.env.REACT_APP_ART_API_KEY}`;
 
 class App extends Component {
 
@@ -30,7 +31,7 @@ class App extends Component {
 
   queryString() {
     return this.objToQueryString({
-      apikey: "8e5a3900-d2f8-11e8-8958-d16e90e2bdfe",
+      apikey: ART_API_KEY,
       title: "duck",
       classification: "Paintings"
     })

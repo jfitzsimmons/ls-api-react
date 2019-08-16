@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import './App.css';
 import {Map} from './Map.js';
 
+const WIKI_USER = `${process.env.REACT_APP_WIKI_USER}`;
+
 export class Wiki extends Component {
   constructor(props) {
     super(props);
