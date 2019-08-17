@@ -12,25 +12,31 @@ export class Map extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      center: {
-        lat: this.props.lat,
-        lng: this.props.lng
-      },
+      center: this.props.center,
       zoom: 11
     }
   }
 
+  componentDidUpdate(prevProps) {
+    // Typical usage (don't forget to compare props):
+    if (this.props.center !== prevProps.center) {
+      console.log('map did update');
+      this.setState({
+       center: this.props.center,
+      })
+    }
+  }
 
   render() {
+    console.log('MAP I was triggered during render ' + this.state.center.lat);
     if (this.state.center) {
     return (
-      // Important! Always set the container height explicitly
 
       <div className="map-container">
         <GoogleMapReact
           bootstrapURLKeys={{ key: MAP_API_KEY }}
-          defaultCenter={this.state.center}
-          defaultZoom={this.state.zoom}
+          center={this.state.center}
+          zoom={this.state.zoom}
         >
           <AnyReactComponent
             lat={this.state.center.lat}
@@ -39,6 +45,7 @@ export class Map extends Component {
           />
         </GoogleMapReact>
       </div>
+
     );
   } else {
     return (

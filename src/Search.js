@@ -41,7 +41,9 @@ export class Search extends Component {
 
     handleAddition(tag) {
         this.setState(state => ({ tags: [...state.tags, tag] }));
-        this.props.handleSearchChange(tag.id);
+        console.log(`tag.id from search: ${tag.id}`);
+        this.props.update(tag.id);
+        // this.props.handleSearchChange(tag.id);
     }
 
     handleDrag(tag, currPos, newPos) {

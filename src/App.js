@@ -1,79 +1,63 @@
 import React, {
   Component
 } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import {Search} from './Search.js';
 import {Painting} from './Painting.js';
 import {Wiki} from './Wiki.js';
-const ART_API_KEY = `${process.env.REACT_APP_ART_API_KEY}`;
+import {Map} from './Map.js';
+
+
 
 class App extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      queryString: this.queryString(),
-      records: {},
+      title: "rabbit",
+      birthplace: "Chicago",
+      classification: "Paintings",
+      geonames: {},
+      center: {
+        lat: 22.789722,
+        lng: -99.599722,
+      }
     }
-    //this.componentDidMount = this.componentDidMount.bind(this);
+    this.updateTitle = this.updateTitle.bind(this);
+    this.updateBirthPlace = this.updateBirthPlace.bind(this);
+    this.updateLatLng = this.updateLatLng.bind(this);
   }
 
-  searchChangeValue = e => this.setState({queryString:{title: e.target.value}});
-
-  objToQueryString(obj) {
-    const keyValuePairs = [];
-    for (const key in obj) {
-      keyValuePairs.push(encodeURIComponent(key) + '=' + encodeURIComponent(obj[key]));
-    }
-    return keyValuePairs.join('&');
+  updateTitle(subject) {
+    this.setState({title: subject});
+    //console.log(`city change?: ${this.state.records[0].people[0].birthplace}`)
   }
 
-  queryString() {
-    return this.objToQueryString({
-      apikey: ART_API_KEY,
-      title: "duck",
-      classification: "Paintings"
-    })
+  updateBirthPlace(bp) {
+    console.log(`bp: ${bp}`);
+    this.setState({birthplace: bp});
+    //console.log(`city change?: ${this.state.records[0].people[0].birthplace}`)
   }
 
-  componentDidMount() {
-    // console.log("inside post api");
-    fetch(`https://api.harvardartmuseums.org/object?${this.state.queryString}`, {
-        method: 'GET'
-      }).then((response) => response.json())
-      .then((responseData) => {
-        // console.log("inside responsejson");
-        // console.log('response object:',responseData);
-        // console.dir(responseData);
-        this.setState({
-          records: responseData.records,
-        })
-        // console.log("in componentDidMount");
-        //console.dir(this.state.records[1]);
-      });
+  updateLatLng(lt, lg) {
+    this.setState({center: {
+      lat: lt,
+      lng: lg
+    }});
+    console.log(`lat lng? lat: ${lt} | lng: ${lg}`);
   }
 
   render() {
 
-    if (this.state.records[0]) {
-      //console.log("in render app js");
-      //console.dir(this.state.records[0].title);
-
       return (
         <div id = "App" className = "App" >
-        <Search value={this.state.value} onChangeValue={this.searchChangeValue} />
-        <Painting records = {this.state.records} />
-        <Wiki city = {this.state.records[2].people[0].birthplace} />
-
+          <h1>Parent: {this.state.title}</h1>
+          <Search value={this.state.value} onChangeValue={this.searchChangeValue} update={this.updateTitle}/>
+          <Painting title = {this.state.title} update={this.updateBirthPlace} records={this.state.records} classification={this.state.classification}/>
+          <Wiki city = {this.state.birthplace} update={this.updateLatLng}/>
+          <Map center={this.state.center}/>
         </div>
       );
-    } else {
-      return (
-        <div className = "App" > < /div>
-      );
-    }
-
   }
 }
 
