@@ -1,17 +1,49 @@
 import React, {Component} from 'react';
 import './App.css';
+import {Wiki} from './Wiki.js';
+import {Map} from './Map.js';
 
 const ART_API_KEY = `${process.env.REACT_APP_ART_API_KEY}`;
+//let page = 0;
+console.log('INIT painting.js');
 
 export class Painting extends Component {
   constructor(props) {
     super(props);
-    this.records = {}
+    this.state = {
+      page: 0
+    }
+    this.records = { 0:
+      {
+        title: `Rabbit Carrying Plum Branch`,
+        primaryimageurl: `https://nrs.harvard.edu/urn-3:huam:DDC112702_dynmc`,
+        people: { 0:
+          {
+            name: `Ukita Ikkei`,
+            birthplace: `Kyoto`
+          }
+        },
+        dated: `Late Edo period, 1855`,
+        period: `Edo period, 1615-1868`,
+        medium: `Hanging scroll; ink and light color on paper`,
+        colors: {
+          0:{color: `#FFFFFF`},
+          1:{color: `#FFFFFF`},
+          2:{color: `#FFFFFF`},
+          3:{color: `#FFFFFF`}
+        }
+      }
+    }
+    this.paginate = this.paginate.bind(this);
   }
 
+
   componentDidUpdate(prevProps) {
+    console.log(`componentDidUpdate - painting.js - prevProps.title: ${prevProps.title} | this.props.title: ${this.props.title}`);
     // Typical usage (don't forget to compare props):
     if (this.props.title !== prevProps.title) {
+      console.log(`componentDidUpdate - in CONDITIONAL - painting.js`);
+
       this.fetchPaintingData();
     }
   }
@@ -41,13 +73,18 @@ export class Painting extends Component {
   }
 
   setStyle(prefix) {
-    const divStyle = {
-      backgroundImage: prefix + 'linear-gradient(-45deg, ' +
-        this.records[0].colors[0].color + ', ' +
-        this.records[0].colors[1].color + ', ' +
-        this.records[0].colors[2].color + ', ' +
-        this.records[0].colors[3].color + ')'
+    const colors = this.records[this.state.page].colors;
+    let gradient = '';
+
+    for (var i = colors.length; i--;) {
+      gradient += colors[i].color;
+      gradient += (i===0) ? ')' : ', ';
+    }
+
+    let divStyle = {
+      backgroundImage: prefix + 'linear-gradient(-45deg, ' + gradient
     };
+
     return divStyle;
   };
 
@@ -63,20 +100,28 @@ export class Painting extends Component {
     return this.objToQueryString({
       apikey: ART_API_KEY,
       title: this.props.title,
-      classification: this.props.classification
+      classification: 'Paintings',
+      hasimage: 1,
+      q: 'imagepermissionlevel:0',
+      person: 'any',
+      sort: 'random'
     })
   }
 
   fetchPaintingData() {
-   console.log(`PAINTING inside post api -TITLE: ${this.props.title}`);
+  //  this.setState({page: 0});
+    console.log('fetchPaintingData - API CALL - painting.js');
+
+  // console.log(`PAINTING inside post api -TITLE: ${this.props.title}`);
     fetch(`https://api.harvardartmuseums.org/object?${this.queryString()}`, {
         method: 'GET'
       }).then((response) => response.json())
       .then((responseData) => {
         // console.dir(responseData);
          this.records = responseData.records;
-        // console.log(this.records[0].title);
-         this.props.update(responseData.records[0].people[0].birthplace);
+        //  console.dir(responseData.records);
+        // console.log(this.records[this.state.page].title);
+         this.props.update(responseData.records[this.state.page].people[0].birthplace);
       });
   }
 
@@ -84,27 +129,52 @@ export class Painting extends Component {
     this.fetchPaintingData();
   }
 
+  paginate(direction) {
+    this.setState(prevState => {
+      return {page: prevState.page += direction}
+    });
+    //page += direction;
+  //  console.log(`page: ${this.records[this.state.page].primaryimageurl}`);
+  }
+
   render() {
-    if (this.records[0]) {
+    console.log('PAINTING I was triggered during render PROPS TITLE:' + this.props.title);
+    if (this.records[this.state.page]) {
     return (
-      <div className = "painting" style={this.getCssValuePrefix()}>
       <div>
-      <h1> Painting < /h1>
-      <img className="painting__image" src={this.records[0].primaryimageurl} alt={"image of " + this.records[0].title} />
+      <div className = "painting flx-ctr" style={this.getCssValuePrefix()}>
+      <div className = "painting__frame flx-ctr">
+        <div className = "frame__cell">
+      <img className="painting__image" src={this.records[this.state.page].primaryimageurl} alt={"image of " + this.records[this.state.page].title} />
       <br/>
-      img src: {this.records[0].primaryimageurl}
+      </div>
+      <div className = "frame__cell">
+        {/*
+      img src: {this.records[this.state.page].primaryimageurl}
       <br/>
-      {this.records[0].people[0].name} | born: {this.records[0].people[0].birthplace}
+      RECORDS LENGTH: {this.records.length}
       <br/>
-      {this.records[0].title}
+      */}
+      {this.records[this.state.page].people[0].name} | born: {this.records[this.state.page].people[0].birthplace}
       <br/>
-      {this.records[0].dated}
+      {this.records[this.state.page].title}
       <br/>
-      {this.records[0].period}
+      {this.records[this.state.page].dated}
       <br/>
-      {this.records[0].medium}
+      {this.records[this.state.page].period}
+      <br/>
+      {this.records[this.state.page].medium}
+      <br/>
       </div>
       </div>
+      </div>
+      <div>
+      <button className="next" onClick={() => this.paginate(1)} disabled={this.state.page === this.records.length-1}>next</button> | <button className="prev" onClick={() => this.paginate(-1)} disabled={this.state.page === 0}>previous</button>
+      </div>
+      <Wiki city = {this.records[this.state.page].people[0].birthplace} update={this.updateLatLng}/>
+    {/*   */}
+      </div>
+
     )
   } else {
     return (

@@ -3,7 +3,7 @@ import './App.css';
 import {Map} from './Map.js';
 
 const WIKI_USER = `${process.env.REACT_APP_WIKI_USER}`;
-console.log('wiki');
+//console.log('wiki');
 export class Wiki extends Component {
   constructor(props) {
     super(props);
@@ -13,38 +13,50 @@ export class Wiki extends Component {
           lat: 44.789722,
           lng: -88.599722,
           summary: "Test Summary",
-          wikipediaUrl: "en.wikipedia.org"}
+          wikipediaUrl: "en.wikipedia.org"
         }
+      },
+      center: {}
     }
   }
 
   componentDidUpdate(prevProps) {
     // Typical usage (don't forget to compare props):
     if (this.props.city !== prevProps.city) {
-      console.log('cDIDUPDATE');
+    //  console.log('cDIDUPDATE');
        this.getWikiData(this.props.city);
     }
   }
 
 
   getWikiData(city) {
-     console.log(`inside post api ${city}`);
-    fetch(`http://api.geonames.org/wikipediaSearchJSON?formatted=true&q=${city}&maxRows=1&username=${WIKI_USER}&style=full`, {
+  //   console.log(`inside post api ${city}`);
+    fetch(`http://api.geonames.org/wikipediaSearchJSON?formatted=true&q=${city}&username=${WIKI_USER}&style=full`, {
         method: 'GET'
       }).then((response) => response.json())
       .then((responseData) => {
 
         this.setState({
          geonames: responseData.geonames,
+         center: {
+           lat: responseData.geonames[0].lat,
+           lng: responseData.geonames[0].lng
+         }
         })
 
-      this.props.update(responseData.geonames[0].lat, responseData.geonames[0].lng);
+        console.log('GEONAME JSON');
+        console.dir(responseData.geonames);
+    //  this.props.update(responseData.geonames[0].lat, responseData.geonames[0].lng);
       });
+  }
+
+  componentDidMount() {
+    this.getWikiData(this.props.city);
   }
 
 
   render() {
-    console.log('WIKI I was triggered during render ' + this.props.city);
+  //  console.log('WIKI I was triggered during render ' + this.props.city);
 
     return (
       <div className="mapWiki">
@@ -57,6 +69,7 @@ export class Wiki extends Component {
           <br/>
           <a href={`https://${this.state.geonames[0].wikipediaUrl}`}>wikipedia</a>
           </div>
+          <Map center={this.state.center}/>
       </div>
     );
   }

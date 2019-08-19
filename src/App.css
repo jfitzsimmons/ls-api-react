@@ -36,9 +36,31 @@ html{
   }
 }
 
-.painting__image {
+.flx-ctr {
+  justify-content: center;
+  display: flex;
+}
+
+.painting {
+
+}
+
+.painting__frame {
+  flex-wrap: wrap;
+  max-width: 800px;
+  background: rgba(255, 255, 255, 0.6);
+  margin: 10px 10%;
+  border-radius: 6px;
+  padding: 2% 10px;
+}
+
+.frame__cell {
   width: 400px;
-  height: auto;
+}
+
+.painting__image {
+width: 400px;
+height: auto;
 }
 
 .map-container {

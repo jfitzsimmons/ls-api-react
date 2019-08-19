@@ -20,7 +20,7 @@ export class Map extends Component {
   componentDidUpdate(prevProps) {
     // Typical usage (don't forget to compare props):
     if (this.props.center !== prevProps.center) {
-      console.log('map did update');
+    //  console.log('map did update');
       this.setState({
        center: this.props.center,
       })
@@ -28,7 +28,7 @@ export class Map extends Component {
   }
 
   render() {
-    console.log('MAP I was triggered during render ' + this.state.center.lat);
+//    console.log('MAP I was triggered during render ' + this.state.center.lat);
     if (this.state.center) {
     return (
 
