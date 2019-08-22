@@ -40,7 +40,7 @@ export class Painting extends Component {
 
   componentDidUpdate(prevProps) {
     console.log(`componentDidUpdate - painting.js - prevProps.title: ${prevProps.title} | this.props.title: ${this.props.title}`);
-    // Typical usage (don't forget to compare props):
+    // ]Typical usage (don't forget to compare props):
     if (this.props.title !== prevProps.title) {
       console.log(`componentDidUpdate - in CONDITIONAL - painting.js`);
 
@@ -81,8 +81,12 @@ export class Painting extends Component {
       gradient += (i===0) ? ')' : ', ';
     }
 
+    let last = Object.keys(colors).length;
+
     let divStyle = {
-      backgroundImage: prefix + 'linear-gradient(-45deg, ' + gradient
+      backgroundImage: `${prefix}linear-gradient(-45deg, ${gradient}`,
+      borderTop: `20px solid ${colors[0].color}`,
+      borderBottom: `20px solid ${colors[last-1].color}`
     };
 
     return divStyle;
@@ -148,7 +152,7 @@ export class Painting extends Component {
       <img className="painting__image" src={this.records[this.state.page].primaryimageurl} alt={"image of " + this.records[this.state.page].title} />
       <br/>
       </div>
-      <div className = "frame__cell">
+      <div className = "frame__cell painting__label">
         {/*
       img src: {this.records[this.state.page].primaryimageurl}
       <br/>

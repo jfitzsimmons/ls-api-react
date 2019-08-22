@@ -1,6 +1,10 @@
-html{
+html {
   margin: 0;
   padding: 0;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
 }
 
 .App {
@@ -41,6 +45,18 @@ html{
   display: flex;
 }
 
+.search.top {
+  background: radial-gradient(ellipse at top, #fff, transparent),
+  radial-gradient(ellipse at bottom, #aaa, transparent);
+  height: 75px;
+}
+
+.search.btm {
+  background: radial-gradient(ellipse at bottom, #fff, transparent),
+  radial-gradient(ellipse at top, #999, transparent);
+  height: 100px;
+}
+
 .painting {
 
 }
@@ -48,7 +64,7 @@ html{
 .painting__frame {
   flex-wrap: wrap;
   max-width: 800px;
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.2);
   margin: 10px 10%;
   border-radius: 6px;
   padding: 2% 10px;
@@ -61,6 +77,15 @@ html{
 .painting__image {
 width: 400px;
 height: auto;
+}
+
+.painting__label {
+  max-width: 400px;
+  align-self: flex-end;
+  box-shadow: 1px 1px 10px -3px #333;
+  padding: 2% 0;
+  margin: 2% 0;
+  background: rgba(255,255,255, 0.8);
 }
 
 .map-container {

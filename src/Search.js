@@ -60,7 +60,10 @@ export class Search extends Component {
     render() {
         const { tags, suggestions } = this.state;
         return (
-            <div>
+          <div>
+          <div class="search top">
+          </div>
+            <div class="search btm">
                 <ReactTags tags={tags}
                     suggestions={suggestions}
                     handleDelete={this.handleDelete}
@@ -68,6 +71,7 @@ export class Search extends Component {
                     handleDrag={this.handleDrag}
                     delimiters={delimiters}
                     onChange={this.handleAddition}/>
+            </div>
             </div>
         )
     }
