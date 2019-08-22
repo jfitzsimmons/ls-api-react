@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
-import './App.css';
+import './App.scss';
 import {Wiki} from './Wiki.js';
 import {Map} from './Map.js';
+import {paginate} from './Helpers.js';
 
 const ART_API_KEY = `${process.env.REACT_APP_ART_API_KEY}`;
-//let page = 0;
-console.log('INIT painting.js');
 
 export class Painting extends Component {
   constructor(props) {
@@ -34,16 +33,14 @@ export class Painting extends Component {
         }
       }
     }
-    this.paginate = this.paginate.bind(this);
+    this.paginate = paginate.bind(this);
+    this.setCity = this.setCity.bind(this);
   }
 
 
   componentDidUpdate(prevProps) {
-    console.log(`componentDidUpdate - painting.js - prevProps.title: ${prevProps.title} | this.props.title: ${this.props.title}`);
-    // ]Typical usage (don't forget to compare props):
     if (this.props.title !== prevProps.title) {
-      console.log(`componentDidUpdate - in CONDITIONAL - painting.js`);
-
+      this.setState({page: 0});
       this.fetchPaintingData();
     }
   }
@@ -52,19 +49,12 @@ export class Painting extends Component {
       var rtrnVal = '';
       var prefixes = ['-o-', '-ms-', '-moz-', '-webkit-'];
 
-      // Create a temporary DOM object for testing
       var dom = document.createElement('div');
 
       for (var i = 0; i < prefixes.length; i++)
       {
-          // Attempt to set the style
           dom.style.background = prefixes[i] + 'linear-gradient(#000000, #ffffff)';
-
-          // Detect if the style was successfully set
-          if (dom.style.background)
-          {
-              rtrnVal = prefixes[i];
-          }
+          if (dom.style.background) rtrnVal = prefixes[i];
       }
 
       dom = null;
@@ -113,15 +103,11 @@ export class Painting extends Component {
   }
 
   fetchPaintingData() {
-  //  this.setState({page: 0});
-    console.log('fetchPaintingData - API CALL - painting.js');
-
   // console.log(`PAINTING inside post api -TITLE: ${this.props.title}`);
     fetch(`https://api.harvardartmuseums.org/object?${this.queryString()}`, {
         method: 'GET'
       }).then((response) => response.json())
       .then((responseData) => {
-        // console.dir(responseData);
          this.records = responseData.records;
         //  console.dir(responseData.records);
         // console.log(this.records[this.state.page].title);
@@ -133,52 +119,46 @@ export class Painting extends Component {
     this.fetchPaintingData();
   }
 
-  paginate(direction) {
-    this.setState(prevState => {
-      return {page: prevState.page += direction}
-    });
-    //page += direction;
-  //  console.log(`page: ${this.records[this.state.page].primaryimageurl}`);
+  setCity() {
+    if (this.records[this.state.page].people[0].birthplace) {
+      return this.records[this.state.page].people[0].birthplace;
+    } else {
+      return this.records[this.state.page].culture;
+    }
   }
 
   render() {
-    console.log('PAINTING I was triggered during render PROPS TITLE:' + this.props.title);
+  //  console.log('PAINTING I was triggered during render PAGE:' + this.state.page);
     if (this.records[this.state.page]) {
     return (
       <div>
+      <div className = "render-coontainer">
       <div className = "painting flx-ctr" style={this.getCssValuePrefix()}>
       <div className = "painting__frame flx-ctr">
         <div className = "frame__cell">
       <img className="painting__image" src={this.records[this.state.page].primaryimageurl} alt={"image of " + this.records[this.state.page].title} />
       <br/>
       </div>
-      <div className = "frame__cell painting__label">
-        {/*
-      img src: {this.records[this.state.page].primaryimageurl}
-      <br/>
-      RECORDS LENGTH: {this.records.length}
-      <br/>
-      */}
-      {this.records[this.state.page].people[0].name} | born: {this.records[this.state.page].people[0].birthplace}
-      <br/>
-      {this.records[this.state.page].title}
-      <br/>
-      {this.records[this.state.page].dated}
-      <br/>
-      {this.records[this.state.page].period}
-      <br/>
-      {this.records[this.state.page].medium}
-      <br/>
+      <div className = "frame__cell right">
+      <div className = "painting__label">
+      <span className = "label__title row">{this.records[this.state.page].title}</span>
+      <span className = "label__artist row">{this.records[this.state.page].people[0].name}</span>
+      <span className = "label__region row">{this.setCity()}</span>
+      <span className = "label__dated row">{this.records[this.state.page].dated}</span>
+      <span className = "label__period row">{this.records[this.state.page].period}</span>
+      <span className = "label__medium row">{this.records[this.state.page].medium}</span>
+      </div>
+      <div className="painting__paging">
+        {this.state.page + 1} of {this.records.length}
+        <br/>
+      <button className="prev" onClick={() => this.paginate(-1)} disabled={this.state.page === 0}>previous</button> | <button className="next" onClick={() => this.paginate(1)} disabled={this.state.page === this.records.length-1}>next</button>
       </div>
       </div>
       </div>
-      <div>
-      <button className="next" onClick={() => this.paginate(1)} disabled={this.state.page === this.records.length-1}>next</button> | <button className="prev" onClick={() => this.paginate(-1)} disabled={this.state.page === 0}>previous</button>
       </div>
-      <Wiki city = {this.records[this.state.page].people[0].birthplace} update={this.updateLatLng}/>
-    {/*   */}
       </div>
-
+      <Wiki city = {this.setCity()} update={this.updateLatLng}/>
+      </div>
     )
   } else {
     return (

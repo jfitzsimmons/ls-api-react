@@ -1,7 +1,7 @@
 import React, {
   Component
 } from 'react';
-import './App.css';
+import './App.scss';
 import {Search} from './Search.js';
 import {Painting} from './Painting.js';
 
@@ -22,14 +22,10 @@ class App extends Component {
 
   updateTitle(subject) {
     this.setState({title: subject});
-    console.log('APP updateTitle - - app.js');
-    //console.log(`city change?: ${this.state.records[0].people[0].birthplace}`)
   }
 
   updateBirthPlace(bp) {
-    //console.log(`bp: ${bp}`);
     this.setState({birthplace: bp});
-    //console.log(`city change?: ${this.state.records[0].people[0].birthplace}`)
   }
 
   updateLatLng(lt, lg) {
@@ -37,7 +33,6 @@ class App extends Component {
       lat: lt,
       lng: lg
     }});
-  //  console.log(`lat lng? lat: ${lt} | lng: ${lg}`);
   }
 
   render() {
@@ -45,13 +40,8 @@ class App extends Component {
       return (
         <div id = "App" className = "App" >
           <h1>Parent: {this.state.title}</h1>
-
           <Search value={this.state.value} onChangeValue={this.searchChangeValue} update={this.updateTitle}/>
           <Painting title = {this.state.title} update={this.updateBirthPlace}/>
-          {/*}
-
-          */}
-
         </div>
       );
   }

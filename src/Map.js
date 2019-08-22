@@ -2,11 +2,10 @@ import React, {
   Component
 } from 'react';
 import GoogleMapReact from 'google-map-react';
-import './App.css';
+import {MapMarker} from './MapMarker.js';
+import './App.scss';
 
 const MAP_API_KEY = `${process.env.REACT_APP_MAP_API_KEY}`;
-
-const AnyReactComponent = ({text}) => < div > {text} < /div>;
 
 export class Map extends Component {
   constructor(props) {
@@ -18,11 +17,13 @@ export class Map extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    // Typical usage (don't forget to compare props):
-    if (this.props.center !== prevProps.center) {
+    if (this.props.lat !== prevProps.lat) {
     //  console.log('map did update');
       this.setState({
-       center: this.props.center,
+       center: {
+         lat: this.props.lat,
+         lng: this.props.lng
+       }
       })
     }
   }
@@ -38,7 +39,7 @@ export class Map extends Component {
           center={this.state.center}
           zoom={this.state.zoom}
         >
-          <AnyReactComponent
+          <MapMarker
             lat={this.state.center.lat}
             lng={this.state.center.lng}
             text="My Marker"

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import { WithContext as ReactTags } from 'react-tag-input';
-import './App.css';
+import './App.scss';
 
 const KeyCodes = {
   comma: 188,
@@ -61,9 +61,9 @@ export class Search extends Component {
         const { tags, suggestions } = this.state;
         return (
           <div>
-          <div class="search top">
+          <div className="search top">
           </div>
-            <div class="search btm">
+            <div className="search btm">
                 <ReactTags tags={tags}
                     suggestions={suggestions}
                     handleDelete={this.handleDelete}

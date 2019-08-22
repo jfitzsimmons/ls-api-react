@@ -40,6 +40,47 @@ body {
   }
 }
 
+button {
+  z-index: 1;
+  font-size: inherit;
+  font-family: inherit;
+  color: white;
+  padding: 0.5em 1em;
+  outline: none;
+  border: none;
+  background-color: #000;
+  border-radius: 5px;
+  &:disabled {
+    background-color: #cccccc;
+    color: black;
+  }
+}
+
+button:hover {
+  cursor: pointer;
+  animation: jelly 0.5s;
+  &:disabled {
+    animation: none;
+  }
+}
+
+@keyframes jelly {
+  0%,
+  100% {
+    transform: scale(1, 1);
+  }
+  25% {
+    transform: scale(0.9, 1.1);
+  }
+  50% {
+    transform: scale(1.1, 0.9);
+  }
+  75% {
+    transform: scale(0.95, 1.05);
+  }
+}
+
+
 .flx-ctr {
   justify-content: center;
   display: flex;
@@ -75,7 +116,8 @@ body {
   padding: 2% 10px;
 }
 
-.frame__cell {
+.frame__cell.right {
+align-self: flex-end;
 }
 
 .painting__image {
@@ -83,19 +125,33 @@ width: 400px;
 height: auto;
 }
 
+.painting__paging {
+  text-shadow: 0px 0px 2px #fff;
+}
+
 .painting__label {
-  max-width: 400px;
-  align-self: flex-end;
+  max-width: 360px;
   box-shadow: 1px 1px 10px -3px #333;
   padding: 2%;
   margin: 2% 0;
   background: rgba(255,255,255, 0.8);
   .row {
-    display: inline-block;
+    display: block;
+    text-align: left;
+    margin: 2% 0;
   }
+}
+
+.label__title {
+  font-weight: bold;
 }
 
 .map-container {
   width: 500px;
   height: 500px;
+}
+
+.map-marker {
+  width: 40px;
+  fill: #00ff00;
 }
