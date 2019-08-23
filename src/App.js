@@ -17,29 +17,22 @@ class App extends Component {
     }
     this.updateTitle = this.updateTitle.bind(this);
     this.updateBirthPlace = this.updateBirthPlace.bind(this);
-    this.updateLatLng = this.updateLatLng.bind(this);
   }
 
   updateTitle(subject) {
+    console.log(`APP - updateTitle`);
     this.setState({title: subject});
   }
 
   updateBirthPlace(bp) {
+    console.log(`APP - updateBirthPlace`);
     this.setState({birthplace: bp});
-  }
-
-  updateLatLng(lt, lg) {
-    this.setState({center: {
-      lat: lt,
-      lng: lg
-    }});
   }
 
   render() {
 
       return (
         <div id = "App" className = "App" >
-          <h1>Parent: {this.state.title}</h1>
           <Search value={this.state.value} onChangeValue={this.searchChangeValue} update={this.updateTitle}/>
           <Painting title = {this.state.title} update={this.updateBirthPlace}/>
         </div>

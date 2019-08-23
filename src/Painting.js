@@ -98,20 +98,23 @@ export class Painting extends Component {
       hasimage: 1,
       q: 'imagepermissionlevel:0',
       person: 'any',
-      sort: 'random'
+      sort: 'random',
+      color: 'any'
     })
   }
 
   fetchPaintingData() {
-  // console.log(`PAINTING inside post api -TITLE: ${this.props.title}`);
+   console.log(`PAINTING inside post api -TITLE: ${this.props.title}`);
     fetch(`https://api.harvardartmuseums.org/object?${this.queryString()}`, {
         method: 'GET'
       }).then((response) => response.json())
       .then((responseData) => {
          this.records = responseData.records;
-        //  console.dir(responseData.records);
+          console.dir(responseData.records);
         // console.log(this.records[this.state.page].title);
          this.props.update(responseData.records[this.state.page].people[0].birthplace);
+      }).catch((error) => {
+        console.log(error)
       });
   }
 
@@ -121,9 +124,16 @@ export class Painting extends Component {
 
   setCity() {
     if (this.records[this.state.page].people[0].birthplace) {
+      if (this.records[this.state.page].people[0].birthplace.length > 23) {
+        const birthplace = this.records[this.state.page].people[0].birthplace;
+        return birthplace.split(" ").pop();
+      }
       return this.records[this.state.page].people[0].birthplace;
-    } else {
+    } else  if (this.records[this.state.page].culture) {
       return this.records[this.state.page].culture;
+    } else {
+      const division = this.records[this.state.page].division;
+      return division.substr(0,division.indexOf(' '));
     }
   }
 

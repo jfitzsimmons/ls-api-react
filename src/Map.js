@@ -12,7 +12,7 @@ export class Map extends Component {
     super(props);
     this.state = {
       center: this.props.center,
-      zoom: 11
+      zoom: 10
     }
   }
 
@@ -29,8 +29,9 @@ export class Map extends Component {
   }
 
   render() {
-//    console.log('MAP I was triggered during render ' + this.state.center.lat);
     if (this.state.center) {
+      console.log('MAP I was triggered during render ' + this.state.center.lat);
+
     return (
 
       <div className="map-container">
