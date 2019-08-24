@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/Art-API-React/static/css/main.4b3e02e3.chunk.css",
+    "main.js": "/Art-API-React/static/js/main.33957998.chunk.js",
+    "main.js.map": "/Art-API-React/static/js/main.33957998.chunk.js.map",
+    "runtime~main.js": "/Art-API-React/static/js/runtime~main.e3cab0cc.js",
+    "runtime~main.js.map": "/Art-API-React/static/js/runtime~main.e3cab0cc.js.map",
+    "static/js/2.e9b635fd.chunk.js": "/Art-API-React/static/js/2.e9b635fd.chunk.js",
+    "static/js/2.e9b635fd.chunk.js.map": "/Art-API-React/static/js/2.e9b635fd.chunk.js.map",
+    "index.html": "/Art-API-React/index.html",
+    "precache-manifest.f40a198ab7d5a58b90b6765a2952c26f.js": "/Art-API-React/precache-manifest.f40a198ab7d5a58b90b6765a2952c26f.js",
+    "service-worker.js": "/Art-API-React/service-worker.js",
+    "static/css/main.4b3e02e3.chunk.css.map": "/Art-API-React/static/css/main.4b3e02e3.chunk.css.map"
+  }
+}
