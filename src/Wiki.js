@@ -32,7 +32,7 @@ export class Wiki extends Component {
 
   getWikiData(c) {
     const city = c.replace(/ \(.*/g, "");
-    fetch(`//api.geonames.org/wikipediaSearchJSON?formatted=true&q=${city}&username=${WIKI_USER}&style=full`, {
+    fetch(`https://cors-anywhere.herokuapp.com/http://api.geonames.org/wikipediaSearchJSON?formatted=true&q=${city}&username=${WIKI_USER}&style=full`, {
         method: 'GET'
       }).then((response) => response.json())
       .then((responseData) => {
