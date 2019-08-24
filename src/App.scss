@@ -1,44 +1,55 @@
+$red:     #fb4264;
+$pink:      #ffdfff;
+$white-half: rgba(255,255,255,0.5);
+$white-full: rgba(255,255,255,0.9);
+$darkgray:  #1f1f1f;
+$lightgray: #cfcfcf;
+$gray: #888;
+$btm-margin: 0 0 20px;
+
 html {
   margin: 0;
   padding: 0;
 }
 
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Raleway', sans-serif;
+  padding: 2%;
+  color: $darkgray;
 }
+
+a:active,
+a:hover,
+a:link,
+a:visited {color: $red}
 
 li {
   list-style-type: none;
 }
 
-.App {
+.heading {
+  font-family: 'Playfair Display','Karla','Raleway';
+  font-size: 36px;
+  letter-spacing: -1px;
+  text-shadow: 1px 2px 3px $darkgray;
+  color:$white-full;
+  margin: $btm-margin;
+  width: 100%;
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
+.search-error {
+  background: $white-full;
+  color: $red;
+  padding: 20px;
+  display: none;
 }
 
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -52,38 +63,41 @@ button {
   padding: 0.5em 1em;
   outline: none;
   border: none;
-  background-color: #000;
-  border-radius: 5px;
+  background-color: $red;
+  border-radius: 4px;
+
   &:disabled {
-    background-color: #cccccc;
-    color: black;
+    background-color: $lightgray;
+    color: $darkgray;
   }
 }
 
 button:hover {
   cursor: pointer;
   animation: jelly 0.5s;
+
   &:disabled {
     animation: none;
   }
 }
-
 @keyframes jelly {
   0%,
   100% {
     transform: scale(1, 1);
   }
+
   25% {
     transform: scale(0.9, 1.1);
   }
+
   50% {
     transform: scale(1.1, 0.9);
   }
+
   75% {
     transform: scale(0.95, 1.05);
   }
 }
-
 
 .flx-ctr {
   justify-content: center;
@@ -94,18 +108,10 @@ button:hover {
   flex-wrap: wrap;
 }
 
-.search.top {
-  background: radial-gradient(ellipse at top, #fff, transparent),
-  radial-gradient(ellipse at bottom, #aaa, transparent);
-  height: 75px;
+.search {
+  margin: $btm-margin;
+  text-align: center;
 }
-
-.search.btm {
-  background: radial-gradient(ellipse at bottom, #fff, transparent),
-  radial-gradient(ellipse at top, #999, transparent);
-  height: 100px;
-}
-
 .ReactTags__tagInput {
   position: relative;
   display: inline-block;
@@ -113,13 +119,14 @@ button:hover {
 
 input {
   width: 6.5em;
-  color: #000;
+  color: $darkgray;
   font-size: inherit;
   font-family: inherit;
-  background-color: #FFF;
-  padding: 0.35em 0.45em;
-  border: 1px solid transparent;
+  background-color: $white-full;
+  padding: 0.3em 0.45em;
+  border: 2px solid transparent;
   transition: background-color 0.3s ease-in-out;
+  border-radius: 4px;
 }
 
 input:focus {
@@ -127,18 +134,18 @@ input:focus {
 }
 
 input::placeholder {
-  color: #BBB;
+  color: $gray;
 }
 
 span.line {
   position: absolute;
-  background-color: #000;
+  background-color: $red;
   transition: transform 0.1s ease;
 }
 
 span.bottom,
 span.top {
-  height: 1px;
+  height: 2px;
   left: 0;
   right: 0;
   transform: scaleX(0);
@@ -146,7 +153,7 @@ span.top {
 
 span.left,
 span.right {
-  width: 1px;
+  width: 2px;
   top: 0;
   bottom: 0;
   transform: scaleY(0);
@@ -195,84 +202,101 @@ input:focus ~ .left {
   transform: scaleY(1);
 }
 
-div.ReactTags__selected span.ReactTags__tag {
-    border: 1px solid #ddd;
-    background: #eee;
-    font-size: 12px;
-    display: inline-block;
-    padding: 5px;
+.ReactTags__tagInput {
     margin: 0 5px;
-    cursor: move;
-    border-radius: 2px;
 }
+
+div.ReactTags__selected span.ReactTags__tag {
+  border: 2px solid $gray;
+  background: $white-full;
+  font-size: 16px;
+  display: inline-block;
+  padding: 5px;
+  margin: 0 5px;
+  cursor: move;
+  border-radius: 4px;
+}
+
 div.ReactTags__selected a.ReactTags__remove {
-    color: #aaa;
-    margin-left: 5px;
-    cursor: pointer;
+  color: $gray;
+  margin-left: 5px;
+  cursor: pointer;
 }
 
 div.ReactTags__suggestions {
-    position: absolute;
-}
-div.ReactTags__suggestions ul {
-    list-style-type: none;
-    box-shadow: .05em .01em .5em rgba(0,0,0,.2);
-    background: white;
-    margin: 0;
-    padding: 0;
-}
-div.ReactTags__suggestions li {
-    border-bottom: 1px solid #ddd;
-    padding: 5px 10px;
-    margin: 0;
-}
-div.ReactTags__suggestions li mark {
-    text-decoration: underline;
-    background: none;
-    font-weight: 600;
-}
-div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
-    background: #b7cfe0;
-    cursor: pointer;
+  position: absolute;
 }
 
-.render-coontainer {
-  border-top:    2px solid  #000;
-  border-bottom: 2px solid  #000;
+div.ReactTags__suggestions ul {
+  list-style-type: none;
+  box-shadow: 0.05em 0.01em 0.5em rgba(0,0,0,0.2);
+  background: $white-full;
+  margin: 0;
+  padding: 0;
+}
+
+div.ReactTags__suggestions li {
+  border-bottom: 1px solid $lightgray;
+  padding: 5px 10px;
+  margin: 0;
+}
+
+div.ReactTags__suggestions li mark {
+  text-decoration: underline;
+  background: none;
+  font-weight: 600;
+}
+
+div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
+  background: $red;
+  cursor: pointer;
+}
+
+.page {
+  text-align: center;
 }
 
 .painting {
-
+  color: #FFF;
+  background: rgba(0, 0, 0, 0.6);
 }
 
 .painting__frame {
   flex-wrap: wrap;
-  max-width: 800px;
-  background: rgba(255, 255, 255, 0.2);
-  margin: 10px 10%;
-  border-radius: 6px;
   padding: 2% 10px;
 }
 
+
+
+.frame__cell {
+  flex: 1
+}
+
+.frame__cell.left {
+  min-width: 400px;
+  max-width: 800px;
+}
+
 .frame__cell.right {
-align-self: flex-end;
+  align-self: center;
+  background: $darkgray;
+  max-width: 350px;
+    min-width: 250px;
 }
 
 .painting__image {
-width: 400px;
-height: auto;
+  border: 6px solid $darkgray;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .painting__paging {
-  text-shadow: 0px 0px 2px #fff;
+  margin: $btm-margin
 }
 
 .painting__label {
-  max-width: 360px;
-  box-shadow: 1px 1px 10px -3px #333;
   padding: 6px;
   margin: 2% 0;
-  background: rgba(255,255,255, 0.8);
 }
 
 .row {
@@ -283,13 +307,20 @@ height: auto;
 
 .label__title {
   font-weight: bold;
-}
-.map-wiki {
+
 }
 
-.wiki{
-  max-width: 360px;
+.map-wiki {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.wiki {
+  flex: 1;
   margin: 2%;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .wiki__results {
@@ -301,15 +332,21 @@ height: auto;
   text-align: right;
 }
 
+.map {
+  flex: 2;
+}
+
 .map-container {
-  width: 400px;
-  height: 300px;
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+  min-width: 400px;
 }
 
 .map-marker {
   border-radius: 50%;
-  background-color: rgba(255,255,255,0.5);
+  background-color: $white-half;
   width: 35px;
   padding: 5px;
-  fill: #000;
+  fill: $red;
 }

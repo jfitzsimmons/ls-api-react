@@ -18,7 +18,6 @@ export class Map extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.lat !== prevProps.lat) {
-    //  console.log('map did update');
       this.setState({
        center: {
          lat: this.props.lat,
@@ -30,8 +29,7 @@ export class Map extends Component {
 
   render() {
     if (this.state.center) {
-      console.log('MAP I was triggered during render ' + this.state.center.lat);
-
+    //  console.log('MAP I was triggered during render ' + this.state.center.lat);
     return (
 
       <div className="map-container">

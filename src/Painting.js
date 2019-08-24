@@ -71,15 +71,7 @@ export class Painting extends Component {
       gradient += (i===0) ? ')' : ', ';
     }
 
-    let last = Object.keys(colors).length;
-
-    let divStyle = {
-      backgroundImage: `${prefix}linear-gradient(-45deg, ${gradient}`,
-      borderTop: `20px solid ${colors[0].color}`,
-      borderBottom: `20px solid ${colors[last-1].color}`
-    };
-
-    return divStyle;
+    document.body.style.background = `radial-gradient(circle at bottom right, ${gradient}`;
   };
 
   objToQueryString(obj) {
@@ -104,17 +96,16 @@ export class Painting extends Component {
   }
 
   fetchPaintingData() {
-   console.log(`PAINTING inside post api -TITLE: ${this.props.title}`);
     fetch(`https://api.harvardartmuseums.org/object?${this.queryString()}`, {
         method: 'GET'
       }).then((response) => response.json())
       .then((responseData) => {
          this.records = responseData.records;
-          console.dir(responseData.records);
-        // console.log(this.records[this.state.page].title);
          this.props.update(responseData.records[this.state.page].people[0].birthplace);
+         //this.getCssValuePrefix();
       }).catch((error) => {
-        console.log(error)
+        document.querySelector('.search-error').style.display = 'block';
+        console.log(error);
       });
   }
 
@@ -140,12 +131,15 @@ export class Painting extends Component {
   render() {
   //  console.log('PAINTING I was triggered during render PAGE:' + this.state.page);
     if (this.records[this.state.page]) {
+      this.getCssValuePrefix();
     return (
       <div>
       <div className = "render-coontainer">
-      <div className = "painting flx-ctr" style={this.getCssValuePrefix()}>
+        <div className = "search-error">ERROR: {this.props.title} did not return any results</div>
+      <div className = "painting flx-ctr">
       <div className = "painting__frame flx-ctr">
-        <div className = "frame__cell">
+        <span className = "heading">{this.records[this.state.page].title}</span>
+        <div className = "frame__cell left">
       <img className="painting__image" src={this.records[this.state.page].primaryimageurl} alt={"image of " + this.records[this.state.page].title} />
       <br/>
       </div>
@@ -158,7 +152,7 @@ export class Painting extends Component {
       <span className = "label__period row">{this.records[this.state.page].period}</span>
       <span className = "label__medium row">{this.records[this.state.page].medium}</span>
       </div>
-      <div className="painting__paging">
+      <div className="painting__paging page">
         {this.state.page + 1} of {this.records.length}
         <br/>
       <button className="prev" onClick={() => this.paginate(-1)} disabled={this.state.page === 0}>previous</button> | <button className="next" onClick={() => this.paginate(1)} disabled={this.state.page === this.records.length-1}>next</button>

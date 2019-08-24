@@ -31,17 +31,11 @@ export class Wiki extends Component {
   }
 
   getWikiData(c) {
-    console.log(`inside post WIKI api C: ${c}`);
     const city = c.replace(/ \(.*/g, "");
-     console.log(`inside post WIKI api CITY: ${city}`);
     fetch(`http://api.geonames.org/wikipediaSearchJSON?formatted=true&q=${city}&username=${WIKI_USER}&style=full`, {
         method: 'GET'
       }).then((response) => response.json())
       .then((responseData) => {
-
-    //    console.log('GEONAME JSON');
-        console.dir(responseData.geonames);
-
         this.setState({
          geonames: responseData.geonames,
          center: {
@@ -68,7 +62,7 @@ export class Wiki extends Component {
           <br/>
           <a className="wiki__link row" href={`https://${this.state.geonames[this.state.page].wikipediaUrl}`}>{this.state.geonames[this.state.page].title} on wikipedia</a>
           </div>
-          <div>
+          <div className="page">
             {this.state.page + 1} of {this.state.geonames.length}
             <br/>
             <button className="prev" onClick={() => this.paginate(-1)} disabled={this.state.page === 0}>previous</button> | <button className="next" onClick={() => this.paginate(1)} disabled={this.state.page === this.state.geonames.length-1}>next</button>

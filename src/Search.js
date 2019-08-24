@@ -13,10 +13,9 @@ const delimiters = [KeyCodes.comma, KeyCodes.enter];
 export class Search extends Component {
   constructor(props) {
         super(props);
-
         this.state = {
             tags: [
-                { id: "rabbit", text: "Rabbit" }
+                { id: "horse", text: "Horse" }
              ],
             suggestions: [
                 { id: 'portrait', text: 'Portrait' },
@@ -68,7 +67,6 @@ export class Search extends Component {
                 { id: 'girl', text: 'Girl' },
                 { id: 'boy', text: 'Boy' },
                 { id: 'sea', text: 'Sea' },
-                { id: 'figure', text: 'Figure' },
                 { id: 'jesus', text: 'Jesus' },
                 { id: 'view', text: 'View' },
                 { id: 'abstract', text: 'Abstract' },
@@ -185,10 +183,8 @@ export class Search extends Component {
     handleDrag(tag, currPos, newPos) {
         const tags = [...this.state.tags];
         const newTags = tags.slice();
-
         newTags.splice(currPos, 1);
         newTags.splice(newPos, 0, tag);
-
         this.setState({ tags: newTags });
     }
 
@@ -196,10 +192,7 @@ export class Search extends Component {
         const { tags, suggestions } = this.state;
         return (
           <div>
-          <div className="search top">
-          </div>
-
-          <div className="search btm">
+          <div className="search">
             <ReactTags tags={tags}
                 suggestions={suggestions}
                 handleDelete={this.handleDelete}
@@ -209,20 +202,6 @@ export class Search extends Component {
                 onChange={this.handleAddition}
                 autofocus={false}/>
           </div>
-
-
-
-          {/*
-            <div className="search btm">
-                <ReactTags tags={tags}
-                    suggestions={suggestions}
-                    handleDelete={this.handleDelete}
-                    handleAddition={this.handleAddition}
-                    handleDrag={this.handleDrag}
-                    delimiters={delimiters}
-                    onChange={this.handleAddition}/>
-            </div>
-            */}
             </div>
         )
     }
