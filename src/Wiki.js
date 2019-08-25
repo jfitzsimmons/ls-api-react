@@ -9,69 +9,68 @@ export class Wiki extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      geonames: { 0:
-        {
-          lat: 44.789722,
-          lng: -88.599722,
-          summary: "Test Summary",
-          wikipediaUrl: "en.wikipedia.org"
-        }
-      },
-      center: {},
-      page: 0
+      page: -1
     }
+    this.geonames = {}
     this.paginate = paginate.bind(this);
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.city !== prevProps.city) {
-      this.setState({page: 0});
+      console.log('WIKI city change - componentDidUpdate');
+    //  this.setState({page: 0});
       this.getWikiData(this.props.city);
     }
   }
 
   getWikiData(c) {
+    console.log('WIKI API call - getWikiData');
     const city = c.replace(/ \(.*/g, "");
-    fetch(`https://cors-anywhere.herokuapp.com/http://api.geonames.org/wikipediaSearchJSON?formatted=true&q=${city}&username=${WIKI_USER}&style=full`, {
-        method: 'GET'
-      }).then((response) => response.json())
-      .then((responseData) => {
-        this.setState({
-         geonames: responseData.geonames,
-         center: {
-           lat: responseData.geonames[0].lat,
-           lng: responseData.geonames[0].lng
-         }
-        })
-      });
+  //  fetch(`https://cors-anywhere.herokuapp.com/http://api.geonames.org/wikipediaSearchJSON?formatted=true&q=${city}&username=${WIKI_USER}&style=full`, {
+    fetch(`http://api.geonames.org/wikipediaSearchJSON?formatted=true&q=${city}&username=${WIKI_USER}&style=full`, {
+      method: 'GET'
+    }).then((response) => response.json())
+    .then((responseData) => {
+      this.geonames = responseData.geonames;
+      this.setState({
+       page: 0
+      })
+    });
   }
 
   componentDidMount() {
+    console.log('WIKI - componentDidMount');
     this.getWikiData(this.props.city);
   }
 
   render() {
-  //  console.log('WIKI I was triggered during render PAGE:' + this.state.page);
+   if (this.geonames[this.state.page]) {
+     console.log('WIKI I was triggered during FULL render');
     return (
       <div className="map-wiki flx-ctr wrap">
         <div className = "wiki">
           <div className = "wiki__results">
-          <span className = "label__title row">Wikipedia results for {this.props.city}:</span>
-          <span className = "label__title row">{this.state.geonames[this.state.page].title}</span>
-          {this.state.geonames[this.state.page].summary}
-          <br/>
-          <a className="wiki__link row" href={`https://${this.state.geonames[this.state.page].wikipediaUrl}`}>{this.state.geonames[this.state.page].title} on wikipedia</a>
+            <span className = "label__title row">Wikipedia results for {this.props.city}:</span>
+            <span className = "label__title row">{this.geonames[this.state.page].title}</span>
+            {this.geonames[this.state.page].summary}
+            <br/>
+            <a className="wiki__link row" href={`https://${this.geonames[this.state.page].wikipediaUrl}`}>{this.geonames[this.state.page].title} on wikipedia</a>
           </div>
           <div className="page">
-            {this.state.page + 1} of {this.state.geonames.length}
+            {this.state.page + 1} of {this.geonames.length}
             <br/>
-            <button className="prev" onClick={() => this.paginate(-1)} disabled={this.state.page === 0}>previous</button> | <button className="next" onClick={() => this.paginate(1)} disabled={this.state.page === this.state.geonames.length-1}>next</button>
-            </div>
+            <button className="prev" onClick={() => this.paginate(-1)} disabled={this.state.page === 0}>previous</button> | <button className="next" onClick={() => this.paginate(1)} disabled={this.state.page === this.geonames.length-1}>next</button>
           </div>
-          <div className = "map">
-            <Map lat={this.state.geonames[this.state.page].lat} lng={this.state.geonames[this.state.page].lng}/>
-          </div>
+        </div>
+        <div className = "map">
+          <Map lat={this.geonames[this.state.page].lat} lng={this.geonames[this.state.page].lng}/>
+        </div>
       </div>
-    );
+      )
+    } else {
+      return (
+        <div> WIKI fail</div>
+      );
+    };
   }
 };

@@ -266,8 +266,6 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
   padding: 2% 10px;
 }
 
-
-
 .frame__cell {
   flex: 1
 }
@@ -281,7 +279,7 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
   align-self: center;
   background: $darkgray;
   max-width: 350px;
-    min-width: 250px;
+  min-width: 250px;
 }
 
 .painting__image {
@@ -307,7 +305,6 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
 
 .label__title {
   font-weight: bold;
-
 }
 
 .map-wiki {

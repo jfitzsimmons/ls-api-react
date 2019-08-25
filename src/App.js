@@ -1,13 +1,9 @@
-import React, {
-  Component
-} from 'react';
+import React, {PureComponent} from 'react';
 import './App.scss';
 import {Search} from './Search.js';
 import {Painting} from './Painting.js';
 
-
-class App extends Component {
-
+class App extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -15,8 +11,8 @@ class App extends Component {
       birthplace: "Chicago",
       geonames: {}
     }
+    this.title = "horse";
     this.updateTitle = this.updateTitle.bind(this);
-    this.updateBirthPlace = this.updateBirthPlace.bind(this);
   }
 
   updateTitle(subject) {
@@ -24,19 +20,14 @@ class App extends Component {
     this.setState({title: subject});
   }
 
-  updateBirthPlace(bp) {
-    console.log(`APP - updateBirthPlace`);
-    this.setState({birthplace: bp});
-  }
-
   render() {
-
-      return (
-        <div id = "App" className = "App" >
-          <Search value={this.state.value} onChangeValue={this.searchChangeValue} update={this.updateTitle}/>
-          <Painting title = {this.state.title} update={this.updateBirthPlace}/>
-        </div>
-      );
+    console.log('APP I was triggered during render ');
+    return (
+      <div id = "App" className = "App" >
+        <Search value={this.state.value} onChangeValue={this.searchChangeValue} update={this.updateTitle}/>
+        <Painting title = {this.state.title} />
+      </div>
+    );
   }
 }
 
