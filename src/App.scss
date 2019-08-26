@@ -28,7 +28,7 @@ li {
 }
 
 .heading {
-  font-family: 'Playfair Display','Karla','Raleway';
+  font-family: 'Playfair Display', serif;
   font-size: 36px;
   letter-spacing: -1px;
   text-shadow: 1px 2px 3px $darkgray;
@@ -49,7 +49,6 @@ li {
   from {
     transform: rotate(0deg);
   }
-
   to {
     transform: rotate(360deg);
   }
@@ -68,7 +67,7 @@ button {
 
   &:disabled {
     background-color: $lightgray;
-    color: $darkgray;
+    color: $gray;
   }
 }
 
@@ -85,15 +84,12 @@ button:hover {
   100% {
     transform: scale(1, 1);
   }
-
   25% {
     transform: scale(0.9, 1.1);
   }
-
   50% {
     transform: scale(1.1, 0.9);
   }
-
   75% {
     transform: scale(0.95, 1.05);
   }

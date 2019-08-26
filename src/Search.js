@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import ReactDOM from 'react-dom';
 import { WithContext as ReactTags } from 'react-tag-input';
 import './App.scss';
 
@@ -147,7 +146,8 @@ constructor(props) {
         { id: 'sketch', text: 'Sketch' },
         { id: 'grave', text: 'Grave' },
         { id: 'train', text: 'Train' },
-        { id: 'miracle', text: 'Miracle' }
+        { id: 'miracle', text: 'Miracle' },
+        { id: 'lamentation', text: 'Lamentation' }
       ]
     };
     this.handleDelete = this.handleDelete.bind(this);
@@ -188,7 +188,6 @@ constructor(props) {
   }
 
   render() {
-    console.log('SEARCH I was triggered during render ');
     const { tags, suggestions } = this.state;
     return (
       <div>

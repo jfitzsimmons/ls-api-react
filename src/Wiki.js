@@ -17,17 +17,14 @@ export class Wiki extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.city !== prevProps.city) {
-      console.log('WIKI city change - componentDidUpdate');
-    //  this.setState({page: 0});
       this.getWikiData(this.props.city);
     }
   }
 
   getWikiData(c) {
-    console.log('WIKI API call - getWikiData');
-    const city = c.replace(/ \(.*/g, "");
-  //  fetch(`https://cors-anywhere.herokuapp.com/http://api.geonames.org/wikipediaSearchJSON?formatted=true&q=${city}&username=${WIKI_USER}&style=full`, {
-    fetch(`http://api.geonames.org/wikipediaSearchJSON?formatted=true&q=${city}&username=${WIKI_USER}&style=full`, {
+    const city = c.replace(/ \(.*/g, '').replace(/\?/g, '');
+    fetch(`https://cors-anywhere.herokuapp.com/http://api.geonames.org/wikipediaSearchJSON?formatted=true&q=${city}&username=${WIKI_USER}&style=full`, {
+    // fetch(`http://api.geonames.org/wikipediaSearchJSON?formatted=true&q=${city}&username=${WIKI_USER}&style=full`, {
       method: 'GET'
     }).then((response) => response.json())
     .then((responseData) => {
@@ -39,13 +36,11 @@ export class Wiki extends Component {
   }
 
   componentDidMount() {
-    console.log('WIKI - componentDidMount');
     this.getWikiData(this.props.city);
   }
 
   render() {
    if (this.geonames[this.state.page]) {
-     console.log('WIKI I was triggered during FULL render');
     return (
       <div className="map-wiki flx-ctr wrap">
         <div className = "wiki">
@@ -69,7 +64,7 @@ export class Wiki extends Component {
       )
     } else {
       return (
-        <div> WIKI fail</div>
+        <div></div>
       );
     };
   }

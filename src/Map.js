@@ -19,7 +19,6 @@ export class Map extends PureComponent {
 
   componentDidUpdate(prevProps) {
     if (this.props.lat !== prevProps.lat) {
-      console.log('MAP prop change - componentDidMount');
       this.setState({
        center: {
          lat: this.props.lat,
@@ -31,9 +30,7 @@ export class Map extends PureComponent {
 
   render() {
     if (this.state.center) {
-      console.log('MAP I was triggered during FULL render ');
       return (
-
         <div className="map-container">
           <GoogleMapReact
             bootstrapURLKeys={{ key: MAP_API_KEY }}

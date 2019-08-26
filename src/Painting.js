@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import './App.scss';
 import {Wiki} from './Wiki.js';
-import {Map} from './Map.js';
 import {paginate} from './Helpers.js';
 
 const ART_API_KEY = `${process.env.REACT_APP_ART_API_KEY}`;
@@ -72,7 +71,6 @@ export class Painting extends Component {
   }
 
   fetchPaintingData() {
-    console.log(`PAINTING API query- ${this.queryString()}`);
     fetch(`https://api.harvardartmuseums.org/object?${this.queryString()}`, {
         method: 'GET'
       }).then((response) => response.json())
@@ -88,12 +86,9 @@ export class Painting extends Component {
   }
 
   setCity() {
-    if (this.records[this.state.page].people[0].birthplace) {
-      if (this.records[this.state.page].people[0].birthplace.length > 23) {
-        const birthplace = this.records[this.state.page].people[0].birthplace;
-        return birthplace.split(" ").pop();
-      }
-      return this.records[this.state.page].people[0].birthplace;
+    const birthplace = this.records[this.state.page].people[0].birthplace;
+    if (birthplace) {
+      return (birthplace.length > 23) ? birthplace.split(" ").pop() : birthplace;
     } else  if (this.records[this.state.page].culture) {
       return this.records[this.state.page].culture;
     } else {
@@ -103,47 +98,45 @@ export class Painting extends Component {
   }
 
   render() {
-
     if (this.records[this.state.page]) {
       this.getCssValuePrefix();
-      console.log('PAINTING I was triggered during FULL render');
-    return (
-      <div>
-        <div className = "render-coontainer">
-          <div className = "search-error">
-            ERROR: {this.props.title} did not return any results
-          </div>
-          <div className = "painting flx-ctr">
-            <div className = "painting__frame flx-ctr">
-              <span className = "heading">{this.records[this.state.page].title}</span>
-              <div className = "frame__cell left">
-                <img className="painting__image" src={this.records[this.state.page].primaryimageurl} alt={"image of " + this.records[this.state.page].title} />
-              </div>
-              <div className = "frame__cell right">
-                <div className = "painting__label">
-                  <span className = "label__title row">{this.records[this.state.page].title}</span>
-                  <span className = "label__artist row">{this.records[this.state.page].people[0].name}</span>
-                  <span className = "label__region row">{this.setCity()}</span>
-                  <span className = "label__dated row">{this.records[this.state.page].dated}</span>
-                  <span className = "label__period row">{this.records[this.state.page].period}</span>
-                  <span className = "label__medium row">{this.records[this.state.page].medium}</span>
+      return (
+        <div>
+          <div className = "render-coontainer">
+            <div className = "search-error">
+              ERROR: {this.props.title} did not return any results
+            </div>
+            <div className = "painting flx-ctr">
+              <div className = "painting__frame flx-ctr">
+                <span className = "heading">{this.records[this.state.page].title}</span>
+                <div className = "frame__cell left">
+                  <img className="painting__image" src={this.records[this.state.page].primaryimageurl} alt={"image of " + this.records[this.state.page].title} />
                 </div>
-                <div className="painting__paging page">
-                  {this.state.page + 1} of {this.records.length}
-                  <br/>
-                <button className="prev" onClick={() => this.paginate(-1)} disabled={this.state.page === 0}>previous</button> | <button className="next" onClick={() => this.paginate(1)} disabled={this.state.page === this.records.length-1}>next</button>
+                <div className = "frame__cell right">
+                  <div className = "painting__label">
+                    <span className = "label__title row">{this.records[this.state.page].title}</span>
+                    <span className = "label__artist row">{this.records[this.state.page].people[0].name}</span>
+                    <span className = "label__region row">{this.setCity()}</span>
+                    <span className = "label__dated row">{this.records[this.state.page].dated}</span>
+                    <span className = "label__period row">{this.records[this.state.page].period}</span>
+                    <span className = "label__medium row">{this.records[this.state.page].medium}</span>
+                  </div>
+                  <div className="painting__paging page">
+                    {this.state.page + 1} of {this.records.length}
+                    <br/>
+                  <button className="prev" onClick={() => this.paginate(-1)} disabled={this.state.page === 0}>previous</button> | <button className="next" onClick={() => this.paginate(1)} disabled={this.state.page === this.records.length-1}>next</button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+          <Wiki city = {this.setCity()} update={this.updateLatLng}/>
         </div>
-        <Wiki city = {this.setCity()} update={this.updateLatLng}/>
-      </div>
-    )
-  } else {
-    return (
-      <div></div>
-    );
-  }
+      )
+    } else {
+      return (
+        <div></div>
+      );
+    }
   }
 };

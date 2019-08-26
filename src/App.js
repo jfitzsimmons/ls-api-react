@@ -16,15 +16,13 @@ class App extends PureComponent {
   }
 
   updateTitle(subject) {
-    console.log(`APP - updateTitle`);
     this.setState({title: subject});
   }
 
   render() {
-    console.log('APP I was triggered during render ');
     return (
       <div id = "App" className = "App" >
-        <Search value={this.state.value} onChangeValue={this.searchChangeValue} update={this.updateTitle}/>
+        <Search value={this.state.value} update={this.updateTitle}/>
         <Painting title = {this.state.title} />
       </div>
     );
