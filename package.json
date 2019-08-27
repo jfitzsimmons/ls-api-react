@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "eslint-utils": "^1.4.2",
+    "gh-pages": "^2.1.1",
     "google-map-react": "^1.1.2",
     "lodash": "^4.17.15",
     "lodash.template": "^4.5.0",
