@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "eslint-utils": "^1.4.2",
     "google-map-react": "^1.1.2",
     "lodash": "^4.17.15",
     "lodash.template": "^4.5.0",
@@ -35,5 +36,5 @@
     "eslint-config-prettier": "^6.1.0",
     "eslint-plugin-prettier": "^3.1.0"
   },
-  "homepage":"https://jfitzsimmons.github.io/Art-API-React"
+  "homepage": "https://jfitzsimmons.github.io/Art-API-React"
 }
