@@ -103,9 +103,6 @@ export class Painting extends Component {
       return (
         <div>
           <div className = "render-coontainer">
-            <div className = "search-error">
-              ERROR: {this.props.title} did not return any results
-            </div>
             <div className = "painting flx-ctr">
               <div className = "painting__frame flx-ctr">
                 <span className = "heading">{this.records[this.state.page].title}</span>
@@ -135,7 +132,20 @@ export class Painting extends Component {
       )
     } else {
       return (
-        <div></div>
+        <div>
+          <div className = "render-coontainer">
+            <div className = "search-error">
+              ERROR: {this.props.title} did not return any results
+            </div>
+            <div className = "painting flx-ctr">
+              <div>
+                <svg className="loading" viewBox="25 25 50 50">
+                  <circle cx="50" cy="50" r="20"></circle>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
       );
     }
   }

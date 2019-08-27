@@ -64,7 +64,15 @@ export class Wiki extends Component {
       )
     } else {
       return (
-        <div></div>
+        <div className="map-wiki flx-ctr wrap">
+          <div className = "wiki">
+            <div>
+              <svg className="loading" viewBox="25 25 50 50">
+                <circle cx="50" cy="50" r="20"></circle>
+              </svg>
+            </div>
+          </div>
+        </div>
       );
     };
   }

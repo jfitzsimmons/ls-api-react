@@ -7,11 +7,8 @@ class App extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      title: "horse",
-      birthplace: "Chicago",
-      geonames: {}
+      title: "horse"
     }
-    this.title = "horse";
     this.updateTitle = this.updateTitle.bind(this);
   }
 
@@ -22,7 +19,7 @@ class App extends PureComponent {
   render() {
     return (
       <div id = "App" className = "App" >
-        <Search value={this.state.value} update={this.updateTitle}/>
+        <Search update={this.updateTitle}/>
         <Painting title = {this.state.title} />
       </div>
     );
