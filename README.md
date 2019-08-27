@@ -8,7 +8,7 @@ These instructions will get you a copy of the project up and running on your loc
 ### APIs Used
 * [Harvard Art Museums API](https://github.com/harvardartmuseums/api-docs) - The Harvard Art Museums API is a REST-style service designed for developers who wish to explore and integrate the museums’ collections in their projects.
 * [GeoNames Wikipedia Webservice](https://www.geonames.org/export/wikipedia-webservice.html) - The wikipedia webservices give access to georeferenced wikipedia articles in 240 languages.
-* [Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/tutorial) - The Maps JavaScript API lets you customize maps with your own content and imagery for display on web pages and mobile devices.
+* [Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/tutorial) - The Maps JavaScript API lets you customize maps with your own content and imagery for display on web pages and mobile devices.
 
 ### Built With
 
