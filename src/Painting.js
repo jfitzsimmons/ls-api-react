@@ -9,7 +9,8 @@ export class Painting extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: -1
+      page: -1,
+      returnError: false
     }
     this.records = {}
     this.paginate = paginate.bind(this);
@@ -76,11 +77,9 @@ export class Painting extends Component {
       }).then((response) => response.json())
       .then((responseData) => {
          this.records = responseData.records;
-         this.setState({
-          page: 0
-         })
+         (this.records.length === 0) ? this.setState({returnError: true}) : this.setState({page: 0});
       }).catch((error) => {
-        document.querySelector('.search-error').style.display = 'block';
+        this.setState({returnError: true});
         console.log(error);
       });
   }
@@ -131,12 +130,15 @@ export class Painting extends Component {
         </div>
       )
     } else {
+      let returnError = this.state.returnError;
       return (
         <div>
           <div className = "render-coontainer">
+            {returnError ?
             <div className = "search-error">
               ERROR: {this.props.title} did not return any results
             </div>
+          :
             <div className = "painting flx-ctr">
               <div>
                 <svg className="loading" viewBox="25 25 50 50">
@@ -144,6 +146,7 @@ export class Painting extends Component {
                 </svg>
               </div>
             </div>
+          }
           </div>
         </div>
       );
