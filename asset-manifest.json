@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/Art-API-React/static/css/main.3ec6b09e.chunk.css",
-    "main.js": "/Art-API-React/static/js/main.40391148.chunk.js",
-    "main.js.map": "/Art-API-React/static/js/main.40391148.chunk.js.map",
+    "main.css": "/Art-API-React/static/css/main.df43b0d3.chunk.css",
+    "main.js": "/Art-API-React/static/js/main.fa989e17.chunk.js",
+    "main.js.map": "/Art-API-React/static/js/main.fa989e17.chunk.js.map",
     "runtime~main.js": "/Art-API-React/static/js/runtime~main.e3cab0cc.js",
     "runtime~main.js.map": "/Art-API-React/static/js/runtime~main.e3cab0cc.js.map",
     "static/js/2.1b772760.chunk.js": "/Art-API-React/static/js/2.1b772760.chunk.js",
     "static/js/2.1b772760.chunk.js.map": "/Art-API-React/static/js/2.1b772760.chunk.js.map",
     "index.html": "/Art-API-React/index.html",
-    "precache-manifest.ae6400637072fed12a439b9862812f28.js": "/Art-API-React/precache-manifest.ae6400637072fed12a439b9862812f28.js",
+    "precache-manifest.4d4ad8b76ed45a1da3882b6120ec9705.js": "/Art-API-React/precache-manifest.4d4ad8b76ed45a1da3882b6120ec9705.js",
     "service-worker.js": "/Art-API-React/service-worker.js",
-    "static/css/main.3ec6b09e.chunk.css.map": "/Art-API-React/static/css/main.3ec6b09e.chunk.css.map"
+    "static/css/main.df43b0d3.chunk.css.map": "/Art-API-React/static/css/main.df43b0d3.chunk.css.map"
   }
 }
