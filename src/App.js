@@ -7,7 +7,7 @@ class App extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      title: "horse"
+      title: "earth, wind, fire"
     }
     this.updateTitle = this.updateTitle.bind(this);
   }
