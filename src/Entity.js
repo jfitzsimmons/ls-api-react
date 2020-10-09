@@ -3,7 +3,7 @@ import "./App.scss";
 import { Wiki } from "./Wiki.js";
 import { paginate } from "./Helpers.js";
 
-const ART_API_KEY = `${process.env.REACT_APP_ART_API_KEY}`;
+// const ART_API_KEY = `${process.env.REACT_APP_ART_API_KEY}`;
 
 export class Entity extends Component {
   constructor(props) {
@@ -58,7 +58,8 @@ export class Entity extends Component {
     const keyValuePairs = [];
     for (const key in obj) {
       keyValuePairs.push(
-        encodeURIComponent(key) + "=" + encodeURIComponent(obj[key])
+       // encodeURIComponent(key) + "=" + encodeURIComponent(obj[key])
+       encodeURIComponent(obj[key])
       );
     }
     return keyValuePairs.join("&");
@@ -66,24 +67,26 @@ export class Entity extends Component {
 
   queryString() {
     return this.objToQueryString({
-      apikey: ART_API_KEY,
+      // apikey: ART_API_KEY,
       title: this.props.title,
-      classification: "Paintings",
-      hasimage: 1,
-      q: "imagepermissionlevel:0",
-      person: "any",
-      sort: "random",
-      color: "any",
+      //classification: "Paintings",
+      //hasimage: 1,
+      //q: "imagepermissionlevel:0",
+      //person: "any",
+      //sort: "random",
+      //color: "any",
     });
   }
 
   fetchPaintingData() {
-    fetch(`https://api.harvardartmuseums.org/object?${this.queryString()}`, {
+    console.log(`${this.queryString()}`);
+    fetch(`https://littlesis.org/api/entities/search?q=${this.queryString()}`, {
       method: "GET",
     })
       .then((response) => response.json())
       .then((responseData) => {
-        this.records = responseData.records;
+        this.records = responseData.data;
+        //console.dir(this.records[0]);
         this.records.length === 0
           ? this.setState({
               returnError: true,
@@ -113,42 +116,47 @@ export class Entity extends Component {
   }
 
   render() {
-    if (this.records[this.state.page]) {
-      this.getCssValuePrefix();
+         if (this.records[this.state.page]) {
+      // this.getCssValuePrefix();
       return (
         <div>
-          <div className="render-coontainer">
+          <div className="render-container">
             <div className="painting flx-ctr">
               <div className="painting__frame flx-ctr">
                 <span className="heading">
                   {" "}
-                  {this.records[this.state.page].title}{" "}
+                  {this.records[this.state.page].attributes.name}{" "}
                 </span>{" "}
                 <div className="frame__cell left">
+                  {/*
                   <img
                     className="painting__image"
                     src={this.records[this.state.page].primaryimageurl}
                     alt={"image of " + this.records[this.state.page].title}
                   />{" "}
+                  */}
                 </div>{" "}
                 <div className="frame__cell right">
-                  <div className="painting__label">
+                        <div className="painting__label">
                     <span className="label__title row">
                       {" "}
+                      TITLEJPF:
                       {this.records[this.state.page].title}{" "}
                     </span>{" "}
                     <span className="label__artist row">
                       {" "}
-                      {this.records[this.state.page].people[0].name}{" "}
+                      {this.records[this.state.page].attributes.blurb}{" "}
                     </span>{" "}
+                    <span className="label__dated row">
+                      {" "}
+                      {this.records[this.state.page].attributes.summary}{" "}
+                    </span>{" "}
+                    {/*
                     <span className="label__region row">
                       {" "}
                       {this.setCity()}{" "}
                     </span>{" "}
-                    <span className="label__dated row">
-                      {" "}
-                      {this.records[this.state.page].dated}{" "}
-                    </span>{" "}
+                    
                     <span className="label__period row">
                       {" "}
                       {this.records[this.state.page].period}{" "}
@@ -157,6 +165,7 @@ export class Entity extends Component {
                       {" "}
                       {this.records[this.state.page].medium}{" "}
                     </span>{" "}
+                    */}
                   </div>{" "}
                   <div className="painting__paging page">
                     {" "}
@@ -169,7 +178,7 @@ export class Entity extends Component {
                       {" "}
                       previous{" "}
                     </button>{" "}
-                    |{" "}
+                    |{" "} 
                     <button
                       className="next"
                       onClick={() => this.paginate(1)}
@@ -182,14 +191,14 @@ export class Entity extends Component {
               </div>{" "}
             </div>{" "}
           </div>{" "}
-          <Wiki city={this.setCity()} update={this.updateLatLng} />{" "}
+          <Wiki city={this.records[this.state.page].attributes.id} />{" "}
         </div>
       );
     } else {
       let returnError = this.state.returnError;
       return (
         <div>
-          <div className="render-coontainer">
+          <div className="render-container">
             {" "}
             {returnError ? (
               <div className="search-error">

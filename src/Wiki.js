@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './App.scss';
-import {Map} from './Map.js';
+//import {Map} from './Map.js';
 import {paginate} from './Helpers.js';
 
 const WIKI_USER = `${process.env.REACT_APP_WIKI_USER}`;
@@ -22,13 +22,11 @@ export class Wiki extends Component {
   }
 
   getWikiData(c) {
-    const city = c.replace(/ \(.*/g, '').replace(/\?/g, '');
-    fetch(`https://cors-anywhere.herokuapp.com/http://api.geonames.org/wikipediaSearchJSON?formatted=true&q=${city}&username=${WIKI_USER}&style=full`, {
-    // fetch(`http://api.geonames.org/wikipediaSearchJSON?formatted=true&q=${city}&username=${WIKI_USER}&style=full`, {
+    fetch(`https://littlesis.org/api/entities/${c}/relationships`, {
       method: 'GET'
     }).then((response) => response.json())
     .then((responseData) => {
-      this.geonames = responseData.geonames;
+      this.geonames = responseData.data;
       this.setState({
        page: 0
       })
@@ -45,11 +43,15 @@ export class Wiki extends Component {
       <div className="map-wiki flx-ctr wrap">
         <div className = "wiki">
           <div className = "wiki__results">
+            {/*
             <span className = "label__title row">Wikipedia results for {this.props.city}:</span>
             <span className = "label__title row">{this.geonames[this.state.page].title}</span>
-            {this.geonames[this.state.page].summary}
+            */}
+            {this.geonames[this.state.page].attributes.description}
             <br/>
+            {/*
             <a className="wiki__link row" href={`https://${this.geonames[this.state.page].wikipediaUrl}`}>{this.geonames[this.state.page].title} on wikipedia</a>
+            */}
           </div>
           <div className="page">
             {this.state.page + 1} of {this.geonames.length}
@@ -58,7 +60,7 @@ export class Wiki extends Component {
           </div>
         </div>
         <div className = "map">
-          <Map lat={this.geonames[this.state.page].lat} lng={this.geonames[this.state.page].lng}/>
+         {/* <Map lat={this.geonames[this.state.page].lat} lng={this.geonames[this.state.page].lng}/> */}
         </div>
       </div>
       )

@@ -14,9 +14,7 @@ constructor(props) {
   super(props);
   this.state = {
     tags: [
-      { id: "earth", text: "Earth" },
-      { id: "wind", text: "Wind" },
-      { id: "fire", text: "Fire" },
+      { id: "trump", text: "Trump" },
     ],
     suggestions: [
       { id: "earth", text: "Earth" },

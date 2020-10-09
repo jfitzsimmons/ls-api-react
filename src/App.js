@@ -7,7 +7,7 @@ class App extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      title: "earth, wind, fire",
+      title: "Trump",
     };
     this.updateTitle = this.updateTitle.bind(this);
   }
@@ -21,7 +21,8 @@ class App extends PureComponent {
   render() {
     return (
       <div id="App" className="App">
-        <Search update={this.updateTitle} /> <Entity title={this.state.title} />{" "}
+        <Search update={this.updateTitle} /> 
+        <Entity title={this.state.title} />{" "}
       </div>
     );
   }
