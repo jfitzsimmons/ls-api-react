@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./App.scss";
-import { Wiki } from "./Wiki.js";
+import { Related } from "./Related.js";
 import { paginate } from "./Helpers.js";
 
 // const ART_API_KEY = `${process.env.REACT_APP_ART_API_KEY}`;
@@ -9,25 +9,26 @@ export class Entity extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: 15108,
       page: -1,
       returnError: false,
     };
-    this.records = {};
+    this.data = {};
     this.paginate = paginate.bind(this);
     this.setCity = this.setCity.bind(this);
   }
 
   componentDidMount() {
-    this.fetchPaintingData();
+    this.fetchSearchData();
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.title !== prevProps.title) {
+    if (this.props.term !== prevProps.term) {
       this.setState(
         {
           page: 0,
         },
-        this.fetchPaintingData()
+        this.fetchSearchData()
       );
     }
   }
@@ -45,7 +46,7 @@ export class Entity extends Component {
   }
 
   setStyle(prefix) {
-    const colors = this.records[this.state.page].colors;
+    const colors = this.data[this.state.page].colors;
     let gradient = "";
     for (let i = colors.length; i--; ) {
       gradient += colors[i].color;
@@ -68,7 +69,7 @@ export class Entity extends Component {
   queryString() {
     return this.objToQueryString({
       // apikey: ART_API_KEY,
-      title: this.props.title,
+      term: this.props.term,
       //classification: "Paintings",
       //hasimage: 1,
       //q: "imagepermissionlevel:0",
@@ -78,16 +79,16 @@ export class Entity extends Component {
     });
   }
 
-  fetchPaintingData() {
+  fetchSearchData() {
     console.log(`${this.queryString()}`);
     fetch(`https://littlesis.org/api/entities/search?q=${this.queryString()}`, {
       method: "GET",
     })
       .then((response) => response.json())
       .then((responseData) => {
-        this.records = responseData.data;
-        //console.dir(this.records[0]);
-        this.records.length === 0
+        this.data = responseData.data;
+        //console.dir(this.data[0]);
+        this.data.length === 0
           ? this.setState({
               returnError: true,
             })
@@ -104,19 +105,19 @@ export class Entity extends Component {
   }
 
   setCity() {
-    const birthplace = this.records[this.state.page].people[0].birthplace;
+    const birthplace = this.data[this.state.page].people[0].birthplace;
     if (birthplace) {
       return birthplace.length > 23 ? birthplace.split(" ").pop() : birthplace;
-    } else if (this.records[this.state.page].culture) {
-      return this.records[this.state.page].culture;
+    } else if (this.data[this.state.page].culture) {
+      return this.data[this.state.page].culture;
     } else {
-      const division = this.records[this.state.page].division;
+      const division = this.data[this.state.page].division;
       return division.substr(0, division.indexOf(" "));
     }
   }
 
   render() {
-         if (this.records[this.state.page]) {
+         if (this.data[this.state.page]) {
       // this.getCssValuePrefix();
       return (
         <div>
@@ -125,14 +126,14 @@ export class Entity extends Component {
               <div className="painting__frame flx-ctr">
                 <span className="heading">
                   {" "}
-                  {this.records[this.state.page].attributes.name}{" "}
+                  {this.data[this.state.page].attributes.name}{" "}
                 </span>{" "}
                 <div className="frame__cell left">
                   {/*
                   <img
                     className="painting__image"
-                    src={this.records[this.state.page].primaryimageurl}
-                    alt={"image of " + this.records[this.state.page].title}
+                    src={this.data[this.state.page].primaryimageurl}
+                    alt={"image of " + this.data[this.state.page].title}
                   />{" "}
                   */}
                 </div>{" "}
@@ -141,15 +142,15 @@ export class Entity extends Component {
                     <span className="label__title row">
                       {" "}
                       TITLEJPF:
-                      {this.records[this.state.page].title}{" "}
+                      {this.data[this.state.page].title}{" "}
                     </span>{" "}
                     <span className="label__artist row">
                       {" "}
-                      {this.records[this.state.page].attributes.blurb}{" "}
+                      {this.data[this.state.page].attributes.blurb}{" "}
                     </span>{" "}
                     <span className="label__dated row">
                       {" "}
-                      {this.records[this.state.page].attributes.summary}{" "}
+                      {this.data[this.state.page].attributes.summary}{" "}
                     </span>{" "}
                     {/*
                     <span className="label__region row">
@@ -159,17 +160,17 @@ export class Entity extends Component {
                     
                     <span className="label__period row">
                       {" "}
-                      {this.records[this.state.page].period}{" "}
+                      {this.data[this.state.page].period}{" "}
                     </span>{" "}
                     <span className="label__medium row">
                       {" "}
-                      {this.records[this.state.page].medium}{" "}
+                      {this.data[this.state.page].medium}{" "}
                     </span>{" "}
                     */}
                   </div>{" "}
                   <div className="painting__paging page">
                     {" "}
-                    {this.state.page + 1} of {this.records.length} <br />
+                    {this.state.page + 1} of {this.data.length} <br />
                     <button
                       className="prev"
                       onClick={() => this.paginate(-1)}
@@ -182,7 +183,7 @@ export class Entity extends Component {
                     <button
                       className="next"
                       onClick={() => this.paginate(1)}
-                      disabled={this.state.page === this.records.length - 1}
+                      disabled={this.state.page === this.data.length - 1}
                     >
                       next
                     </button>
@@ -191,7 +192,7 @@ export class Entity extends Component {
               </div>{" "}
             </div>{" "}
           </div>{" "}
-          <Wiki city={this.records[this.state.page].attributes.id} />{" "}
+          <Related city={this.data[this.state.page].attributes.id} />{" "}
         </div>
       );
     } else {
@@ -202,7 +203,7 @@ export class Entity extends Component {
             {" "}
             {returnError ? (
               <div className="search-error">
-                ERROR : {this.props.title}
+                ERROR : {this.props.term}
                 did not return any results{" "}
               </div>
             ) : (

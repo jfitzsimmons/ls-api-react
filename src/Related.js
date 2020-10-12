@@ -5,11 +5,11 @@ import {paginate} from './Helpers.js';
 
 const WIKI_USER = `${process.env.REACT_APP_WIKI_USER}`;
 
-export class Wiki extends Component {
+export class Related extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: -1
+      page: 1
     }
     this.geonames = {}
     this.paginate = paginate.bind(this);
@@ -22,7 +22,9 @@ export class Wiki extends Component {
   }
 
   getWikiData(c) {
-    fetch(`https://littlesis.org/api/entities/${c}/relationships`, {
+    const p = this.state.page;
+    console.log(`Page api call: ${p}`);
+    fetch(`https://littlesis.org/api/entities/${c}/relationships?page=${p}`, {
       method: 'GET'
     }).then((response) => response.json())
     .then((responseData) => {
@@ -39,6 +41,12 @@ export class Wiki extends Component {
 
   render() {
    if (this.geonames[this.state.page]) {
+    const users = this.geonames;
+    const final = [];
+    for (let user of users) {
+      let desc = user.attributes.description;
+      final.push(<li key={user}>{desc}</li>);
+    }
     return (
       <div className="map-wiki flx-ctr wrap">
         <div className = "wiki">
@@ -47,8 +55,7 @@ export class Wiki extends Component {
             <span className = "label__title row">Wikipedia results for {this.props.city}:</span>
             <span className = "label__title row">{this.geonames[this.state.page].title}</span>
             */}
-            {this.geonames[this.state.page].attributes.description}
-            <br/>
+            <ul>{final}</ul>
             {/*
             <a className="wiki__link row" href={`https://${this.geonames[this.state.page].wikipediaUrl}`}>{this.geonames[this.state.page].title} on wikipedia</a>
             */}

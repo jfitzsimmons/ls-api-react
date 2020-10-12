@@ -7,22 +7,22 @@ class App extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      title: "Trump",
+      term: "Trump",
     };
-    this.updateTitle = this.updateTitle.bind(this);
+    this.updateTerm = this.updateTerm.bind(this);
   }
 
-  updateTitle(subject) {
+  updateTerm(subject) {
     this.setState({
-      title: subject,
+      term: subject,
     });
   }
 
   render() {
     return (
       <div id="App" className="App">
-        <Search update={this.updateTitle} /> 
-        <Entity title={this.state.title} />{" "}
+        <Search update={this.updateTerm} /> 
+        <Entity term={this.state.term} />{" "}
       </div>
     );
   }
