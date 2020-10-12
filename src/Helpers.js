@@ -1,5 +1,4 @@
 export function paginate(direction) {
-  this.setState(prevState => {
-    return {page: prevState.page += direction}
-  });
+  this.setState(prevState => ({ page: prevState.page + direction}));
 }
+

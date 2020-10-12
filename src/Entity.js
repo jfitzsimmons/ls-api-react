@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import "./App.scss";
-import { Related } from "./Related.js";
-import { paginate } from "./Helpers.js";
+import React, { Component } from 'react';
+import './App.scss';
+import { Related } from './Related.js';
+import { paginate } from './Helpers.js';
 
 // const ART_API_KEY = `${process.env.REACT_APP_ART_API_KEY}`;
 
@@ -10,7 +10,7 @@ export class Entity extends Component {
     super(props);
     this.state = {
       id: 15108,
-      page: -1,
+      page: 1,
       returnError: false,
     };
     this.data = {};
@@ -34,11 +34,11 @@ export class Entity extends Component {
   }
 
   getCssValuePrefix() {
-    let rtrnVal = "";
-    const prefixes = ["-o-", "-ms-", "-moz-", "-webkit-"];
-    let dom = document.createElement("div");
-    for (var i = 0; i < prefixes.length; i++) {
-      dom.style.background = prefixes[i] + "linear-gradient(#000000, #ffffff)";
+    let rtrnVal = '';
+    const prefixes = ['-o-', '-ms-', '-moz-', '-webkit-'];
+    let dom = document.createElement('div');
+    for (let i = 0; i < prefixes.length; i++) {
+      dom.style.background = `${prefixes[i]}linear-gradient(#000000, #ffffff)`;
       if (dom.style.background) rtrnVal = prefixes[i];
     }
     dom = null;
@@ -46,11 +46,11 @@ export class Entity extends Component {
   }
 
   setStyle(prefix) {
-    const colors = this.data[this.state.page].colors;
-    let gradient = "";
+    const { colors } = this.data[this.state.page];
+    let gradient = '';
     for (let i = colors.length; i--; ) {
       gradient += colors[i].color;
-      gradient += i === 0 ? ")" : ", ";
+      gradient += i === 0 ? ')' : ', ';
     }
     document.body.style.background = `radial-gradient(circle at bottom right, ${gradient}`;
   }
@@ -59,35 +59,35 @@ export class Entity extends Component {
     const keyValuePairs = [];
     for (const key in obj) {
       keyValuePairs.push(
-       // encodeURIComponent(key) + "=" + encodeURIComponent(obj[key])
-       encodeURIComponent(obj[key])
+        // encodeURIComponent(key) + "=" + encodeURIComponent(obj[key])
+        encodeURIComponent(obj[key])
       );
     }
-    return keyValuePairs.join("&");
+    return keyValuePairs.join('&');
   }
 
   queryString() {
     return this.objToQueryString({
       // apikey: ART_API_KEY,
       term: this.props.term,
-      //classification: "Paintings",
-      //hasimage: 1,
-      //q: "imagepermissionlevel:0",
-      //person: "any",
-      //sort: "random",
-      //color: "any",
+      // classification: "Paintings",
+      // hasimage: 1,
+      // q: "imagepermissionlevel:0",
+      // person: "any",
+      // sort: "random",
+      // color: "any",
     });
   }
 
   fetchSearchData() {
     console.log(`${this.queryString()}`);
     fetch(`https://littlesis.org/api/entities/search?q=${this.queryString()}`, {
-      method: "GET",
+      method: 'GET',
     })
       .then((response) => response.json())
       .then((responseData) => {
         this.data = responseData.data;
-        //console.dir(this.data[0]);
+        // console.dir(this.data[0]);
         this.data.length === 0
           ? this.setState({
               returnError: true,
@@ -105,29 +105,26 @@ export class Entity extends Component {
   }
 
   setCity() {
-    const birthplace = this.data[this.state.page].people[0].birthplace;
+    const { birthplace } = this.data[this.state.page].people[0];
     if (birthplace) {
-      return birthplace.length > 23 ? birthplace.split(" ").pop() : birthplace;
-    } else if (this.data[this.state.page].culture) {
-      return this.data[this.state.page].culture;
-    } else {
-      const division = this.data[this.state.page].division;
-      return division.substr(0, division.indexOf(" "));
+      return birthplace.length > 23 ? birthplace.split(' ').pop() : birthplace;
     }
+    if (this.data[this.state.page].culture) {
+      return this.data[this.state.page].culture;
+    }
+    const { division } = this.data[this.state.page];
+    return division.substr(0, division.indexOf(' '));
   }
 
   render() {
-         if (this.data[this.state.page]) {
+    if (this.data[this.state.page]) {
       // this.getCssValuePrefix();
       return (
         <div>
           <div className="render-container">
             <div className="painting flx-ctr">
               <div className="painting__frame flx-ctr">
-                <span className="heading">
-                  {" "}
-                  {this.data[this.state.page].attributes.name}{" "}
-                </span>{" "}
+                <span className="heading"> {this.data[this.state.page].attributes.name} </span>{' '}
                 <div className="frame__cell left">
                   {/*
                   <img
@@ -136,22 +133,16 @@ export class Entity extends Component {
                     alt={"image of " + this.data[this.state.page].title}
                   />{" "}
                   */}
-                </div>{" "}
+                </div>{' '}
                 <div className="frame__cell right">
-                        <div className="painting__label">
+                  <div className="painting__label">
                     <span className="label__title row">
-                      {" "}
+                      {' '}
                       TITLEJPF:
-                      {this.data[this.state.page].title}{" "}
-                    </span>{" "}
-                    <span className="label__artist row">
-                      {" "}
-                      {this.data[this.state.page].attributes.blurb}{" "}
-                    </span>{" "}
-                    <span className="label__dated row">
-                      {" "}
-                      {this.data[this.state.page].attributes.summary}{" "}
-                    </span>{" "}
+                      {this.data[this.state.page].title}{' '}
+                    </span>{' '}
+                    <span className="label__artist row"> {this.data[this.state.page].attributes.blurb} </span>{' '}
+                    <span className="label__dated row"> {this.data[this.state.page].attributes.summary} </span>{' '}
                     {/*
                     <span className="label__region row">
                       {" "}
@@ -167,19 +158,15 @@ export class Entity extends Component {
                       {this.data[this.state.page].medium}{" "}
                     </span>{" "}
                     */}
-                  </div>{" "}
+                  </div>{' '}
                   <div className="painting__paging page">
-                    {" "}
+                    {' '}
                     {this.state.page + 1} of {this.data.length} <br />
-                    <button
-                      className="prev"
-                      onClick={() => this.paginate(-1)}
-                      disabled={this.state.page === 0}
-                    >
-                      {" "}
-                      previous{" "}
-                    </button>{" "}
-                    |{" "} 
+                    <button className="prev" onClick={() => this.paginate(-1)} disabled={this.state.page === 0}>
+                      {' '}
+                      previous{' '}
+                    </button>{' '}
+                    |{' '}
                     <button
                       className="next"
                       onClick={() => this.paginate(1)}
@@ -187,39 +174,38 @@ export class Entity extends Component {
                     >
                       next
                     </button>
-                  </div>{" "}
-                </div>{" "}
-              </div>{" "}
-            </div>{" "}
-          </div>{" "}
-          <Related city={this.data[this.state.page].attributes.id} />{" "}
-        </div>
-      );
-    } else {
-      let returnError = this.state.returnError;
-      return (
-        <div>
-          <div className="render-container">
-            {" "}
-            {returnError ? (
-              <div className="search-error">
-                ERROR : {this.props.term}
-                did not return any results{" "}
-              </div>
-            ) : (
-              <div className="painting flx-ctr">
-                <div>
-                  <svg className="loading" viewBox="25 25 50 50">
-                    <circle cx="50" cy="50" r="20">
-                      {" "}
-                    </circle>{" "}
-                  </svg>{" "}
-                </div>{" "}
-              </div>
-            )}{" "}
-          </div>{" "}
+                  </div>{' '}
+                </div>{' '}
+              </div>{' '}
+            </div>{' '}
+          </div>{' '}
+          <Related city={this.data[this.state.page].attributes.id} />{' '}
         </div>
       );
     }
+    const { returnError } = this.state;
+    return (
+      <div>
+        <div className="render-container">
+          {' '}
+          {returnError ? (
+            <div className="search-error">
+              ERROR : {this.props.term}
+              did not return any results{' '}
+            </div>
+          ) : (
+            <div className="painting flx-ctr">
+              <div>
+                <svg className="loading" viewBox="25 25 50 50">
+                  <circle cx="50" cy="50" r="20">
+                    {' '}
+                  </circle>{' '}
+                </svg>{' '}
+              </div>{' '}
+            </div>
+          )}{' '}
+        </div>{' '}
+      </div>
+    );
   }
 }

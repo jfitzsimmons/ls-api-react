@@ -3,7 +3,7 @@ import './App.scss';
 //import {Map} from './Map.js';
 import {paginate} from './Helpers.js';
 
-const WIKI_USER = `${process.env.REACT_APP_WIKI_USER}`;
+               const WIKI_USER = `${process.env.REACT_APP_WIKI_USER}`;
 
 export class Related extends Component {
   constructor(props) {
@@ -12,27 +12,47 @@ export class Related extends Component {
       page: 1
     }
     this.geonames = {}
+    this.meta = {}
     this.paginate = paginate.bind(this);
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
+ //   console.log(`DidUpdate prevState change: ${prevState.page}`);
+ //   console.log(`DidUpdate state.page change: ${this.state.page}`);
     if (this.props.city !== prevProps.city) {
+      this.setState({
+        page: 0,
+      })
+      this.getWikiData(this.props.city);
+    }
+    if (this.state.page !== prevState.page) {
+      console.log(`api call from paging`);
       this.getWikiData(this.props.city);
     }
   }
 
   getWikiData(c) {
-    const p = this.state.page;
+    let p = this.state.page;
     console.log(`Page api call: ${p}`);
     fetch(`https://littlesis.org/api/entities/${c}/relationships?page=${p}`, {
       method: 'GET'
     }).then((response) => response.json())
     .then((responseData) => {
       this.geonames = responseData.data;
+      this.meta = responseData.meta;
       this.setState({
-       page: 0
+       
       })
     });
+  }
+
+  pageClick(p) {
+    console.log(`pageclick p: ${p}`);
+  
+    this.paginate(p);
+
+    
+    //this.getWikiData(this.props.city);
   }
 
   componentDidMount() {
@@ -45,7 +65,7 @@ export class Related extends Component {
     const final = [];
     for (let user of users) {
       let desc = user.attributes.description;
-      final.push(<li key={user}>{desc}</li>);
+      final.push(<li key={user.id}>{desc}</li>);
     }
     return (
       <div className="map-wiki flx-ctr wrap">
@@ -61,9 +81,10 @@ export class Related extends Component {
             */}
           </div>
           <div className="page">
-            {this.state.page + 1} of {this.geonames.length}
+            {this.state.page} of {this.meta.pageCount} {/* SHOULD BE PAGECOUNT */}
             <br/>
-            <button className="prev" onClick={() => this.paginate(-1)} disabled={this.state.page === 0}>previous</button> | <button className="next" onClick={() => this.paginate(1)} disabled={this.state.page === this.geonames.length-1}>next</button>
+            <button className="prev" onClick={() => this.pageClick(-1)} disabled={this.state.page === 0}>previous</button> | 
+            <button className="next" onClick={() => this.pageClick(1)} disabled={this.state.page === this.geonames.length-1}>next</button>
           </div>
         </div>
         <div className = "map">
