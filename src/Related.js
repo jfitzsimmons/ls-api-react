@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './App.scss';
-// import {Map} from './Map.js';
+import { Map } from './Map.js';
 import { paginate } from './Helpers.js';
 
 export class Related extends Component {
@@ -9,6 +9,7 @@ export class Related extends Component {
     super(props);
     this.state = {
       page: 1,
+      relationId: 1727566,
     };
     this.data = {};
     this.meta = {};
@@ -23,9 +24,10 @@ export class Related extends Component {
   componentDidUpdate(prevProps, prevState) {
     const { entityId } = this.props;
     const { page } = this.state;
+
     if (entityId !== prevProps.entityId) {
       this.setState({
-        page: 0,
+        page: 1,
       });
       this.getWikiData(entityId);
     }
@@ -36,9 +38,9 @@ export class Related extends Component {
   }
 
   getWikiData(eid) {
-    const { p } = this.state;
+    const { page } = this.state;
     // console.log(`Page api call: ${p}`);
-    fetch(`https://littlesis.org/api/entities/${eid}/relationships?page=${p}`, {
+    fetch(`https://littlesis.org/api/entities/${eid}/relationships?page=${page}`, {
       method: 'GET',
     })
       .then((response) => response.json())
@@ -58,13 +60,19 @@ export class Related extends Component {
   }
 
   render() {
-    const { page } = this.state;
+    const { page, relationId } = this.state;
     if (this.data[page]) {
-      const entities = this.data;
+      const relations = this.data;
       const descriptions = [];
-      for (const entity of entities) {
-        const desc = entity.attributes.description;
-        descriptions.push(<li key={entity.id}>{desc}</li>);
+      for (const relation of relations) {
+        const desc = relation.attributes.description;
+        const entityId1 = relation.attributes.entity1_id;
+        descriptions.push(
+          <li key={relation.id}>
+            {desc}
+            <button type="button">More CHANGE {entityId1}</button>
+          </li>
+        );
       }
       return (
         <div className="map-wiki flx-ctr wrap">
@@ -82,7 +90,7 @@ export class Related extends Component {
             <div className="page">
               {page} of {this.meta.pageCount} {/* SHOULD BE PAGECOUNT */}
               <br />
-              <button type="button" className="prev" onClick={() => this.pageClick(-1)} disabled={page === 0}>
+              <button type="button" className="prev" onClick={() => this.pageClick(-1)} disabled={page === 1}>
                 previous
               </button>{' '}
               |
@@ -96,8 +104,8 @@ export class Related extends Component {
               </button>
             </div>
           </div>
-          <div className="map">
-            {/* <Map lat={this.data[this.state.page].lat} lng={this.data[this.state.page].lng}/> */}
+          <div className="details">
+            <Map id={relationId} />
           </div>
         </div>
       );

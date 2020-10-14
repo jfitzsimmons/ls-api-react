@@ -2,12 +2,14 @@ import React, { PureComponent } from 'react';
 import './App.scss';
 import { Search } from './Search.js';
 import { Entity } from './Entity.js';
+import { Related } from './Related.js';
 
 class App extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       term: 'Trump',
+      id: 15108,
     };
     this.updateTerm = this.updateTerm.bind(this);
   }
@@ -19,11 +21,12 @@ class App extends PureComponent {
   }
 
   render() {
-    const { term } = this.state;
+    const { term, id } = this.state;
     return (
       <div id="App" className="App">
-        <Search update={this.updateTerm} />
-        <Entity term={term} />{' '}
+        {/* <Search update={this.updateTerm} /> */}
+        <Entity term={term} />
+        <Related entityId={id} />{' '}
       </div>
     );
   }

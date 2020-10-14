@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './App.scss';
-import { Related } from './Related.js';
 import { paginate } from './Helpers.js';
 
 export class Entity extends Component {
@@ -80,7 +79,7 @@ export class Entity extends Component {
   }
 
   fetchSearchData() {
-    console.log(`${this.queryString()}`);
+    // console.log(`${this.queryString()}`);
     fetch(`https://littlesis.org/api/entities/search?q=${this.queryString()}`, {
       method: 'GET',
     })
@@ -181,7 +180,6 @@ export class Entity extends Component {
               </div>{' '}
             </div>{' '}
           </div>{' '}
-          <Related entityId={this.data[page].attributes.id} />{' '}
         </div>
       );
     }
