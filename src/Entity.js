@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './App.scss';
 import { Related } from './Related.js';
 import { paginate } from './Helpers.js';
-
-// const ART_API_KEY = `${process.env.REACT_APP_ART_API_KEY}`;
 
 export class Entity extends Component {
   constructor(props) {
@@ -23,7 +22,8 @@ export class Entity extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.term !== prevProps.term) {
+    const { term } = this.props;
+    if (term !== prevProps.term) {
       this.setState(
         {
           page: 0,
@@ -37,7 +37,7 @@ export class Entity extends Component {
     let rtrnVal = '';
     const prefixes = ['-o-', '-ms-', '-moz-', '-webkit-'];
     let dom = document.createElement('div');
-    for (let i = 0; i < prefixes.length; i++) {
+    for (let i = 0; i < prefixes.length; i += 1) {
       dom.style.background = `${prefixes[i]}linear-gradient(#000000, #ffffff)`;
       if (dom.style.background) rtrnVal = prefixes[i];
     }
@@ -87,14 +87,14 @@ export class Entity extends Component {
       .then((response) => response.json())
       .then((responseData) => {
         this.data = responseData.data;
-        // console.dir(this.data[0]);
-        this.data.length === 0
-          ? this.setState({
-              returnError: true,
-            })
-          : this.setState({
-              page: 0,
-            });
+        if (this.data.length === 0) {
+          return this.setState({
+            returnError: true,
+          });
+        }
+        this.setState({
+          page: 0,
+        });
       })
       .catch((error) => {
         this.setState({
@@ -117,14 +117,15 @@ export class Entity extends Component {
   }
 
   render() {
-    if (this.data[this.state.page]) {
+    const { page } = this.state;
+    if (this.data[page]) {
       // this.getCssValuePrefix();
       return (
         <div>
           <div className="render-container">
             <div className="painting flx-ctr">
               <div className="painting__frame flx-ctr">
-                <span className="heading"> {this.data[this.state.page].attributes.name} </span>{' '}
+                <span className="heading"> {this.data[page].attributes.name} </span>{' '}
                 <div className="frame__cell left">
                   {/*
                   <img
@@ -139,10 +140,10 @@ export class Entity extends Component {
                     <span className="label__title row">
                       {' '}
                       TITLEJPF:
-                      {this.data[this.state.page].title}{' '}
+                      {this.data[page].title}{' '}
                     </span>{' '}
-                    <span className="label__artist row"> {this.data[this.state.page].attributes.blurb} </span>{' '}
-                    <span className="label__dated row"> {this.data[this.state.page].attributes.summary} </span>{' '}
+                    <span className="label__artist row"> {this.data[page].attributes.blurb} </span>{' '}
+                    <span className="label__dated row"> {this.data[page].attributes.summary} </span>{' '}
                     {/*
                     <span className="label__region row">
                       {" "}
@@ -161,16 +162,17 @@ export class Entity extends Component {
                   </div>{' '}
                   <div className="painting__paging page">
                     {' '}
-                    {this.state.page + 1} of {this.data.length} <br />
-                    <button className="prev" onClick={() => this.paginate(-1)} disabled={this.state.page === 0}>
+                    {page + 1} of {this.data.length} <br />
+                    <button type="button" className="prev" onClick={() => this.paginate(-1)} disabled={page === 0}>
                       {' '}
                       previous{' '}
                     </button>{' '}
                     |{' '}
                     <button
+                      type="button"
                       className="next"
                       onClick={() => this.paginate(1)}
-                      disabled={this.state.page === this.data.length - 1}
+                      disabled={page === this.data.length - 1}
                     >
                       next
                     </button>
@@ -179,18 +181,18 @@ export class Entity extends Component {
               </div>{' '}
             </div>{' '}
           </div>{' '}
-          <Related city={this.data[this.state.page].attributes.id} />{' '}
+          <Related entityId={this.data[page].attributes.id} />{' '}
         </div>
       );
     }
-    const { returnError } = this.state;
+    const { returnError, term } = this.state;
     return (
       <div>
         <div className="render-container">
           {' '}
           {returnError ? (
             <div className="search-error">
-              ERROR : {this.props.term}
+              ERROR : {term}
               did not return any results{' '}
             </div>
           ) : (
@@ -209,3 +211,7 @@ export class Entity extends Component {
     );
   }
 }
+
+Entity.propTypes = {
+  term: PropTypes.string.isRequired,
+};

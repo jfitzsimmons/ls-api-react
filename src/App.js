@@ -1,13 +1,13 @@
-import React, { PureComponent } from "react";
-import "./App.scss";
-import { Search } from "./Search.js";
-import { Entity } from "./Entity.js";
+import React, { PureComponent } from 'react';
+import './App.scss';
+import { Search } from './Search.js';
+import { Entity } from './Entity.js';
 
 class App extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      term: "Trump",
+      term: 'Trump',
     };
     this.updateTerm = this.updateTerm.bind(this);
   }
@@ -19,10 +19,11 @@ class App extends PureComponent {
   }
 
   render() {
+    const { term } = this.state;
     return (
       <div id="App" className="App">
-        <Search update={this.updateTerm} /> 
-        <Entity term={this.state.term} />{" "}
+        <Search update={this.updateTerm} />
+        <Entity term={term} />{' '}
       </div>
     );
   }
