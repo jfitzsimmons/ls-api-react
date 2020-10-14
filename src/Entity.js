@@ -7,13 +7,11 @@ export class Entity extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: 15108,
       page: 1,
       returnError: false,
     };
     this.data = {};
     this.paginate = paginate.bind(this);
-    this.setCity = this.setCity.bind(this);
   }
 
   componentDidMount() {
@@ -44,37 +42,20 @@ export class Entity extends Component {
     return this.setStyle(rtrnVal);
   }
 
-  setStyle(prefix) {
-    const { colors } = this.data[this.state.page];
-    let gradient = '';
-    for (let i = colors.length; i--; ) {
-      gradient += colors[i].color;
-      gradient += i === 0 ? ')' : ', ';
-    }
-    document.body.style.background = `radial-gradient(circle at bottom right, ${gradient}`;
-  }
-
-  objToQueryString(obj) {
+  objToQueryString = (obj) => {
     const keyValuePairs = [];
-    for (const key in obj) {
-      keyValuePairs.push(
-        // encodeURIComponent(key) + "=" + encodeURIComponent(obj[key])
-        encodeURIComponent(obj[key])
-      );
-    }
+    Object.keys(obj).forEach((key) => {
+      if (obj && obj.hasOwnProperty(key)) {
+        keyValuePairs.push(encodeURIComponent(obj[key]));
+      }
+    });
     return keyValuePairs.join('&');
-  }
+  };
 
   queryString() {
+    const { term } = this.props;
     return this.objToQueryString({
-      // apikey: ART_API_KEY,
-      term: this.props.term,
-      // classification: "Paintings",
-      // hasimage: 1,
-      // q: "imagepermissionlevel:0",
-      // person: "any",
-      // sort: "random",
-      // color: "any",
+      term,
     });
   }
 
@@ -103,18 +84,6 @@ export class Entity extends Component {
       });
   }
 
-  setCity() {
-    const { birthplace } = this.data[this.state.page].people[0];
-    if (birthplace) {
-      return birthplace.length > 23 ? birthplace.split(' ').pop() : birthplace;
-    }
-    if (this.data[this.state.page].culture) {
-      return this.data[this.state.page].culture;
-    }
-    const { division } = this.data[this.state.page];
-    return division.substr(0, division.indexOf(' '));
-  }
-
   render() {
     const { page } = this.state;
     if (this.data[page]) {
@@ -125,15 +94,6 @@ export class Entity extends Component {
             <div className="painting flx-ctr">
               <div className="painting__frame flx-ctr">
                 <span className="heading"> {this.data[page].attributes.name} </span>{' '}
-                <div className="frame__cell left">
-                  {/*
-                  <img
-                    className="painting__image"
-                    src={this.data[this.state.page].primaryimageurl}
-                    alt={"image of " + this.data[this.state.page].title}
-                  />{" "}
-                  */}
-                </div>{' '}
                 <div className="frame__cell right">
                   <div className="painting__label">
                     <span className="label__title row">
@@ -143,21 +103,6 @@ export class Entity extends Component {
                     </span>{' '}
                     <span className="label__artist row"> {this.data[page].attributes.blurb} </span>{' '}
                     <span className="label__dated row"> {this.data[page].attributes.summary} </span>{' '}
-                    {/*
-                    <span className="label__region row">
-                      {" "}
-                      {this.setCity()}{" "}
-                    </span>{" "}
-                    
-                    <span className="label__period row">
-                      {" "}
-                      {this.data[this.state.page].period}{" "}
-                    </span>{" "}
-                    <span className="label__medium row">
-                      {" "}
-                      {this.data[this.state.page].medium}{" "}
-                    </span>{" "}
-                    */}
                   </div>{' '}
                   <div className="painting__paging page">
                     {' '}

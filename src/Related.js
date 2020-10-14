@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './App.scss';
-import { Map } from './Map.js';
+import { RelationDetails } from './RelationDetails.js';
 import { paginate } from './Helpers.js';
 
 export class Related extends Component {
@@ -18,7 +18,7 @@ export class Related extends Component {
 
   componentDidMount() {
     const { entityId } = this.props;
-    this.getWikiData(entityId);
+    this.getRelationshipData(entityId);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -29,17 +29,15 @@ export class Related extends Component {
       this.setState({
         page: 1,
       });
-      this.getWikiData(entityId);
+      this.getRelationshipData(entityId);
     }
     if (page !== prevState.page) {
-      // console.log(`api call from paging`);
-      this.getWikiData(entityId);
+      this.getRelationshipData(entityId);
     }
   }
 
-  getWikiData(eid) {
+  getRelationshipData(eid) {
     const { page } = this.state;
-    // console.log(`Page api call: ${p}`);
     fetch(`https://littlesis.org/api/entities/${eid}/relationships?page=${page}`, {
       method: 'GET',
     })
@@ -49,14 +47,6 @@ export class Related extends Component {
         this.meta = responseData.meta;
         this.setState({});
       });
-  }
-
-  pageClick(p) {
-    // console.log(`pageclick p: ${p}`);
-
-    this.paginate(p);
-
-    // this.getWikiData(this.props.city);
   }
 
   render() {
@@ -78,26 +68,19 @@ export class Related extends Component {
         <div className="map-wiki flx-ctr wrap">
           <div className="wiki">
             <div className="wiki__results">
-              {/*
-            <span className = "label__title row">Wikipedia results for {this.props.city}:</span>
-            <span className = "label__title row">{this.data[this.state.page].title}</span>
-            */}
               <ul>{descriptions}</ul>
-              {/*
-            <a className="wiki__link row" href={`https://${this.data[this.state.page].wikipediaUrl}`}>{this.data[this.state.page].title} on wikipedia</a>
-            */}
             </div>
             <div className="page">
-              {page} of {this.meta.pageCount} {/* SHOULD BE PAGECOUNT */}
+              {page} of {this.meta.pageCount}
               <br />
-              <button type="button" className="prev" onClick={() => this.pageClick(-1)} disabled={page === 1}>
+              <button type="button" className="prev" onClick={() => this.paginate(-1)} disabled={page === 1}>
                 previous
               </button>{' '}
               |
               <button
                 type="button"
                 className="next"
-                onClick={() => this.pageClick(1)}
+                onClick={() => this.paginate(1)}
                 disabled={page === this.data.length - 1}
               >
                 next
@@ -105,7 +88,7 @@ export class Related extends Component {
             </div>
           </div>
           <div className="details">
-            <Map id={relationId} />
+            <RelationDetails id={relationId} />
           </div>
         </div>
       );

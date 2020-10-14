@@ -1,9 +1,8 @@
 import React, { PureComponent } from 'react';
-// import GoogleMapReact from 'google-map-react';
-// import {MapMarker} from './MapMarker.js';
+
 import './App.scss';
 
-export class Map extends PureComponent {
+export class RelationDetails extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,6 +16,7 @@ export class Map extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
+    // will probably need to update when new entity details are clicked
     if (this.props.lat !== prevProps.lat) {
       this.setState({
         center: {
@@ -28,14 +28,11 @@ export class Map extends PureComponent {
   }
 
   getRelationData(rid) {
-    // const { page } = this.state;
-    // console.log(`Page api call: ${p}`);
     fetch(`https://littlesis.org/api/relationships/${rid}`, {
       method: 'GET',
     })
       .then((response) => response.json())
       .then((responseData) => {
-        // this.meta = responseData.meta;
         this.setState({
           included: responseData.included[0],
         });
@@ -43,12 +40,13 @@ export class Map extends PureComponent {
   }
 
   render() {
-    if (this.state.included.attributes) {
+    const { included } = this.state;
+    if (included.attributes) {
       return (
         <div className="map-container">
-          <h1>{this.state.included.attributes.name}</h1>
-          <p>{this.state.included.attributes.blurb}</p>
-          <p>{this.state.included.attributes.summary}</p>
+          <h1>{included.attributes.name}</h1>
+          <p>{included.attributes.blurb}</p>
+          <p>{included.attributes.summary}</p>
         </div>
       );
     }
