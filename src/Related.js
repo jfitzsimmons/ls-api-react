@@ -12,6 +12,7 @@ export class Related extends Component {
       page: 1,
       relationId: 1727566,
       entityId: 12,
+      active: {},
     };
     this.meta = {};
     this.paginate = paginate.bind(this);
@@ -45,7 +46,6 @@ export class Related extends Component {
       .then((response) => response.json())
       .then((responseData) => {
         this.meta = responseData.meta;
-        // console.dir(this.data);
         this.setState({
           data: responseData.data,
           relationId: responseData.data[0].attributes.id,
@@ -54,17 +54,22 @@ export class Related extends Component {
       });
   }
 
-  myDetails(relationId) {
+  myDetails(relation) {
     this.setState({
-      relationId,
+      relationId: relation.id,
+      active: relation,
     });
   }
 
+  _handleClick(r) {
+    this.setState({ active: r });
+  }
+
   render() {
-    const { data, page, relationId, entityId } = this.state;
+    const { data, page, relationId, entityId, active } = this.state;
+    const activeStyle = 'arrow active';
+
     if (data[page]) {
-      // const relations = this.data;
-      // console.log(data.id);
       const descriptions = [];
       for (const relation of data) {
         const desc = relation.attributes.description;
@@ -75,10 +80,10 @@ export class Related extends Component {
             <div>{desc}</div>
             <div className="buttons">
               <button type="button" onClick={() => this.getRelationshipData(entityId1)}>
-                My Relations {entityId1}
+                Relations {entityId1}
               </button>
-              <button className="button__details" type="button" onClick={() => this.myDetails(relation.id)}>
-                My Details {relation.id}
+              <button className="button__details" type="button" onClick={() => this.myDetails(relation)}>
+                Details {relation.id} <span className={active === relation ? activeStyle : 'arrow'}>></span>
               </button>
             </div>
           </li>

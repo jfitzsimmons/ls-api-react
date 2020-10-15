@@ -14,7 +14,6 @@ $btm-margin: 0 0 20px;
   font-family: inherit;
 }
 
-
 html {
   margin: 0;
   padding: 0;
@@ -33,6 +32,7 @@ a:visited {color: $red}
 
 li {
   list-style-type: none;
+  padding: .5em 0;
 }
 
 .heading {
@@ -62,43 +62,32 @@ li {
 }
 
 button {
-  z-index: 1;
-  font-size: inherit;
-  font-family: inherit;
   color: white;
-  padding: 0.5em 1em;
+  padding: 0.5em;
   outline: none;
   border: none;
-  background-color: $red;
-  border-radius: 4px;
+  background-color: $darkgray;
+  border-radius: 8px;
+  cursor: pointer;
 
   &:disabled {
     background-color: $lightgray;
     color: $gray;
   }
-}
 
-button:hover {
-  cursor: pointer;
-  animation: jelly 0.5s;
+  &.button__details {
+    border-radius: 8px 0 0 8px;
+    padding: 0.5em 0 0.5em 0.5em;
+  }
 
-  &:disabled {
-    animation: none;
-  }
-}
-@keyframes jelly {
-  0%,
-  100% {
-    transform: scale(1, 1);
-  }
-  25% {
-    transform: scale(0.9, 1.1);
-  }
-  50% {
-    transform: scale(1.1, 0.9);
-  }
-  75% {
-    transform: scale(0.95, 1.05);
+  .arrow {
+    padding: 0.5em;
+    border-radius: 8px 0 0 8px;
+    font-weight: bold;
+
+    &.active {
+      background-color: $red;
+    }
   }
 }
 
@@ -106,8 +95,6 @@ button:hover {
   justify-content: center;
   display: flex;
 }
-
-
 
 .wrap {
   flex-wrap: wrap;
@@ -117,6 +104,7 @@ button:hover {
   margin: $btm-margin;
   text-align: center;
 }
+
 .ReactTags__tagInput {
   position: relative;
   display: inline-block;
@@ -273,8 +261,6 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
   }
 }
 
-
-
 @keyframes rotate {
   100% {
     transform: rotate(360deg);
@@ -322,16 +308,14 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
   justify-content: flex-end;
 }
 
-.button__details {
-
-}
-
-.details {
+.relationships {
   flex: 1;
+  padding: .5em 0;
 }
 
 .details {
+  border-radius: 8px;
+  padding: .5em;
   background: $red;
-  
   flex: 2;
 }

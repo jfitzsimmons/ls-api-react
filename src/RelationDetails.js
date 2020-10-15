@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-
+import PropTypes from 'prop-types';
 import './App.scss';
 
 export class RelationDetails extends PureComponent {
@@ -58,3 +58,7 @@ export class RelationDetails extends PureComponent {
     );
   }
 }
+
+RelationDetails.propTypes = {
+  id: PropTypes.number.isRequired,
+};

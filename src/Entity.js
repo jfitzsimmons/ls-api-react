@@ -30,18 +30,6 @@ export class Entity extends Component {
     }
   }
 
-  getCssValuePrefix() {
-    let rtrnVal = '';
-    const prefixes = ['-o-', '-ms-', '-moz-', '-webkit-'];
-    let dom = document.createElement('div');
-    for (let i = 0; i < prefixes.length; i += 1) {
-      dom.style.background = `${prefixes[i]}linear-gradient(#000000, #ffffff)`;
-      if (dom.style.background) rtrnVal = prefixes[i];
-    }
-    dom = null;
-    return this.setStyle(rtrnVal);
-  }
-
   objToQueryString = (obj) => {
     const keyValuePairs = [];
     Object.keys(obj).forEach((key) => {
@@ -60,7 +48,6 @@ export class Entity extends Component {
   }
 
   fetchSearchData() {
-    // console.log(`${this.queryString()}`);
     fetch(`https://littlesis.org/api/entities/search?q=${this.queryString()}`, {
       method: 'GET',
     })
@@ -88,7 +75,6 @@ export class Entity extends Component {
     const { page } = this.state;
     const { setId } = this.props;
     if (this.data[page]) {
-      // this.getCssValuePrefix();
       return (
         <div>
           <div className="render-container">
@@ -160,4 +146,5 @@ export class Entity extends Component {
 
 Entity.propTypes = {
   term: PropTypes.string.isRequired,
+  setId: PropTypes.func.isRequired,
 };
