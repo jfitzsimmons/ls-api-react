@@ -8,10 +8,11 @@ export class Related extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      data: {},
       page: 1,
       relationId: 1727566,
+      entityId: 12,
     };
-    this.data = {};
     this.meta = {};
     this.paginate = paginate.bind(this);
   }
@@ -43,31 +44,50 @@ export class Related extends Component {
     })
       .then((response) => response.json())
       .then((responseData) => {
-        this.data = responseData.data;
         this.meta = responseData.meta;
-        this.setState({});
+        // console.dir(this.data);
+        this.setState({
+          data: responseData.data,
+          relationId: responseData.data[0].attributes.id,
+          entityId: eid,
+        });
       });
   }
 
+  myDetails(relationId) {
+    this.setState({
+      relationId,
+    });
+  }
+
   render() {
-    const { page, relationId } = this.state;
-    if (this.data[page]) {
-      const relations = this.data;
+    const { data, page, relationId, entityId } = this.state;
+    if (data[page]) {
+      // const relations = this.data;
+      // console.log(data.id);
       const descriptions = [];
-      for (const relation of relations) {
+      for (const relation of data) {
         const desc = relation.attributes.description;
-        const entityId1 = relation.attributes.entity1_id;
+        const entityId1 =
+          entityId === relation.attributes.entity1_id ? relation.attributes.entity2_id : relation.attributes.entity1_id;
         descriptions.push(
           <li key={relation.id}>
-            {desc}
-            <button type="button">More CHANGE {entityId1}</button>
+            <div>{desc}</div>
+            <div className="buttons">
+              <button type="button" onClick={() => this.getRelationshipData(entityId1)}>
+                My Relations {entityId1}
+              </button>
+              <button className="button__details" type="button" onClick={() => this.myDetails(relation.id)}>
+                My Details {relation.id}
+              </button>
+            </div>
           </li>
         );
       }
       return (
-        <div className="map-wiki flx-ctr wrap">
-          <div className="wiki">
-            <div className="wiki__results">
+        <div className="flx-ctr wrap">
+          <div className="relationships flx-hlf">
+            <div className="relationships__results">
               <ul>{descriptions}</ul>
             </div>
             <div className="page">
@@ -81,13 +101,13 @@ export class Related extends Component {
                 type="button"
                 className="next"
                 onClick={() => this.paginate(1)}
-                disabled={page === this.data.length - 1}
+                disabled={page === data.length - 1}
               >
                 next
               </button>
             </div>
           </div>
-          <div className="details">
+          <div className="details flx-hlf">
             <RelationDetails id={relationId} />
           </div>
         </div>

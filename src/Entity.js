@@ -86,43 +86,46 @@ export class Entity extends Component {
 
   render() {
     const { page } = this.state;
+    const { setId } = this.props;
     if (this.data[page]) {
       // this.getCssValuePrefix();
       return (
         <div>
           <div className="render-container">
-            <div className="painting flx-ctr">
-              <div className="painting__frame flx-ctr">
-                <span className="heading"> {this.data[page].attributes.name} </span>{' '}
-                <div className="frame__cell right">
-                  <div className="painting__label">
-                    <span className="label__title row">
-                      {' '}
-                      TITLEJPF:
-                      {this.data[page].title}{' '}
-                    </span>{' '}
-                    <span className="label__artist row"> {this.data[page].attributes.blurb} </span>{' '}
-                    <span className="label__dated row"> {this.data[page].attributes.summary} </span>{' '}
-                  </div>{' '}
-                  <div className="painting__paging page">
-                    {' '}
-                    {page + 1} of {this.data.length} <br />
-                    <button type="button" className="prev" onClick={() => this.paginate(-1)} disabled={page === 0}>
-                      {' '}
-                      previous{' '}
-                    </button>{' '}
-                    |{' '}
-                    <button
-                      type="button"
-                      className="next"
-                      onClick={() => this.paginate(1)}
-                      disabled={page === this.data.length - 1}
-                    >
-                      next
-                    </button>
-                  </div>{' '}
-                </div>{' '}
+            <div>
+              <div>
+                <h1> {this.data[page].attributes.name} </h1>
               </div>{' '}
+              <div> {this.data[page].attributes.blurb} </div>
+              <div> {this.data[page].attributes.summary} </div>{' '}
+            </div>{' '}
+            <div className="painting__paging page">
+              {' '}
+              {page + 1} of {this.data.length} <br />
+              <button
+                type="button"
+                className="prev"
+                onClick={() => {
+                  this.paginate(-1);
+                  setId(this.data[page - 1].id);
+                }}
+                disabled={page === 0}
+              >
+                {' '}
+                previous{' '}
+              </button>{' '}
+              |{' '}
+              <button
+                type="button"
+                className="next"
+                onClick={() => {
+                  this.paginate(1);
+                  setId(this.data[page + 1].id);
+                }}
+                disabled={page === this.data.length - 1}
+              >
+                next
+              </button>
             </div>{' '}
           </div>{' '}
         </div>

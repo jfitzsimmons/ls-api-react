@@ -16,19 +16,14 @@ export class RelationDetails extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    // will probably need to update when new entity details are clicked
-    if (this.props.lat !== prevProps.lat) {
-      this.setState({
-        center: {
-          lat: this.props.lat,
-          lng: this.props.lng,
-        },
-      });
+    const { id } = this.props;
+    if (id !== prevProps.id) {
+      this.getRelationData(id);
     }
   }
 
-  getRelationData(rid) {
-    fetch(`https://littlesis.org/api/relationships/${rid}`, {
+  getRelationData(id) {
+    fetch(`https://littlesis.org/api/relationships/${id}`, {
       method: 'GET',
     })
       .then((response) => response.json())
@@ -43,7 +38,7 @@ export class RelationDetails extends PureComponent {
     const { included } = this.state;
     if (included.attributes) {
       return (
-        <div className="map-container">
+        <div className="details">
           <h1>{included.attributes.name}</h1>
           <p>{included.attributes.blurb}</p>
           <p>{included.attributes.summary}</p>
