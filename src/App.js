@@ -31,7 +31,7 @@ class App extends PureComponent {
     const { term, id } = this.state;
     return (
       <div id="App" className="App">
-        {/* <Search update={this.updateTerm} /> */}
+        <Search update={this.updateTerm} />
         <Entity term={term} setId={this.setId} />
         <Related entityId={id} />{' '}
       </div>

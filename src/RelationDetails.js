@@ -38,10 +38,12 @@ export class RelationDetails extends PureComponent {
     const { included } = this.state;
     if (included.attributes) {
       return (
-        <div className="details">
-          <h1>{included.attributes.name}</h1>
-          <p>{included.attributes.blurb}</p>
-          <p>{included.attributes.summary}</p>
+        <div className="details__window">
+          <p className="details__window__name">{included.attributes.name}</p>
+          <div className="details__window__summary">
+            <p className="darkergray blurb">{included.attributes.blurb}</p>
+            <p>{included.attributes.summary}</p>
+          </div>
         </div>
       );
     }

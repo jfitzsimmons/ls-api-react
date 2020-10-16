@@ -50,6 +50,7 @@ export class Related extends Component {
           data: responseData.data,
           relationId: responseData.data[0].attributes.id,
           entityId: eid,
+          active: responseData.data[0],
         });
       });
   }
@@ -77,7 +78,7 @@ export class Related extends Component {
           entityId === relation.attributes.entity1_id ? relation.attributes.entity2_id : relation.attributes.entity1_id;
         descriptions.push(
           <li key={relation.id}>
-            <div>{desc}</div>
+            <div className="description">{desc}</div>
             <div className="buttons">
               <button type="button" onClick={() => this.getRelationshipData(entityId1)}>
                 Relations {entityId1}
@@ -90,7 +91,7 @@ export class Related extends Component {
         );
       }
       return (
-        <div className="flx-ctr wrap">
+        <div className="flx-ctr wrap related">
           <div className="relationships flx-hlf">
             <div className="relationships__results">
               <ul>{descriptions}</ul>

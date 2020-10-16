@@ -1,17 +1,21 @@
 $red:     #4542fb;
 $pink:      #ffdfff;
 $white-half: rgba(255,255,255,0.5);
-$white-full: rgba(255,255,255,0.9);
-$darkgray:  #1f1f1f;
-$lightgray: #cfcfcf;
+$white-full: #fefefe;
+$darkergray:  #333436;
+$darkgray:  #565759;
+$lightgray: #f6f6f6;
 $gray: #888;
 $btm-margin: 0 0 20px;
+$lightblue: #BAEFF9;
+$blue: #479AEE;
 
 * {
   margin: 0;
   padding: 0;
   font-size: 1em;
   font-family: inherit;
+  line-height: 1.5;
 }
 
 html {
@@ -20,7 +24,7 @@ html {
 }
 
 body {
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Avenir', 'Gibson', 'Proxima Nova', 'Montserrat', sans-serif;
   padding: 2%;
   color: $darkgray;
 }
@@ -33,6 +37,11 @@ a:visited {color: $red}
 li {
   list-style-type: none;
   padding: .5em 0;
+}
+
+.darkergray {
+  color: $darkergray;
+  font-weight: 500;
 }
 
 .heading {
@@ -66,7 +75,7 @@ button {
   padding: 0.5em;
   outline: none;
   border: none;
-  background-color: $darkgray;
+  background-color: $blue;
   border-radius: 8px;
   cursor: pointer;
 
@@ -77,16 +86,23 @@ button {
 
   &.button__details {
     border-radius: 8px 0 0 8px;
-    padding: 0.5em 0 0.5em 0.5em;
+    padding: 0.1em 0 0.1em 0.5em;
+
+    &:hover {
+      box-shadow:inset 0 0 0 99999px rgba(255,255,255,0.2);
+    }
   }
 
   .arrow {
     padding: 0.5em;
     border-radius: 8px 0 0 8px;
     font-weight: bold;
+    margin: .5em 0;
+    display: inline-block;
 
     &.active {
-      background-color: $red;
+      background-color: $lightblue;
+      color: $darkgray;
     }
   }
 }
@@ -100,9 +116,17 @@ button {
   flex-wrap: wrap;
 }
 
+.related {
+  background: $lightgray;
+  border-radius: .5em;
+}
+
 .search {
   margin: $btm-margin;
   text-align: center;
+  border-top: 2px solid $lightgray;
+  border-bottom: 2px solid $lightgray;
+  padding: .5em;
 }
 
 .ReactTags__tagInput {
@@ -313,9 +337,37 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
   padding: .5em 0;
 }
 
+.description {
+  padding: .5em;
+}
+
 .details {
   border-radius: 8px;
-  padding: .5em;
-  background: $red;
+  padding: 1em;
+  background-image: linear-gradient(to right, $lightblue, $blue);
   flex: 2;
+
+  .details__window {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 1em;
+    background: $lightgray;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.18);
+    max-height: 90vh;
+overflow: auto;
+
+    .details__window__name {
+      padding: 1.5em 1em;
+      background: $white-full;
+      border-radius: 8px 8px 0 0;
+    }
+    .details__window__summary {
+      padding: 0 1em;
+
+      .blurb {
+        margin: 1em 0;
+      }
+    }
+  }
 }
