@@ -11,25 +11,29 @@ export class RelationDetails extends PureComponent {
   }
 
   componentDidMount() {
-    const { id } = this.props;
-    this.getRelationData(id);
+    const { rid, eid } = this.props;
+    console.log(`MOUNT - rid: ${rid} | eid: ${eid}`);
+    this.getRelationData(eid, rid);
   }
 
   componentDidUpdate(prevProps) {
-    const { id } = this.props;
-    if (id !== prevProps.id) {
-      this.getRelationData(id);
+    const { rid, eid } = this.props;
+    console.log(`UPDATE - rid: ${rid} | eid: ${eid}`);
+    if (rid !== prevProps.rid) {
+      this.getRelationData(eid, rid);
     }
   }
 
-  getRelationData(id) {
-    fetch(`https://littlesis.org/api/relationships/${id}`, {
+  getRelationData(eid, rid) {
+    fetch(`https://littlesis.org/api/relationships/${rid}`, {
       method: 'GET',
     })
       .then((response) => response.json())
       .then((responseData) => {
+        console.dir(responseData.included);
         this.setState({
-          included: responseData.included[0],
+          // included: responseData.included[0],
+          included: eid === responseData.included[0].id ? responseData.included[1] : responseData.included[0],
         });
       });
   }
@@ -62,5 +66,6 @@ export class RelationDetails extends PureComponent {
 }
 
 RelationDetails.propTypes = {
-  id: PropTypes.number.isRequired,
+  rid: PropTypes.number.isRequired,
+  eid: PropTypes.number.isRequired,
 };

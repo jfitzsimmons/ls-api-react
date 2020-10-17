@@ -15,15 +15,15 @@ class App extends PureComponent {
     this.setId = this.setId.bind(this);
   }
 
-  updateTerm(subject) {
-    this.setState({
-      term: subject,
-    });
-  }
-
   setId(id) {
     this.setState({
       id,
+    });
+  }
+
+  updateTerm(subject) {
+    this.setState({
+      term: subject,
     });
   }
 

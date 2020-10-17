@@ -8,7 +8,7 @@ export class Related extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: {},
+      relationships: {},
       page: 1,
       relationId: 1727566,
       entityId: 12,
@@ -45,9 +45,10 @@ export class Related extends Component {
     })
       .then((response) => response.json())
       .then((responseData) => {
+        console.dir(responseData.data);
         this.meta = responseData.meta;
         this.setState({
-          data: responseData.data,
+          relationships: responseData.data,
           relationId: responseData.data[0].attributes.id,
           entityId: eid,
           active: responseData.data[0],
@@ -67,21 +68,21 @@ export class Related extends Component {
   }
 
   render() {
-    const { data, page, relationId, entityId, active } = this.state;
+    const { relationships, page, relationId, entityId, active } = this.state;
     const activeStyle = 'arrow active';
 
-    if (data[page]) {
+    if (relationships[page]) {
       const descriptions = [];
-      for (const relation of data) {
+      for (const relation of relationships) {
         const desc = relation.attributes.description;
-        const entityId1 =
+        const uniqueId =
           entityId === relation.attributes.entity1_id ? relation.attributes.entity2_id : relation.attributes.entity1_id;
         descriptions.push(
           <li key={relation.id}>
             <div className="description">{desc}</div>
             <div className="buttons">
-              <button type="button" onClick={() => this.getRelationshipData(entityId1)}>
-                Relations {entityId1}
+              <button type="button" onClick={() => this.getRelationshipData(uniqueId)}>
+                Relations {uniqueId}
               </button>
               <button className="button__details" type="button" onClick={() => this.myDetails(relation)}>
                 Details {relation.id} <span className={active === relation ? activeStyle : 'arrow'}>></span>
@@ -107,14 +108,14 @@ export class Related extends Component {
                 type="button"
                 className="next"
                 onClick={() => this.paginate(1)}
-                disabled={page === data.length - 1}
+                disabled={page === relationships.length - 1}
               >
                 next
               </button>
             </div>
           </div>
           <div className="details flx-hlf">
-            <RelationDetails id={relationId} />
+            <RelationDetails rid={relationId} eid={entityId} />
           </div>
         </div>
       );
