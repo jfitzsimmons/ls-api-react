@@ -45,7 +45,6 @@ export class Related extends Component {
     })
       .then((response) => response.json())
       .then((responseData) => {
-        console.dir(responseData.data);
         this.meta = responseData.meta;
         this.setState({
           relationships: responseData.data,
@@ -98,12 +97,11 @@ export class Related extends Component {
               <ul>{descriptions}</ul>
             </div>
             <div className="page">
-              {page} of {this.meta.pageCount}
+              Page {page} of {this.meta.pageCount}
               <br />
               <button type="button" className="prev" onClick={() => this.paginate(-1)} disabled={page === 1}>
                 previous
               </button>{' '}
-              |
               <button
                 type="button"
                 className="next"

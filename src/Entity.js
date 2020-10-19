@@ -85,35 +85,43 @@ export class Entity extends Component {
               <div> {this.data[page].attributes.blurb} </div>
               <div> {this.data[page].attributes.summary} </div>{' '}
             </div>{' '}
-            <div className="painting__paging page">
+            <div className="entity__paging page">
               {' '}
-              {page + 1} of {this.data.length} <br />
-              <button
-                type="button"
-                className="prev"
-                onClick={() => {
-                  this.paginate(-1);
-                  setId(this.data[page - 1].id);
-                }}
-                disabled={page === 0}
-              >
-                {' '}
-                previous{' '}
-              </button>{' '}
-              |{' '}
-              <button
-                type="button"
-                className="next"
-                onClick={() => {
-                  this.paginate(1);
-                  setId(this.data[page + 1].id);
-                }}
-                disabled={page === this.data.length - 1}
-              >
-                next
-              </button>
+              <div>More Results</div>
+              <div>
+                {page + 1} of {this.data.length}
+              </div>
+              <div className="entity__paging__buttons">
+                {page === 0 ? null : (
+                  <button
+                    type="button"
+                    className="prev entity__paging__button"
+                    onClick={() => {
+                      this.paginate(-1);
+                      setId(this.data[page - 1].id);
+                    }}
+                  >
+                    <span>{'<<'}&nbsp;</span>
+                    <span className="entity__paging__button__text">{this.data[page - 1].attributes.name}</span>
+                  </button>
+                )}
+                {page === this.data.length - 1 ? null : (
+                  <button
+                    type="button"
+                    className="next entity__paging__button"
+                    onClick={() => {
+                      this.paginate(1);
+                      setId(this.data[page + 1].id);
+                    }}
+                  >
+                    <span className="entity__paging__button__text"> {this.data[page + 1].attributes.name} </span>{' '}
+                    <span>&nbsp;{'>>'} </span>
+                  </button>
+                )}
+              </div>
             </div>{' '}
-          </div>{' '}
+          </div>
+          {}
         </div>
       );
     }

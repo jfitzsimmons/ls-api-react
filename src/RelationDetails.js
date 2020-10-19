@@ -12,13 +12,11 @@ export class RelationDetails extends PureComponent {
 
   componentDidMount() {
     const { rid, eid } = this.props;
-    console.log(`MOUNT - rid: ${rid} | eid: ${eid}`);
     this.getRelationData(eid, rid);
   }
 
   componentDidUpdate(prevProps) {
     const { rid, eid } = this.props;
-    console.log(`UPDATE - rid: ${rid} | eid: ${eid}`);
     if (rid !== prevProps.rid) {
       this.getRelationData(eid, rid);
     }
@@ -30,7 +28,6 @@ export class RelationDetails extends PureComponent {
     })
       .then((response) => response.json())
       .then((responseData) => {
-        console.dir(responseData.included);
         this.setState({
           // included: responseData.included[0],
           included: eid === responseData.included[0].id ? responseData.included[1] : responseData.included[0],
