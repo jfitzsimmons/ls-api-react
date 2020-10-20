@@ -88,7 +88,11 @@ export class Related extends Component {
           <li key={relation.id}>
             <div className="description">{desc}</div>
             <div className="buttons">
-              <button type="button" onClick={() => this.getRelationshipData(uniqueId)}>
+              <button
+                type="button"
+                className="button__relationships"
+                onClick={() => this.getRelationshipData(uniqueId)}
+              >
                 <svg
                   aria-hidden="true"
                   focusable="false"

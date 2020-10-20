@@ -5,7 +5,7 @@ $white-full: #fefefe;
 $darkergray: #333436;
 $darkgray: #565759;
 $lightgray: #f6f6f6;
-$gray: #888;
+$gray: #969799;
 $btm-margin: 0 0 20px;
 $lightblue: #BAEFF9;
 $blue: #479AEE;
@@ -39,6 +39,8 @@ a:visited {
 li {
   list-style-type: none;
   padding: .5em 0;
+  border-left: 1px solid black;
+  margin-bottom: 3em;
 }
 
 .darkergray {
@@ -89,6 +91,13 @@ button {
     color: $gray;
   }
 
+  &.button__relationships {
+    background-color: white;
+    color: $blue;
+    border: 2px solid $blue;
+    margin-left: .5em;
+  }
+
   &.button__details {
     border-radius: 8px 0 0 8px;
     padding: 0.1em 0 0.1em 0.5em;
@@ -99,10 +108,10 @@ button {
   }
 
   .arrow {
-    padding: 0.5em;
+    padding: 0.25em;
     border-radius: 8px 0 0 8px;
     font-weight: bold;
-    margin: .5em 0;
+    margin: .25em 0;
     display: inline-block;
 
     &.active {
@@ -348,6 +357,7 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
   display: flex;
   flex-direction: column;
   font-weight: 200;
+  color: $gray;
 
   div {
     align-self: center;
