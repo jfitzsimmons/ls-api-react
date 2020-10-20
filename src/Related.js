@@ -13,9 +13,11 @@ export class Related extends Component {
       relationId: 1727566,
       entityId: 12,
       active: {},
+      relatedOwner: '',
     };
     this.meta = {};
     this.paginate = paginate.bind(this);
+    this.relatedOwner = this.relatedOwner.bind(this);
   }
 
   componentDidMount() {
@@ -66,8 +68,14 @@ export class Related extends Component {
     this.setState({ active: r });
   }
 
+  relatedOwner(relatedOwner) {
+    this.setState({
+      relatedOwner,
+    });
+  }
+
   render() {
-    const { relationships, page, relationId, entityId, active } = this.state;
+    const { relationships, page, relationId, entityId, active, relatedOwner } = this.state;
     const activeStyle = 'arrow active';
 
     if (relationships[page]) {
@@ -81,10 +89,25 @@ export class Related extends Component {
             <div className="description">{desc}</div>
             <div className="buttons">
               <button type="button" onClick={() => this.getRelationshipData(uniqueId)}>
-                Relations {uniqueId}
+                <svg
+                  aria-hidden="true"
+                  focusable="false"
+                  data-prefix="far"
+                  data-icon="address-book"
+                  role="img"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 448 512"
+                  className="svg-inline--fa fa-address-book fa-w-14 fa-3x"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M436 160c6.6 0 12-5.4 12-12v-40c0-6.6-5.4-12-12-12h-20V48c0-26.5-21.5-48-48-48H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h320c26.5 0 48-21.5 48-48v-48h20c6.6 0 12-5.4 12-12v-40c0-6.6-5.4-12-12-12h-20v-64h20c6.6 0 12-5.4 12-12v-40c0-6.6-5.4-12-12-12h-20v-64h20zm-68 304H48V48h320v416zM208 256c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm-89.6 128h179.2c12.4 0 22.4-8.6 22.4-19.2v-19.2c0-31.8-30.1-57.6-67.2-57.6-10.8 0-18.7 8-44.8 8-26.9 0-33.4-8-44.8-8-37.1 0-67.2 25.8-67.2 57.6v19.2c0 10.6 10 19.2 22.4 19.2z"
+                    className=""
+                  />
+                </svg>
               </button>
               <button className="button__details" type="button" onClick={() => this.myDetails(relation)}>
-                Details {relation.id} <span className={active === relation ? activeStyle : 'arrow'}>></span>
+                Details {/* relation.id */} <span className={active === relation ? activeStyle : 'arrow'}>></span>
               </button>
             </div>
           </li>
@@ -94,6 +117,27 @@ export class Related extends Component {
         <div className="flx-ctr wrap related">
           <div className="relationships flx-hlf">
             <div className="relationships__results">
+              <div className="relationships__results__title">
+                <div>
+                  <svg
+                    aria-hidden="true"
+                    focusable="false"
+                    data-prefix="far"
+                    data-icon="address-book"
+                    role="img"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 448 512"
+                    className="svg-inline--fa fa-address-book fa-w-14 fa-3x"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M436 160c6.6 0 12-5.4 12-12v-40c0-6.6-5.4-12-12-12h-20V48c0-26.5-21.5-48-48-48H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h320c26.5 0 48-21.5 48-48v-48h20c6.6 0 12-5.4 12-12v-40c0-6.6-5.4-12-12-12h-20v-64h20c6.6 0 12-5.4 12-12v-40c0-6.6-5.4-12-12-12h-20v-64h20zm-68 304H48V48h320v416zM208 256c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm-89.6 128h179.2c12.4 0 22.4-8.6 22.4-19.2v-19.2c0-31.8-30.1-57.6-67.2-57.6-10.8 0-18.7 8-44.8 8-26.9 0-33.4-8-44.8-8-37.1 0-67.2 25.8-67.2 57.6v19.2c0 10.6 10 19.2 22.4 19.2z"
+                      className=""
+                    />
+                  </svg>
+                </div>
+                <div>Relationships of {relatedOwner}</div>
+              </div>
               <ul>{descriptions}</ul>
             </div>
             <div className="page">
@@ -113,7 +157,7 @@ export class Related extends Component {
             </div>
           </div>
           <div className="details flx-hlf">
-            <RelationDetails rid={relationId} eid={entityId} />
+            <RelationDetails rid={relationId} eid={entityId} relatedOwner={this.relatedOwner} />
           </div>
         </div>
       );

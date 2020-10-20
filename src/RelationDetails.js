@@ -23,6 +23,7 @@ export class RelationDetails extends PureComponent {
   }
 
   getRelationData(eid, rid) {
+    const { relatedOwner } = this.props;
     fetch(`https://littlesis.org/api/relationships/${rid}`, {
       method: 'GET',
     })
@@ -32,6 +33,12 @@ export class RelationDetails extends PureComponent {
           // included: responseData.included[0],
           included: eid === responseData.included[0].id ? responseData.included[1] : responseData.included[0],
         });
+        const ro =
+          eid === responseData.included[0].id
+            ? responseData.included[0].attributes.name
+            : responseData.included[1].attributes.name;
+        // console.dir(ro);
+        relatedOwner(ro);
       });
   }
 
