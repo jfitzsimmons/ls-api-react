@@ -91,7 +91,7 @@ export class Entity extends Component {
               <div>
                 {page + 1} of {this.data.length}
               </div>
-              <div className="entity__paging__buttons">
+              <div className="entity__paging__buttons page__buttons">
                 {page === 0 ? null : (
                   <button
                     type="button"

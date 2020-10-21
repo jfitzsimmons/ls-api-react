@@ -2,13 +2,18 @@ $red: #4542fb;
 $pink: #ffdfff;
 $white-half: rgba(255, 255, 255, 0.5);
 $white-full: #fefefe;
-$darkergray: #333436;
-$darkgray: #565759;
-$lightgray: #f6f6f6;
-$gray: #969799;
+$darkestgray:hsla(0, 0%, 18%, 1);
+$darkergray: hsla(220, 4%, 42%, 1);
+$darkgray: hsla(203, 9%, 82%, 1);
+$lightgray: hsla(240, 6%, 93%, 1);
+$lightestgray: hsla(180, 5%, 96%, 1);
+$gray: hsla(192, 9%, 89%, 1);
 $btm-margin: 0 0 20px;
-$lightblue: #BAEFF9;
-$blue: #479AEE;
+$lightestblue: hsla(166, 46%, 91%, 1);
+$lightblue: hsla(197, 63%, 82%, 1);
+$blue: hsla(182, 41%, 67%, 1);
+$darkblue: hsla(211, 48%, 49%, 1);
+$darkgreen: hsla(148, 100%, 16%, 1);
 
 * {
   margin: 0;
@@ -26,7 +31,7 @@ html {
 body {
   font-family: 'Avenir', 'Gibson', 'Proxima Nova', 'Montserrat', sans-serif;
   padding: 2%;
-  color: $darkgray;
+  color: $darkergray;
 }
 
 a:active,
@@ -36,11 +41,34 @@ a:visited {
   color: $red
 }
 
+svg {
+  height: calc(10px + (20 - 10) * ((100vw - 430px) / (1280 - 430)));
+  width: auto;
+  min-width: 20px;
+}
+
+ul {
+  border-radius: 0 .5em 0.5em 0;
+}
+
 li {
   list-style-type: none;
   padding: .5em 0;
-  border-left: 1px solid black;
-  margin-bottom: 3em;
+  border-left: 4px solid $darkgray;
+  margin-bottom: .5em;
+  background: $lightestgray;
+  border-radius: inherit;
+  width: 97%;
+
+  &.active {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
+    width: 98%;
+    border-left: 4px solid $darkergray;
+  }
+
+  &:nth-child(odd) {
+    background: $lightgray;
+  }
 }
 
 .darkergray {
@@ -80,7 +108,7 @@ button {
   padding: 0.5em;
   outline: none;
   border: none;
-  background-color: $blue;
+  background-color: $darkblue;
   border-radius: 8px;
   cursor: pointer;
   align-items: center;
@@ -93,8 +121,8 @@ button {
 
   &.button__relationships {
     background-color: white;
-    color: $blue;
-    border: 2px solid $blue;
+    color: $darkblue;
+    border: 2px solid $darkblue;
     margin-left: .5em;
   }
 
@@ -111,12 +139,12 @@ button {
     padding: 0.25em;
     border-radius: 8px 0 0 8px;
     font-weight: bold;
-    margin: .25em 0;
+    margin: .25em 0 .25em 0.25em;
     display: inline-block;
 
     &.active {
       background-color: $lightblue;
-      color: $darkgray;
+      color: $darkblue;
     }
   }
 }
@@ -347,15 +375,26 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
   display: flex;
   justify-content: space-between;
 
-  svg {
-    height: calc(10px + (20 - 10) * ((100vw - 430px) / (1280 - 430)));
-    width: auto;
+
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.page__buttons {
+  display: flex;
+
+  button {
+    display: flex;
+    margin: .5em;
   }
 }
 
 .entity__paging {
-  display: flex;
-  flex-direction: column;
   font-weight: 200;
   color: $gray;
 
@@ -364,14 +403,9 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
     font-size: 90%;
   }
 
-  .entity__paging__buttons {
-    display: flex;
-  }
 
-  .entity__paging__button {
-    display: flex;
-    margin: .5em;
-  }
+
+  .entity__paging__button {}
 
   .entity__paging__button__text {
     white-space: nowrap;
@@ -382,25 +416,32 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
   }
 }
 
+.related {
+  background: $lightblue;
+  border-radius: .5em;
+}
+
 .relationships {
   flex: 1;
   padding: .5em 0;
 }
 
 .relationships__results__title {
-  display: flex;
   padding: .5em;
+  color: $darkestgray;
+  font-weight: 600;
 
-  div {
+  .title-element {
     display: flex;
     align-items: center;
+
+    svg {
+      margin-right: .5em;
+    }
   }
 
-  svg {
-    height: calc(12px + (22 - 12) * ((100vw - 430px) / (1280 - 430)));
-    width: auto;
-    margin-right: .5em;
-    ;
+  .hand {
+    text-align: center;
   }
 }
 
@@ -409,9 +450,9 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
 }
 
 .details {
-  border-radius: 8px;
+  border-radius: inherit;
   padding: 1em;
-  background-image: linear-gradient(to right, $lightblue, $blue);
+  background-image: linear-gradient(to right, $lightblue, $darkblue);
   flex: 2;
 
   .details__window {
