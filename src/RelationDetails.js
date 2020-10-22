@@ -30,14 +30,12 @@ export class RelationDetails extends PureComponent {
       .then((response) => response.json())
       .then((responseData) => {
         this.setState({
-          // included: responseData.included[0],
           included: eid === responseData.included[0].id ? responseData.included[1] : responseData.included[0],
         });
         const ro =
           eid === responseData.included[0].id
             ? responseData.included[0].attributes.name
             : responseData.included[1].attributes.name;
-        // console.dir(ro);
         relatedOwner(ro);
       });
   }
@@ -72,4 +70,5 @@ export class RelationDetails extends PureComponent {
 RelationDetails.propTypes = {
   rid: PropTypes.number.isRequired,
   eid: PropTypes.number.isRequired,
+  relatedOwner: PropTypes.func.isRequired,
 };

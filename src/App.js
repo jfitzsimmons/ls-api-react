@@ -21,9 +21,9 @@ class App extends PureComponent {
     });
   }
 
-  updateTerm(subject) {
+  updateTerm(term) {
     this.setState({
-      term: subject,
+      term,
     });
   }
 
@@ -31,7 +31,7 @@ class App extends PureComponent {
     const { term, id } = this.state;
     return (
       <div id="App" className="App">
-        <Search update={this.updateTerm} />
+        <Search updateTerm={this.updateTerm} />
         <Entity term={term} setId={this.setId} />
         <Related entityId={id} />{' '}
       </div>

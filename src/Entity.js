@@ -7,7 +7,7 @@ export class Entity extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: 1,
+      page: 0,
       returnError: false,
     };
     this.data = {};
@@ -48,6 +48,7 @@ export class Entity extends Component {
   }
 
   fetchSearchData() {
+    const { setId } = this.props;
     fetch(`https://littlesis.org/api/entities/search?q=${this.queryString()}`, {
       method: 'GET',
     })
@@ -59,9 +60,12 @@ export class Entity extends Component {
             returnError: true,
           });
         }
-        this.setState({
-          page: 0,
-        });
+        this.setState(
+          {
+            page: 0,
+          },
+          setId(this.data[0].id)
+        );
       })
       .catch((error) => {
         this.setState({

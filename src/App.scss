@@ -171,6 +171,14 @@ button {
   padding: .5em;
 }
 
+.search__field {
+  display: flex;
+}
+
+.search__suggestions {
+  display: flex;
+}
+
 .ReactTags__tagInput {
   position: relative;
   display: inline-block;
@@ -374,8 +382,6 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
 .buttons {
   display: flex;
   justify-content: space-between;
-
-
 }
 
 .page {
@@ -402,10 +408,6 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
     align-self: center;
     font-size: 90%;
   }
-
-
-
-  .entity__paging__button {}
 
   .entity__paging__button__text {
     white-space: nowrap;

@@ -30,18 +30,15 @@ export class Related extends Component {
     const { page } = this.state;
 
     if (entityId !== prevProps.entityId) {
-      this.setState({
-        page: 1,
-      });
-      this.getRelationshipData(entityId);
+      this.getRelationshipData(entityId, 1);
     }
     if (page !== prevState.page) {
       this.getRelationshipData(entityId);
     }
   }
 
-  getRelationshipData(eid) {
-    const { page } = this.state;
+  getRelationshipData(eid, p) {
+    const page = p ? 1 : this.state.page;
     fetch(`https://littlesis.org/api/entities/${eid}/relationships?page=${page}`, {
       method: 'GET',
     })
@@ -111,7 +108,7 @@ export class Related extends Component {
                 </svg>
               </button>
               <button className="button__details" type="button" onClick={() => this.myDetails(relation)}>
-                Details {/* relation.id */} <span className={active === relation ? activeStyle : 'arrow'}>></span>
+                Details {/* relation.id */} <span className={active === relation ? activeStyle : 'arrow'}>{'>'}</span>
               </button>
             </div>
           </li>
