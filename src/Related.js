@@ -137,7 +137,7 @@ export class Related extends Component {
                     />
                   </svg>
 
-                  <div>Relationships of {relatedOwner}</div>
+                  <div className="title-element__text">Relationships of {relatedOwner}</div>
                 </div>
 
                 <div className="hand">

@@ -81,12 +81,10 @@ export class Entity extends Component {
     if (this.data[page]) {
       return (
         <div>
-          <div className="render-container">
+          <div className="entity">
             <div>
-              <div>
-                <h1> {this.data[page].attributes.name} </h1>
-              </div>{' '}
-              <div> {this.data[page].attributes.blurb} </div>
+              <div className="entity__name">{this.data[page].attributes.name}</div>{' '}
+              <div className="entity__blurb"> {this.data[page].attributes.blurb} </div>
               <div> {this.data[page].attributes.summary} </div>{' '}
             </div>{' '}
             <div className="entity__paging page">

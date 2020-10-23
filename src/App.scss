@@ -1,19 +1,20 @@
 $red: #4542fb;
 $pink: #ffdfff;
-$white-half: rgba(255, 255, 255, 0.5);
-$white-full: #fefefe;
-$darkestgray:hsla(0, 0%, 18%, 1);
-$darkergray: hsla(220, 4%, 42%, 1);
-$darkgray: hsla(203, 9%, 82%, 1);
-$lightgray: hsla(240, 6%, 93%, 1);
-$lightestgray: hsla(180, 5%, 96%, 1);
-$gray: hsla(192, 9%, 89%, 1);
+$white: rgba(255, 255, 255, 0.9);
+$darkestgray:hsla(0, 0%, 11%, 0.9);
+$darkergray: hsla(0, 0%, 25%, 0.9);
+$darkgray: hsla(0, 0%, 51%, 0.9);
+$gray: hsla(0, 0%, 79%, 0.9);
+$lightgray: hsla(0, 0%, 87%, 0.9);
+$lightergray: hsla(0, 0%, 91%, 0.7);
+$lightestgray:hsla(0, 0%, 94%, 0.8);
+
 $btm-margin: 0 0 20px;
-$lightestblue: hsla(166, 46%, 91%, 1);
-$lightblue: hsla(197, 63%, 82%, 1);
-$blue: hsla(182, 41%, 67%, 1);
-$darkblue: hsla(211, 48%, 49%, 1);
-$darkgreen: hsla(148, 100%, 16%, 1);
+$lightestblue: hsla(166, 46%, 91%, 0.9);
+$lightblue: hsla(197, 63%, 82%, 0.9);
+$blue: hsla(182, 41%, 67%, 0.9);
+$darkblue: hsla(211, 48%, 49%, 0.9);
+$darkgreen: hsla(148, 10%, 16%, 0.9);
 
 * {
   margin: 0;
@@ -21,6 +22,7 @@ $darkgreen: hsla(148, 100%, 16%, 1);
   font-size: calc(10px + (20 - 10) * ((100vw - 430px) / (1280 - 430)));
   font-family: inherit;
   line-height: 1.5;
+  font-weight: 300;
 }
 
 html {
@@ -67,28 +69,25 @@ li {
   }
 
   &:nth-child(odd) {
-    background: $lightgray;
+    background: $lightergray;
   }
 }
 
-.darkergray {
-  color: $darkergray;
-  font-weight: 500;
-}
+.darkergray {}
 
 .heading {
   font-family: 'Playfair Display', serif;
   font-size: 36px;
   letter-spacing: -1px;
   text-shadow: 1px 2px 3px $darkgray;
-  color: $white-full;
+  color: $white;
   margin: $btm-margin;
   width: 100%;
   text-align: center;
 }
 
 .search-error {
-  background: $white-full;
+  background: $white;
   color: $red;
   padding: 20px;
 }
@@ -104,7 +103,7 @@ li {
 }
 
 button {
-  color: white;
+  color: $white;
   padding: 0.5em;
   outline: none;
   border: none;
@@ -115,12 +114,12 @@ button {
   display: flex;
 
   &:disabled {
-    background-color: $lightgray;
+    background-color: $lightestgray;
     color: $gray;
   }
 
   &.button__relationships {
-    background-color: white;
+    background-color: $white;
     color: $darkblue;
     border: 2px solid $darkblue;
     margin-left: .5em;
@@ -129,10 +128,10 @@ button {
   &.button__details {
     border-radius: 8px 0 0 8px;
     padding: 0.1em 0 0.1em 0.5em;
+  }
 
-    &:hover {
-      box-shadow: inset 0 0 0 99999px rgba(255, 255, 255, 0.2);
-    }
+  &:hover {
+    box-shadow: inset 0 0 0 99999px rgba(255, 255, 255, 0.2);
   }
 
   .arrow {
@@ -166,17 +165,31 @@ button {
 .search {
   margin: $btm-margin;
   text-align: center;
-  border-top: 2px solid $lightgray;
-  border-bottom: 2px solid $lightgray;
-  padding: .5em;
+  border-radius: .5em;
+  padding: 1em;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  background-color: $darkestgray;
+  color: $white;
 }
 
 .search__field {
   display: flex;
+  align-items: center;
 }
 
 .search__suggestions {
   display: flex;
+  align-items: center;
+  margin-top: 1em;
+
+  button {
+    margin: 0 .25em;
+    background-color: $darkergray;
+    color: $lightestgray;
+    border: 2px solid $lightestgray;
+  }
 }
 
 .ReactTags__tagInput {
@@ -185,15 +198,16 @@ button {
 }
 
 input {
-  width: 6.5em;
+  width: 25vw;
   color: $darkgray;
   font-size: inherit;
   font-family: inherit;
-  background-color: $white-full;
+  background-color: $white;
   padding: 0.3em 0.45em;
   border: 2px solid transparent;
   transition: background-color 0.3s ease-in-out;
   border-radius: 4px;
+  margin: 0 1em;
 }
 
 input:focus {
@@ -201,7 +215,7 @@ input:focus {
 }
 
 input::placeholder {
-  color: $gray;
+  color: $darkgray;
 }
 
 span.line {
@@ -275,7 +289,7 @@ input:focus~.left {
 
 div.ReactTags__selected span.ReactTags__tag {
   border: 2px solid $gray;
-  background: $white-full;
+  background: $white;
   font-size: 16px;
   display: inline-block;
   padding: 5px;
@@ -297,7 +311,7 @@ div.ReactTags__suggestions {
 div.ReactTags__suggestions ul {
   list-style-type: none;
   box-shadow: 0.05em 0.01em 0.5em rgba(0, 0, 0, 0.2);
-  background: $white-full;
+  background: $white;
   margin: 0;
   padding: 0;
 }
@@ -400,9 +414,25 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
   }
 }
 
+.entity {
+  padding: 1em;
+}
+
+.entity__name {
+
+  font-size: 160%;
+}
+
+.entity__blurb {
+  color: $darkergray;
+  font-weight: 500;
+  margin: 1.5em 0 1em;
+}
+
 .entity__paging {
   font-weight: 200;
-  color: $gray;
+  color: $darkgray;
+  margin-top: .5em;
 
   div {
     align-self: center;
@@ -419,7 +449,7 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
 }
 
 .related {
-  background: $lightblue;
+  background-image: linear-gradient(to right, $lightblue, $darkblue);
   border-radius: .5em;
 }
 
@@ -429,13 +459,18 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
 }
 
 .relationships__results__title {
-  padding: .5em;
+  padding-bottom: 1em;
   color: $darkestgray;
-  font-weight: 600;
+  margin: .5em 1em 1.5em 1em;
+  border-bottom: 1px solid $darkgray;
 
   .title-element {
     display: flex;
     align-items: center;
+
+    .title-element__text {
+      font-weight: 500;
+    }
 
     svg {
       margin-right: .5em;
@@ -444,6 +479,7 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
 
   .hand {
     text-align: center;
+    margin-top: .5em;
   }
 }
 
@@ -454,14 +490,13 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
 .details {
   border-radius: inherit;
   padding: 1em;
-  background-image: linear-gradient(to right, $lightblue, $darkblue);
   flex: 2;
 
   .details__window {
     position: -webkit-sticky;
     position: sticky;
     top: 1em;
-    background: $lightgray;
+    background: $lightestgray;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
     max-height: 90vh;
@@ -469,7 +504,7 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
 
     .details__window__name {
       padding: 1.5em 1em;
-      background: $white-full;
+      background: $white;
       border-radius: 8px 8px 0 0;
       font-size: 120%;
     }
@@ -479,6 +514,8 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
 
       .blurb {
         margin: 1em 0;
+        color: $darkergray;
+        font-weight: 500;
       }
     }
   }
