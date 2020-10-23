@@ -50,7 +50,7 @@ svg {
 }
 
 ul {
-  border-radius: 0 .5em 0.5em 0;
+  border-radius: 0 .75em .75em 0;
 }
 
 li {
@@ -108,7 +108,7 @@ button {
   outline: none;
   border: none;
   background-color: $darkblue;
-  border-radius: 8px;
+  border-radius: .75em;
   cursor: pointer;
   align-items: center;
   display: flex;
@@ -126,7 +126,7 @@ button {
   }
 
   &.button__details {
-    border-radius: 8px 0 0 8px;
+    border-radius: .75em 0 0 .75em;
     padding: 0.1em 0 0.1em 0.5em;
   }
 
@@ -136,7 +136,7 @@ button {
 
   .arrow {
     padding: 0.25em;
-    border-radius: 8px 0 0 8px;
+    border-radius: .75em 0 0 .75em;
     font-weight: bold;
     margin: .25em 0 .25em 0.25em;
     display: inline-block;
@@ -159,13 +159,13 @@ button {
 
 .related {
   background: $lightgray;
-  border-radius: .5em;
+  border-radius: .75em;
 }
 
 .search {
   margin: $btm-margin;
   text-align: center;
-  border-radius: .5em;
+  border-radius: .75em;
   padding: 1em;
   align-items: center;
   display: flex;
@@ -192,11 +192,6 @@ button {
   }
 }
 
-.ReactTags__tagInput {
-  position: relative;
-  display: inline-block;
-}
-
 input {
   width: 25vw;
   color: $darkgray;
@@ -206,132 +201,14 @@ input {
   padding: 0.3em 0.45em;
   border: 2px solid transparent;
   transition: background-color 0.3s ease-in-out;
-  border-radius: 4px;
-  margin: 0 1em;
-}
-
-input:focus {
-  outline: none;
+  border-radius: .75em;
+  margin: 0 .75em;
 }
 
 input::placeholder {
   color: $darkgray;
 }
 
-span.line {
-  position: absolute;
-  background-color: $red;
-  transition: transform 0.1s ease;
-}
-
-span.bottom,
-span.top {
-  height: 2px;
-  left: 0;
-  right: 0;
-  transform: scaleX(0);
-}
-
-span.left,
-span.right {
-  width: 2px;
-  top: 0;
-  bottom: 0;
-  transform: scaleY(0);
-}
-
-span.bottom {
-  bottom: 0;
-  transform-origin: bottom right;
-}
-
-input:focus~.bottom {
-  transform-origin: bottom left;
-  transform: scaleX(1);
-}
-
-span.right {
-  right: 0;
-  transform-origin: top right;
-  transition-delay: 0.05s;
-}
-
-input:focus~.right {
-  transform-origin: bottom right;
-  transform: scaleY(1);
-}
-
-span.top {
-  top: 0;
-  transform-origin: top left;
-  transition-delay: 0.15s;
-}
-
-input:focus~.top {
-  transform-origin: top right;
-  transform: scaleX(1);
-}
-
-span.left {
-  left: 0;
-  transform-origin: bottom left;
-  transition-delay: 0.25s;
-}
-
-input:focus~.left {
-  transform-origin: top left;
-  transform: scaleY(1);
-}
-
-.ReactTags__tagInput {
-  margin: 0 5px;
-}
-
-div.ReactTags__selected span.ReactTags__tag {
-  border: 2px solid $gray;
-  background: $white;
-  font-size: 16px;
-  display: inline-block;
-  padding: 5px;
-  margin: 0 5px;
-  cursor: move;
-  border-radius: 4px;
-}
-
-div.ReactTags__selected a.ReactTags__remove {
-  color: $gray;
-  margin-left: 5px;
-  cursor: pointer;
-}
-
-div.ReactTags__suggestions {
-  position: absolute;
-}
-
-div.ReactTags__suggestions ul {
-  list-style-type: none;
-  box-shadow: 0.05em 0.01em 0.5em rgba(0, 0, 0, 0.2);
-  background: $white;
-  margin: 0;
-  padding: 0;
-}
-
-div.ReactTags__suggestions li {
-  border-bottom: 1px solid $lightgray;
-  padding: 5px 10px;
-  margin: 0;
-}
-
-div.ReactTags__suggestions li mark {
-  text-decoration: underline;
-  background: none;
-  font-weight: 600;
-}
-
-div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
-  background: $red;
-  cursor: pointer;
-}
 
 .loading {
   width: 275px;
@@ -396,6 +273,7 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
 .buttons {
   display: flex;
   justify-content: space-between;
+  margin-bottom: .5em;
 }
 
 .page {
@@ -416,6 +294,10 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
 
 .entity {
   padding: 1em;
+  border-top: 2px solid $lightergray;
+  border-bottom: 2px solid $lightergray;
+  border-radius: .75em;
+  margin-bottom: 1.5em;
 }
 
 .entity__name {
@@ -424,8 +306,9 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
 }
 
 .entity__blurb {
+  font-family: 'Georgia', 'Hoefler Text', 'Palatino', 'Times', serif;
   color: $darkergray;
-  font-weight: 500;
+  font-weight: 600;
   margin: 1.5em 0 1em;
 }
 
@@ -450,7 +333,7 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
 
 .related {
   background-image: linear-gradient(to right, $lightblue, $darkblue);
-  border-radius: .5em;
+  border-radius: .75em;
 }
 
 .relationships {
@@ -469,7 +352,8 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
     align-items: center;
 
     .title-element__text {
-      font-weight: 500;
+      font-family: 'Georgia', 'Hoefler Text', 'Palatino', 'Times', serif;
+      font-weight: 600;
     }
 
     svg {
@@ -497,7 +381,7 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
     position: sticky;
     top: 1em;
     background: $lightestgray;
-    border-radius: 8px;
+    border-radius: .75em;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
     max-height: 90vh;
     overflow: auto;
@@ -505,7 +389,7 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
     .details__window__name {
       padding: 1.5em 1em;
       background: $white;
-      border-radius: 8px 8px 0 0;
+      border-radius: .75em .75em 0 0;
       font-size: 120%;
     }
 
@@ -513,9 +397,10 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
       padding: 0 1em;
 
       .blurb {
+        font-family: 'Georgia', 'Hoefler Text', 'Palatino', 'Times', serif;
         margin: 1em 0;
         color: $darkergray;
-        font-weight: 500;
+        font-weight: 600;
       }
     }
   }

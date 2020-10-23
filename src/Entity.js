@@ -63,6 +63,7 @@ export class Entity extends Component {
         this.setState(
           {
             page: 0,
+            returnError: false,
           },
           setId(this.data[0].id)
         );

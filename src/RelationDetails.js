@@ -7,15 +7,18 @@ export class RelationDetails extends PureComponent {
     super(props);
     this.state = {
       included: {},
+      returnError: false,
     };
   }
 
   componentDidMount() {
+    // console.log(`DETAILS DIDMOUNT`);
     const { rid, eid } = this.props;
     this.getRelationData(eid, rid);
   }
 
   componentDidUpdate(prevProps) {
+    // console.log(`DETAILS DIDUPDATE`);
     const { rid, eid } = this.props;
     if (rid !== prevProps.rid) {
       this.getRelationData(eid, rid);
@@ -23,25 +26,41 @@ export class RelationDetails extends PureComponent {
   }
 
   getRelationData(eid, rid) {
+    // console.log(`getRelationData`);
     const { relatedOwner } = this.props;
     fetch(`https://littlesis.org/api/relationships/${rid}`, {
       method: 'GET',
     })
       .then((response) => response.json())
       .then((responseData) => {
+        if (responseData.included.length === 0) {
+          return this.setState({
+            returnError: true,
+          });
+        }
+        // console.log(`DETAILS responseData`);
+        // console.dir(responseData);
         this.setState({
           included: eid === responseData.included[0].id ? responseData.included[1] : responseData.included[0],
+          returnError: false,
         });
         const ro =
           eid === responseData.included[0].id
             ? responseData.included[0].attributes.name
             : responseData.included[1].attributes.name;
         relatedOwner(ro);
+      })
+      .catch((error) => {
+        this.setState({
+          returnError: true,
+        });
+        console.log(error);
       });
   }
 
   render() {
     const { included } = this.state;
+    // console.log(`DETAILS RENDER`);
     if (included.attributes) {
       return (
         <div className="details__window">
@@ -53,15 +72,28 @@ export class RelationDetails extends PureComponent {
         </div>
       );
     }
+    const { returnError } = this.state;
     return (
-      <div className="map-wiki flx-ctr wrap">
-        <div className="wiki">
-          <div>
-            <svg className="loading" viewBox="25 25 50 50">
-              <circle cx="50" cy="50" r="20" />
-            </svg>
-          </div>
-        </div>
+      <div>
+        <div className="render-container">
+          {' '}
+          {returnError ? (
+            <div className="search-error">
+              ERROR : {included.attributes.name}
+              did not return any results{' '}
+            </div>
+          ) : (
+            <div className="painting flx-ctr">
+              <div>
+                <svg className="loading" viewBox="25 25 50 50">
+                  <circle cx="50" cy="50" r="20">
+                    {' '}
+                  </circle>{' '}
+                </svg>{' '}
+              </div>{' '}
+            </div>
+          )}{' '}
+        </div>{' '}
       </div>
     );
   }
