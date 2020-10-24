@@ -12,23 +12,21 @@ export class RelationDetails extends PureComponent {
   }
 
   componentDidMount() {
-    // console.log(`DETAILS DIDMOUNT`);
-    const { rid, eid } = this.props;
-    this.getRelationData(eid, rid);
+    const { did, eid } = this.props;
+    this.getRelationData(eid, did, true);
   }
 
   componentDidUpdate(prevProps) {
-    // console.log(`DETAILS DIDUPDATE`);
-    const { rid, eid } = this.props;
-    if (rid !== prevProps.rid) {
-      this.getRelationData(eid, rid);
+    const { did, eid } = this.props;
+    const relatedOwnerFlag = eid !== prevProps.eid;
+    if (did !== prevProps.did) {
+      this.getRelationData(eid, did, relatedOwnerFlag);
     }
   }
 
-  getRelationData(eid, rid) {
-    // console.log(`getRelationData`);
+  getRelationData(eid, did, rof) {
     const { relatedOwner } = this.props;
-    fetch(`https://littlesis.org/api/relationships/${rid}`, {
+    fetch(`https://littlesis.org/api/relationships/${did}`, {
       method: 'GET',
     })
       .then((response) => response.json())
@@ -38,8 +36,6 @@ export class RelationDetails extends PureComponent {
             returnError: true,
           });
         }
-        // console.log(`DETAILS responseData`);
-        // console.dir(responseData);
         this.setState({
           included: eid === responseData.included[0].id ? responseData.included[1] : responseData.included[0],
           returnError: false,
@@ -48,7 +44,7 @@ export class RelationDetails extends PureComponent {
           eid === responseData.included[0].id
             ? responseData.included[0].attributes.name
             : responseData.included[1].attributes.name;
-        relatedOwner(ro);
+        if (rof) relatedOwner(ro);
       })
       .catch((error) => {
         this.setState({
@@ -60,7 +56,6 @@ export class RelationDetails extends PureComponent {
 
   render() {
     const { included } = this.state;
-    // console.log(`DETAILS RENDER`);
     if (included.attributes) {
       return (
         <div className="details__window">
@@ -100,7 +95,7 @@ export class RelationDetails extends PureComponent {
 }
 
 RelationDetails.propTypes = {
-  rid: PropTypes.number.isRequired,
+  did: PropTypes.number.isRequired,
   eid: PropTypes.number.isRequired,
   relatedOwner: PropTypes.func.isRequired,
 };

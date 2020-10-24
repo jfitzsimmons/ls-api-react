@@ -10,8 +10,9 @@ export class Related extends Component {
     this.state = {
       relationships: {},
       page: 1,
-      relationId: 1727566,
-      entityId: 12,
+      relationsId: 0,
+      detailsId: 0,
+      localEntityId: 0,
       active: {},
       relatedOwner: '',
       returnError: false,
@@ -23,29 +24,28 @@ export class Related extends Component {
 
   componentDidMount() {
     const { entityId } = this.props;
-    // console.log(`RELATED DIDMOUNT`);
     this.getRelationshipData(entityId);
   }
 
   componentDidUpdate(prevProps, prevState) {
     const { entityId } = this.props;
-    const { page } = this.state;
+    const { page, relationsId, localEntityId } = this.state;
 
     if (entityId !== prevProps.entityId) {
-      // console.log(`RELATED DIDUPDATE EID`);
       this.getRelationshipData(entityId, 1);
     }
-    if (page !== prevState.page) {
-      // console.log(`RELATED DIDUPDATE PAGE`);
-      this.getRelationshipData(entityId);
+
+    if (relationsId !== prevState.relationsId) {
+      this.getRelationshipData(relationsId);
+    } else if (page !== prevState.page) {
+      this.getRelationshipData(localEntityId);
     }
   }
 
   getRelationshipData(eid, p) {
-    // console.log(`getRelationshipData p: ${p}`);
-    const page = p ? this.state.page : 1;
-    // console.log(`getRelationshipData page: ${page}`);
-    fetch(`https://littlesis.org/api/entities/${eid}/relationships?page=${page}`, {
+    const { page } = this.state;
+    const queryPage = p ? 1 : page;
+    fetch(`https://littlesis.org/api/entities/${eid}/relationships?page=${queryPage}`, {
       method: 'GET',
     })
       .then((response) => response.json())
@@ -55,13 +55,11 @@ export class Related extends Component {
             returnError: true,
           });
         }
-        // console.log(`RELATED responseData`);
-        // console.dir(responseData.data[0]);
         this.meta = responseData.meta;
         this.setState({
           relationships: responseData.data,
-          relationId: responseData.data[0].attributes.id,
-          entityId: eid,
+          detailsId: responseData.data[0].attributes.id,
+          localEntityId: eid,
           active: responseData.data[0],
           returnError: false,
         });
@@ -74,15 +72,18 @@ export class Related extends Component {
       });
   }
 
-  myDetails(relation) {
+  myRelations(relationsId) {
     this.setState({
-      relationId: relation.id,
-      active: relation,
+      relationsId,
+      page: 1,
     });
   }
 
-  _handleClick(r) {
-    this.setState({ active: r });
+  myDetails(relation) {
+    this.setState({
+      detailsId: relation.id,
+      active: relation,
+    });
   }
 
   relatedOwner(relatedOwner) {
@@ -92,26 +93,21 @@ export class Related extends Component {
   }
 
   render() {
-    const { relationships, page, relationId, entityId, active, relatedOwner } = this.state;
+    const { relationships, page, detailsId, localEntityId, active, relatedOwner } = this.state;
     const activeStyle = 'arrow active';
-    // console.log(`RELATED RENDER`);
-    // console.dir(relationships);
-
     if (relationships[0]) {
       const descriptions = [];
       for (const relation of relationships) {
         const desc = relation.attributes.description;
         const uniqueId =
-          entityId === relation.attributes.entity1_id ? relation.attributes.entity2_id : relation.attributes.entity1_id;
+          localEntityId === relation.attributes.entity1_id
+            ? relation.attributes.entity2_id
+            : relation.attributes.entity1_id;
         descriptions.push(
           <li key={relation.id} className={active === relation ? activeStyle : 'arrow'}>
             <div className="description">{desc}</div>
             <div className="buttons">
-              <button
-                type="button"
-                className="button__relationships"
-                onClick={() => this.getRelationshipData(uniqueId)}
-              >
+              <button type="button" className="button__relationships" onClick={() => this.myRelations(uniqueId)}>
                 <svg
                   aria-hidden="true"
                   focusable="false"
@@ -159,10 +155,8 @@ export class Related extends Component {
                       className=""
                     />
                   </svg>
-
                   <div className="title-element__text">Relationships of {relatedOwner}</div>
                 </div>
-
                 <div className="hand">
                   <svg
                     aria-hidden="true"
@@ -182,7 +176,6 @@ export class Related extends Component {
                   </svg>
                 </div>
               </div>
-
               <ul>{descriptions}</ul>
             </div>
             <div className="page">
@@ -205,7 +198,7 @@ export class Related extends Component {
             </div>
           </div>
           <div className="details flx-hlf">
-            <RelationDetails rid={relationId} eid={entityId} relatedOwner={this.relatedOwner} />
+            <RelationDetails did={detailsId} eid={localEntityId} relatedOwner={this.relatedOwner} />
           </div>
         </div>
       );
@@ -217,7 +210,7 @@ export class Related extends Component {
           {' '}
           {returnError ? (
             <div className="search-error">
-              ERROR : {entityId}
+              ERROR : {localEntityId}
               did not return any results{' '}
             </div>
           ) : (

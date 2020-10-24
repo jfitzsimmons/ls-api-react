@@ -7,19 +7,25 @@ export class Search extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      query: '',
+      query: 'Trump',
       suggestions: [
         { id: 'bush', text: 'Bush' },
-        { id: 'walmart', text: 'Walmart' },
+        { id: 'boeing', text: 'Boeing' },
         { id: 'mcconnell', text: 'McConnell' },
-        { id: 'gop', text: 'GOP' },
+        { id: 'rnc', text: 'RNC' },
         { id: 'clinton', text: 'Clinton' },
-        { id: 'dnc', text: 'DNC' },
-        { id: 'bayer', text: 'Bayer' },
+        { id: 'feinstein', text: 'Feinstein' },
+        { id: 'pfizer', text: 'Pfizer' },
       ],
     };
     this.handleInput = this.handleInput.bind(this);
     this.handleKeypress = this.handleKeypress.bind(this);
+  }
+
+  componentDidMount() {
+    const { query } = this.state;
+    const { updateTerm } = this.props;
+    updateTerm(query);
   }
 
   handleInput = (e) => {

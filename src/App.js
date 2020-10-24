@@ -31,9 +31,18 @@ class App extends PureComponent {
     const { term, id } = this.state;
     return (
       <div id="App" className="App">
-        <Search updateTerm={this.updateTerm} />
-        <Entity term={term} setId={this.setId} />
-        <Related entityId={id} />{' '}
+        <div className="accent" />
+        <div className="wrap">
+          <div>
+            <h1>Interlinked profiles of powerful individuals and organizations in the public and private sectors.</h1>
+            <h2>
+              -powered by <a href="https://littlesis.org">LittleSis</a>
+            </h2>
+          </div>
+          <Search updateTerm={this.updateTerm} />
+          <Entity term={term} setId={this.setId} />
+          <Related entityId={id} />{' '}
+        </div>
       </div>
     );
   }

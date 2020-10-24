@@ -32,7 +32,7 @@ html {
 
 body {
   font-family: 'Avenir', 'Gibson', 'Proxima Nova', 'Montserrat', sans-serif;
-  padding: 2%;
+  padding: 0;
   color: $darkergray;
 }
 
@@ -73,7 +73,16 @@ li {
   }
 }
 
-.darkergray {}
+.accent {
+  height: .5em;
+  width: 100%;
+  background-image: linear-gradient(to left, $lightblue, $darkblue);
+  margin-bottom: .5em;
+}
+
+.wrap {
+  padding: .5em;
+}
 
 .heading {
   font-family: 'Playfair Display', serif;
@@ -188,7 +197,6 @@ button {
     margin: 0 .25em;
     background-color: $darkergray;
     color: $lightestgray;
-    border: 2px solid $lightestgray;
   }
 }
 
@@ -199,10 +207,12 @@ input {
   font-family: inherit;
   background-color: $white;
   padding: 0.3em 0.45em;
-  border: 2px solid transparent;
-  transition: background-color 0.3s ease-in-out;
+  border: 2px solid $lightestgray;
   border-radius: .75em;
   margin: 0 .75em;
+  box-shadow: inset 0 2px 4px 0 $gray;
+  outline: none;
+  ;
 }
 
 input::placeholder {
@@ -320,6 +330,7 @@ input::placeholder {
   div {
     align-self: center;
     font-size: 90%;
+    letter-spacing: .1em;
   }
 
   .entity__paging__button__text {
