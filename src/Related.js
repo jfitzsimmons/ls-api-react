@@ -124,10 +124,9 @@ export class Related extends Component {
                     className=""
                   />
                 </svg>
-                {uniqueId}
               </button>
               <button className="button__details" type="button" onClick={() => this.myDetails(relation)}>
-                Details {relation.id} <span className={active === relation ? activeStyle : 'arrow'}>{'>'}</span>
+                Details<span className={active === relation ? activeStyle : 'arrow'}>{'>'}</span>
               </button>
             </div>
           </li>
