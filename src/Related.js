@@ -105,9 +105,13 @@ export class Related extends Component {
             : relation.attributes.entity1_id;
         descriptions.push(
           <li key={relation.id} className={active === relation ? activeStyle : 'arrow'}>
-            <div className="description">{desc}</div>
-            <div className="buttons">
-              <button type="button" className="button__relationships" onClick={() => this.myRelations(uniqueId)}>
+            <div className="related-description">{desc}</div>
+            <div className="related-buttons">
+              <button
+                type="button"
+                className="buttons-relationships__button"
+                onClick={() => this.myRelations(uniqueId)}
+              >
                 <svg
                   aria-hidden="true"
                   focusable="false"
@@ -125,7 +129,7 @@ export class Related extends Component {
                   />
                 </svg>
               </button>
-              <button className="button__details" type="button" onClick={() => this.myDetails(relation)}>
+              <button className="buttons-details__button" type="button" onClick={() => this.myDetails(relation)}>
                 Details<span className={active === relation ? activeStyle : 'arrow'}>{'>'}</span>
               </button>
             </div>
@@ -133,11 +137,11 @@ export class Related extends Component {
         );
       }
       return (
-        <div className="flx-ctr wrap related">
-          <div className="relationships flx-hlf">
-            <div className="relationships__results">
-              <div className="relationships__results__title">
-                <div className="title-element">
+        <div className="flx-ctr related">
+          <div className="relationships">
+            <div className="relationships-results">
+              <div className="results-header">
+                <div className="results-header-top">
                   <svg
                     aria-hidden="true"
                     focusable="false"
@@ -154,9 +158,9 @@ export class Related extends Component {
                       className=""
                     />
                   </svg>
-                  <div className="title-element__text">Relationships of {relatedOwner}</div>
+                  <div className="results-header-top__text">Relationships of {relatedOwner}</div>
                 </div>
-                <div className="hand">
+                <div className="results-header-bottom">
                   <svg
                     aria-hidden="true"
                     focusable="false"
@@ -177,11 +181,11 @@ export class Related extends Component {
               </div>
               <ul>{descriptions}</ul>
             </div>
-            <div className="page">
+            <div className="relationships-paging">
               <div>
                 Page {page} of {this.meta.pageCount}
               </div>
-              <div className="page__buttons">
+              <div className="paging-buttons">
                 <button type="button" className="prev" onClick={() => this.paginate(-1)} disabled={page === 1}>
                   previous
                 </button>{' '}
@@ -196,7 +200,7 @@ export class Related extends Component {
               </div>
             </div>
           </div>
-          <div className="details flx-hlf">
+          <div className="details">
             <RelationDetails did={detailsId} eid={localEntityId} relatedOwner={this.relatedOwner} />
           </div>
         </div>
@@ -205,7 +209,7 @@ export class Related extends Component {
     const { returnError } = this.state;
     return (
       <div>
-        <div className="render-container">
+        <div>
           {' '}
           {returnError ? (
             <div className="search-error">
@@ -213,7 +217,7 @@ export class Related extends Component {
               did not return any results{' '}
             </div>
           ) : (
-            <div className="painting flx-ctr">
+            <div className="flx-ctr">
               <div>
                 <svg className="loading" viewBox="25 25 50 50">
                   <circle cx="50" cy="50" r="20">

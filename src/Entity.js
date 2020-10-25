@@ -84,40 +84,40 @@ export class Entity extends Component {
         <div>
           <div className="entity">
             <div>
-              <div className="entity__name">{this.data[page].attributes.name}</div>{' '}
-              <div className="entity__blurb"> {this.data[page].attributes.blurb} </div>
+              <div className="entity-name">{this.data[page].attributes.name}</div>{' '}
+              <div className="entity-blurb"> {this.data[page].attributes.blurb} </div>
               <div> {this.data[page].attributes.summary} </div>{' '}
             </div>{' '}
-            <div className="entity__paging page">
+            <div className="entity-paging paging">
               {' '}
               <div>More Results</div>
               <div>
                 {page + 1} of {this.data.length}
               </div>
-              <div className="entity__paging__buttons page__buttons">
+              <div className="entity-paging-buttons paging-buttons">
                 {page === 0 ? null : (
                   <button
                     type="button"
-                    className="prev entity__paging__button"
+                    className="prev entity-paging-buttons__button"
                     onClick={() => {
                       this.paginate(-1);
                       setId(this.data[page - 1].id);
                     }}
                   >
                     <span>{'<<'}&nbsp;</span>
-                    <span className="entity__paging__button__text">{this.data[page - 1].attributes.name}</span>
+                    <span className="entity-paging-button__text">{this.data[page - 1].attributes.name}</span>
                   </button>
                 )}
                 {page === this.data.length - 1 ? null : (
                   <button
                     type="button"
-                    className="next entity__paging__button"
+                    className="next entity-paging__button"
                     onClick={() => {
                       this.paginate(1);
                       setId(this.data[page + 1].id);
                     }}
                   >
-                    <span className="entity__paging__button__text"> {this.data[page + 1].attributes.name} </span>{' '}
+                    <span className="entity-paging__button__text"> {this.data[page + 1].attributes.name} </span>{' '}
                     <span>&nbsp;{'>>'} </span>
                   </button>
                 )}
@@ -139,7 +139,7 @@ export class Entity extends Component {
               did not return any results{' '}
             </div>
           ) : (
-            <div className="painting flx-ctr">
+            <div className="flx-ctr">
               <div>
                 <svg className="loading" viewBox="25 25 50 50">
                   <circle cx="50" cy="50" r="20">

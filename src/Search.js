@@ -46,7 +46,12 @@ export class Search extends Component {
     const links = [];
     for (const suggestion of suggestions) {
       links.push(
-        <button type="button" key={suggestion.id} className="text" onClick={() => updateTerm(suggestion.text)}>
+        <button
+          className="search-suggestions__button"
+          type="button"
+          key={suggestion.id}
+          onClick={() => updateTerm(suggestion.text)}
+        >
           {suggestion.text}
         </button>
       );
@@ -54,7 +59,7 @@ export class Search extends Component {
     return (
       <div>
         <div className="search">
-          <div className="search__field">
+          <div className="search-field">
             <svg
               aria-hidden="true"
               focusable="false"
@@ -76,8 +81,7 @@ export class Search extends Component {
               Search
             </button>
           </div>
-          {/* <Suggestions results={this.state.results} /> */}
-          <div className="search__suggestions">Suggestions: {links}</div>
+          <div className="search-suggestions">Suggestions: {links}</div>
         </div>
       </div>
     );

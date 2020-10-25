@@ -33,12 +33,12 @@ class App extends PureComponent {
       <div id="App" className="App">
         <div className="accent" />
         <div className="wrap">
-          <div>
+          <header>
             <h1>Interlinked profiles of powerful individuals and organizations in the public and private sectors.</h1>
             <h2>
               -powered by <a href="https://littlesis.org">LittleSis</a>
             </h2>
-          </div>
+          </header>
           <Search updateTerm={this.updateTerm} />
           <Entity term={term} setId={this.setId} />
           <Related entityId={id} />{' '}
