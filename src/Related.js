@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './App.scss';
 import { RelationDetails } from './RelationDetails.js';
-import { paginate } from './Helpers.js';
+import { paginate, removeDuplicates } from './Helpers.js';
 
 export class Related extends Component {
   constructor(props) {
@@ -19,6 +19,7 @@ export class Related extends Component {
     };
     this.meta = {};
     this.paginate = paginate.bind(this);
+    this.removeDuplicates = removeDuplicates.bind(this);
     this.relatedOwner = this.relatedOwner.bind(this);
   }
 
@@ -55,6 +56,8 @@ export class Related extends Component {
             returnError: true,
           });
         }
+        // console.log(`responseData.data`);
+        // console.dir(responseData.data);
         this.meta = responseData.meta;
         this.setState({
           relationships: responseData.data,
@@ -62,6 +65,7 @@ export class Related extends Component {
           localEntityId: eid,
           active: responseData.data[0],
           returnError: false,
+          page: queryPage,
         });
       })
       .catch((error) => {
@@ -97,7 +101,8 @@ export class Related extends Component {
     const activeStyle = 'arrow active';
     if (relationships[0]) {
       const descriptions = [];
-      for (const relation of relationships) {
+      const filteredRelationships = this.removeDuplicates(relationships, 'id');
+      for (const relation of filteredRelationships) {
         const desc = relation.attributes.description;
         const uniqueId =
           localEntityId === relation.attributes.entity1_id
