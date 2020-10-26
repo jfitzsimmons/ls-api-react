@@ -98,11 +98,13 @@ header {
 }
 
 svg {
+  height: calc(10px + (20 - 10) * ((100vw - 430px) / (1280 - 430)));
   width: auto;
   min-width: 20px;
 }
 
 .loading {
+  height: calc(100px + (200 - 100) * ((100vw - 430px) / (1280 - 430)));
   width: 275px;
   transform-origin: center;
   animation: rotate 2s linear infinite;
@@ -307,7 +309,6 @@ button {
   }
 
   svg {
-    height: calc(10px + (20 - 10) * ((100vw - 430px) / (1280 - 430)));
     margin-right: .5em;
   }
 }
