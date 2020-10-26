@@ -56,8 +56,6 @@ export class Related extends Component {
             returnError: true,
           });
         }
-        // console.log(`responseData.data`);
-        // console.dir(responseData.data);
         this.meta = responseData.meta;
         this.setState({
           relationships: responseData.data,
@@ -97,9 +95,9 @@ export class Related extends Component {
   }
 
   render() {
-    const { relationships, page, detailsId, localEntityId, active, relatedOwner } = this.state;
+    const { returnError, relationships, page, detailsId, localEntityId, active, relatedOwner } = this.state;
     const activeStyle = 'arrow active';
-    if (relationships[0]) {
+    if (relationships[0] && !returnError) {
       const descriptions = [];
       const filteredRelationships = this.removeDuplicates(relationships, 'id');
       for (const relation of filteredRelationships) {
@@ -211,28 +209,20 @@ export class Related extends Component {
         </div>
       );
     }
-    const { returnError } = this.state;
     return (
       <div>
-        <div>
-          {' '}
-          {returnError ? (
-            <div className="search-error">
-              ERROR : {localEntityId}
-              did not return any results{' '}
-            </div>
-          ) : (
-            <div className="flx-ctr">
-              <div>
-                <svg className="loading" viewBox="25 25 50 50">
-                  <circle cx="50" cy="50" r="20">
-                    {' '}
-                  </circle>{' '}
-                </svg>{' '}
-              </div>{' '}
-            </div>
-          )}{' '}
-        </div>{' '}
+        {' '}
+        {returnError ? (
+          <div className="search-error">ERROR : {localEntityId}&nbsp; did not return any results </div>
+        ) : (
+          <div className="flx-ctr">
+            <svg className="loading" viewBox="25 25 50 50">
+              <circle cx="50" cy="50" r="20">
+                {' '}
+              </circle>{' '}
+            </svg>{' '}
+          </div>
+        )}{' '}
       </div>
     );
   }

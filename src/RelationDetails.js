@@ -55,8 +55,9 @@ export class RelationDetails extends PureComponent {
   }
 
   render() {
-    const { included } = this.state;
-    if (included.attributes) {
+    const { included, returnError } = this.state;
+    const { did } = this.props;
+    if (included.attributes && !returnError) {
       return (
         <div className="details-window">
           <p className="details-window__name">{included.attributes.name}</p>
@@ -67,28 +68,19 @@ export class RelationDetails extends PureComponent {
         </div>
       );
     }
-    const { returnError } = this.state;
     return (
       <div>
-        <div className="render-container">
-          {' '}
-          {returnError ? (
-            <div className="search-error">
-              ERROR : {included.attributes.name}
-              did not return any results{' '}
-            </div>
-          ) : (
-            <div className="painting flx-ctr">
-              <div>
-                <svg className="loading" viewBox="25 25 50 50">
-                  <circle cx="50" cy="50" r="20">
-                    {' '}
-                  </circle>{' '}
-                </svg>{' '}
-              </div>{' '}
-            </div>
-          )}{' '}
-        </div>{' '}
+        {returnError ? (
+          <div className="search-error">ERROR : {did} &nbsp; did not return any results </div>
+        ) : (
+          <div className="flx-ctr">
+            <svg className="loading" viewBox="25 25 50 50">
+              <circle cx="50" cy="50" r="20">
+                {' '}
+              </circle>{' '}
+            </svg>{' '}
+          </div>
+        )}{' '}
       </div>
     );
   }

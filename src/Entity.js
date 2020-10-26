@@ -77,9 +77,9 @@ export class Entity extends Component {
   }
 
   render() {
-    const { page } = this.state;
+    const { page, returnError, term } = this.state;
     const { setId } = this.props;
-    if (this.data[page]) {
+    if (this.data[page] && !returnError) {
       return (
         <div>
           <div className="entity">
@@ -128,28 +128,23 @@ export class Entity extends Component {
         </div>
       );
     }
-    const { returnError, term } = this.state;
     return (
       <div>
-        <div className="render-container">
-          {' '}
-          {returnError ? (
-            <div className="search-error">
-              ERROR : {term}
-              did not return any results{' '}
-            </div>
-          ) : (
-            <div className="flx-ctr">
-              <div>
-                <svg className="loading" viewBox="25 25 50 50">
-                  <circle cx="50" cy="50" r="20">
-                    {' '}
-                  </circle>{' '}
-                </svg>{' '}
-              </div>{' '}
-            </div>
-          )}{' '}
-        </div>{' '}
+        {' '}
+        {returnError ? (
+          <div className="search-error">
+            ERROR : {term}
+            did not return any results{' '}
+          </div>
+        ) : (
+          <div className="flx-ctr">
+            <svg className="loading" viewBox="25 25 50 50">
+              <circle cx="50" cy="50" r="20">
+                {' '}
+              </circle>{' '}
+            </svg>{' '}
+          </div>
+        )}{' '}
       </div>
     );
   }
