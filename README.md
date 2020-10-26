@@ -1,5 +1,5 @@
-# Art-API-React
-A demo using the React Library with an external APIs.  Style, Information and GPS are all contextual, based on one or more search terms for paintings.
+# ls-api-react
+A demo using the React Library with an external API.  Search by politician, lobbyist, PAc, company or think tank.  See the details of their relationships.
 
 ### API Used
 * [LittleSis API](https://littlesis.org/api) - LittleSis features interlinked profiles of powerful individuals and organizations in the public and private sectors. Profiles detail a wealth of information vital to any investigation of the ways power and money guide the formulation of public policy, from board memberships to campaign contributions, old school ties to government contracts.
