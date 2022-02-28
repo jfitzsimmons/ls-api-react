@@ -3,6 +3,17 @@ import PropTypes from 'prop-types';
 import './App.scss';
 import { paginate } from './Helpers.js';
 
+const objToQueryString = (obj) => {
+  const keyValuePairs = [];
+  Object.keys(obj).forEach((key) => {
+    const hasBarProperty = Object.prototype.hasOwnProperty.call(obj, key);
+    if (obj && hasBarProperty) {
+      keyValuePairs.push(encodeURIComponent(obj[key]));
+    }
+  });
+  return keyValuePairs.join('&');
+};
+
 export class Entity extends Component {
   constructor(props) {
     super(props);
@@ -30,19 +41,9 @@ export class Entity extends Component {
     }
   }
 
-  objToQueryString = (obj) => {
-    const keyValuePairs = [];
-    Object.keys(obj).forEach((key) => {
-      if (obj && obj.hasOwnProperty(key)) {
-        keyValuePairs.push(encodeURIComponent(obj[key]));
-      }
-    });
-    return keyValuePairs.join('&');
-  };
-
   queryString() {
     const { term } = this.props;
-    return this.objToQueryString({
+    return objToQueryString({
       term,
     });
   }
@@ -72,7 +73,6 @@ export class Entity extends Component {
         this.setState({
           returnError: true,
         });
-        console.log(error);
       });
   }
 
