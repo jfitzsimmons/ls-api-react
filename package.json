@@ -8,14 +8,14 @@
     "google-map-react": "^2.1.10",
     "lodash": "^4.17.15",
     "lodash.template": "^4.5.0",
-    "node-sass": "^7.0.1",
     "prop-types": "^15.8.1",
     "react": "^17.0.2",
     "react-dnd": "^15.1.1",
     "react-dnd-html5-backend": "^15.1.2",
     "react-dom": "^17.0.2",
     "react-scripts": "^5.0.0",
-    "react-tag-input": "^6.8.0"
+    "react-tag-input": "^6.8.0",
+    "sass": "^1.54.0"
   },
   "scripts": {
     "predeploy": "yarn build",
