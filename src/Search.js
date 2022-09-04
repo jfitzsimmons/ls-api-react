@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 // import Suggestions from './components/Suggestions';
-import './App.scss';
+import './App.scss'
 
 export class Search extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       query: 'Trump',
       suggestions: [
@@ -17,33 +17,33 @@ export class Search extends Component {
         { id: 'feinstein', text: 'Feinstein' },
         { id: 'pfizer', text: 'Pfizer' },
       ],
-    };
-    this.handleInput = this.handleInput.bind(this);
-    this.handleKeypress = this.handleKeypress.bind(this);
+    }
+    this.handleInput = this.handleInput.bind(this)
+    this.handleKeypress = this.handleKeypress.bind(this)
   }
 
   componentDidMount() {
-    const { query } = this.state;
-    const { updateTerm } = this.props;
-    updateTerm(query);
+    const { query } = this.state
+    const { updateTerm } = this.props
+    updateTerm(query)
   }
 
   handleInput = (e) => {
-    this.setState({ query: e.target.value });
-  };
+    this.setState({ query: e.target.value })
+  }
 
   handleKeypress = (e) => {
-    const { query } = this.state;
-    const { updateTerm } = this.props;
+    const { query } = this.state
+    const { updateTerm } = this.props
     if (e.charCode === 13) {
-      updateTerm(query);
+      updateTerm(query)
     }
-  };
+  }
 
   render() {
-    const { suggestions, query } = this.state;
-    const { updateTerm } = this.props;
-    const links = [];
+    const { suggestions, query } = this.state
+    const { updateTerm } = this.props
+    const links = []
     for (const suggestion of suggestions) {
       links.push(
         <button
@@ -54,7 +54,7 @@ export class Search extends Component {
         >
           {suggestion.text}
         </button>
-      );
+      )
     }
     return (
       <div>
@@ -62,7 +62,6 @@ export class Search extends Component {
           <div className="search-field">
             <svg
               aria-hidden="true"
-              focusable="false"
               data-prefix="fas"
               data-icon="search"
               role="img"
@@ -76,18 +75,25 @@ export class Search extends Component {
                 className=""
               />
             </svg>
-            <input onChange={this.handleInput} onKeyPress={this.handleKeypress} placeholder="Enter a search term" />{' '}
-            <button type="button" onClick={() => updateTerm(query)}>
+            <input
+              onChange={this.handleInput}
+              onKeyPress={this.handleKeypress}
+              placeholder="Enter a search term"
+            />{' '}
+            <button
+              type="button"
+              onClick={() => updateTerm(query)}
+            >
               Search
             </button>
           </div>
           <div className="search-suggestions">Suggestions: {links}</div>
         </div>
       </div>
-    );
+    )
   }
 }
 
 Search.propTypes = {
   updateTerm: PropTypes.func.isRequired,
-};
+}

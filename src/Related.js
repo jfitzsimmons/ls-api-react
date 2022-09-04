@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import './App.scss';
-import { RelationDetails } from './RelationDetails.js';
-import { paginate, removeDuplicates } from './Helpers.js';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import './App.scss'
+import { RelationDetails } from './RelationDetails.js'
+import { paginate, removeDuplicates } from './Helpers.js'
 
 export class Related extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       relationships: {},
       page: 1,
@@ -16,36 +16,36 @@ export class Related extends Component {
       active: {},
       relatedOwner: '',
       returnError: false,
-    };
-    this.meta = {};
-    this.paginate = paginate.bind(this);
-    this.removeDuplicates = removeDuplicates.bind(this);
-    this.relatedOwner = this.relatedOwner.bind(this);
+    }
+    this.meta = {}
+    this.paginate = paginate.bind(this)
+    this.removeDuplicates = removeDuplicates.bind(this)
+    this.relatedOwner = this.relatedOwner.bind(this)
   }
 
   componentDidMount() {
-    const { entityId } = this.props;
-    this.getRelationshipData(entityId);
+    const { entityId } = this.props
+    this.getRelationshipData(entityId)
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { entityId } = this.props;
-    const { page, relationsId, localEntityId } = this.state;
+    const { entityId } = this.props
+    const { page, relationsId, localEntityId } = this.state
 
     if (entityId !== prevProps.entityId) {
-      this.getRelationshipData(entityId, 1);
+      this.getRelationshipData(entityId, 1)
     }
 
     if (relationsId !== prevState.relationsId) {
-      this.getRelationshipData(relationsId);
+      this.getRelationshipData(relationsId)
     } else if (page !== prevState.page) {
-      this.getRelationshipData(localEntityId);
+      this.getRelationshipData(localEntityId)
     }
   }
 
   getRelationshipData(eid, p) {
-    const { page } = this.state;
-    const queryPage = p ? 1 : page;
+    const { page } = this.state
+    const queryPage = p ? 1 : page
     fetch(`https://littlesis.org/api/entities/${eid}/relationships?page=${queryPage}`, {
       method: 'GET',
     })
@@ -54,9 +54,9 @@ export class Related extends Component {
         if (responseData.data.length === 0) {
           return this.setState({
             returnError: true,
-          });
+          })
         }
-        this.meta = responseData.meta;
+        this.meta = responseData.meta
         this.setState({
           relationships: responseData.data,
           detailsId: responseData.data[0].attributes.id,
@@ -64,50 +64,53 @@ export class Related extends Component {
           active: responseData.data[0],
           returnError: false,
           page: queryPage,
-        });
+        })
       })
       .catch((error) => {
         this.setState({
           returnError: true,
-        });
-        console.error(error);
-      });
+        })
+        console.error(error)
+      })
   }
 
   myRelations(relationsId) {
     this.setState({
       relationsId,
       page: 1,
-    });
+    })
   }
 
   myDetails(relation) {
     this.setState({
       detailsId: relation.id,
       active: relation,
-    });
+    })
   }
 
   relatedOwner(relatedOwner) {
     this.setState({
       relatedOwner,
-    });
+    })
   }
 
   render() {
-    const { returnError, relationships, page, detailsId, localEntityId, active, relatedOwner } = this.state;
-    const activeStyle = 'arrow active';
+    const { returnError, relationships, page, detailsId, localEntityId, active, relatedOwner } = this.state
+    const activeStyle = 'arrow active'
     if (relationships[0] && !returnError) {
-      const descriptions = [];
-      const filteredRelationships = this.removeDuplicates(relationships, 'id');
+      const descriptions = []
+      const filteredRelationships = this.removeDuplicates(relationships, 'id')
       for (const relation of filteredRelationships) {
-        const desc = relation.attributes.description;
+        const desc = relation.attributes.description
         const uniqueId =
           localEntityId === relation.attributes.entity1_id
             ? relation.attributes.entity2_id
-            : relation.attributes.entity1_id;
+            : relation.attributes.entity1_id
         descriptions.push(
-          <li key={relation.id} className={active === relation ? activeStyle : 'arrow'}>
+          <li
+            key={relation.id}
+            className={active === relation ? activeStyle : 'arrow'}
+          >
             <div className="related-description">{desc}</div>
             <div className="related-buttons">
               <button
@@ -117,7 +120,6 @@ export class Related extends Component {
               >
                 <svg
                   aria-hidden="true"
-                  focusable="false"
                   data-prefix="far"
                   data-icon="address-book"
                   role="img"
@@ -132,12 +134,17 @@ export class Related extends Component {
                   />
                 </svg>
               </button>
-              <button className="buttons-details__button" type="button" onClick={() => this.myDetails(relation)}>
-                Details<span className={active === relation ? activeStyle : 'arrow'}>{'>'}</span>
+              <button
+                className="buttons-details__button"
+                type="button"
+                onClick={() => this.myDetails(relation)}
+              >
+                Details
+                <span className={active === relation ? activeStyle : 'arrow'}>{'>'}</span>
               </button>
             </div>
           </li>
-        );
+        )
       }
       return (
         <div className="flx-ctr related">
@@ -147,7 +154,6 @@ export class Related extends Component {
                 <div className="results-header-top">
                   <svg
                     aria-hidden="true"
-                    focusable="false"
                     data-prefix="far"
                     data-icon="address-book"
                     role="img"
@@ -166,7 +172,6 @@ export class Related extends Component {
                 <div className="results-header-bottom">
                   <svg
                     aria-hidden="true"
-                    focusable="false"
                     data-prefix="far"
                     data-icon="hand-point-down"
                     role="img"
@@ -189,7 +194,12 @@ export class Related extends Component {
                 Page {page} of {this.meta.pageCount}
               </div>
               <div className="paging-buttons">
-                <button type="button" className="prev" onClick={() => this.paginate(-1)} disabled={page === 1}>
+                <button
+                  type="button"
+                  className="prev"
+                  onClick={() => this.paginate(-1)}
+                  disabled={page === 1}
+                >
                   previous
                 </button>{' '}
                 <button
@@ -204,10 +214,14 @@ export class Related extends Component {
             </div>
           </div>
           <div className="details">
-            <RelationDetails did={detailsId} eid={localEntityId} relatedOwner={this.relatedOwner} />
+            <RelationDetails
+              did={detailsId}
+              eid={localEntityId}
+              relatedOwner={this.relatedOwner}
+            />
           </div>
         </div>
-      );
+      )
     }
     return (
       <div>
@@ -216,18 +230,25 @@ export class Related extends Component {
           <div className="search-error">ERROR : {localEntityId}&nbsp; did not return any results </div>
         ) : (
           <div className="flx-ctr">
-            <svg className="loading" viewBox="25 25 50 50">
-              <circle cx="50" cy="50" r="20">
+            <svg
+              className="loading"
+              viewBox="25 25 50 50"
+            >
+              <circle
+                cx="50"
+                cy="50"
+                r="20"
+              >
                 {' '}
               </circle>{' '}
             </svg>{' '}
           </div>
         )}{' '}
       </div>
-    );
+    )
   }
 }
 
 Related.propTypes = {
   entityId: PropTypes.number.isRequired,
-};
+}
